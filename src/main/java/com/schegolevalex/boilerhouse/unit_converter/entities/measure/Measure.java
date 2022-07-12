@@ -1,6 +1,6 @@
-package com.schegolevalex.boilerhouse.unit_converter.entities;
+package com.schegolevalex.boilerhouse.unit_converter.entities.measure;
 
-import com.schegolevalex.boilerhouse.unit_converter.measure_units.Unit;
+import com.schegolevalex.boilerhouse.unit_converter.entities.units.Unit;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,8 +9,8 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public abstract class Measure {
-    double value;
+public class Measure {
+    double value; // todo заменить на BigDecimal
     Unit unit;
 
     public Measure(double value, Unit unit) {

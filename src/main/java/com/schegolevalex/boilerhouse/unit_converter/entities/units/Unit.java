@@ -1,6 +1,5 @@
-package com.schegolevalex.boilerhouse.unit_converter.measure_units;
+package com.schegolevalex.boilerhouse.unit_converter.entities.units;
 
 public interface Unit {
-
     double getCoefficient ();
 }

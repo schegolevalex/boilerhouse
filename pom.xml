@@ -12,7 +12,7 @@
     <artifactId>unit_converter</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>unit_converter</name>
-    <description>rest service for unit convert</description>
+    <description>rest service for measure convert</description>
     <properties>
         <java.version>18</java.version>
     </properties>
