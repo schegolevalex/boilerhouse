@@ -1,28 +1,14 @@
 package com.schegolevalex.boilerhouse.unit_converter.entities.units;
 
-public enum DistanceMetric implements Unit {
-    METER(1),
-    DEKAMETER(10),
-    HECTOMETER (100),
-    KILOMETER(1000),
-    DECIMETER(0.1),
-    CENTIMETER(0.01),
-    MILLIMETER(0.001),
-    MICROMETER(0.000001),
-    MICRON(0.000001),
-    NANOMETER(0.000000001),
-    ANGSTROM(0.0000000001),
-    ;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Table;
+import java.math.BigDecimal;
 
-    static UnitType type = UnitType.DISTANCE;
-    private double coefficient;
+@Table(name ="distance_metric_unit")
+@DiscriminatorValue(value = "distance_metric")
+public class DistanceMetric extends Unit {
 
-    DistanceMetric(double coefficient) {
-        this.coefficient = coefficient;
-    }
-
-    @Override
-    public double getCoefficient() {
-        return coefficient;
+    public DistanceMetric(String fullName, String shortName, BigDecimal coefficient, Boolean primary) {
+        super(UnitType.DISTANCE, fullName, shortName, coefficient, primary);
     }
 }

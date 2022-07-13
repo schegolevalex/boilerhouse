@@ -1,15 +1,21 @@
 package com.schegolevalex.boilerhouse.unit_converter.converters;
 
-import com.schegolevalex.boilerhouse.unit_converter.entities.measure.Measure;
+import com.schegolevalex.boilerhouse.unit_converter.entities.measures.Measure;
 import com.schegolevalex.boilerhouse.unit_converter.entities.units.Unit;
 
-public class MeasureConverter {
-    static Measure convert(Measure measure, Unit unit) {
+import java.math.BigDecimal;
 
-//        if (unit.getMeasureUnit() instanceof measureUnitClass) {
-            measure.setValue(measure.getValue() * measure.getUnit().getCoefficient() / unit.getCoefficient());
-            measure.setUnit(unit);
+public class MeasureConverter {
+    public static Measure convert(Measure measure, Unit to) {
+
+        if (measure.getUnit().getType() == to.getType()) {
+            BigDecimal resultValue = measure.getValue()
+                    .multiply(measure.getUnit().getCoefficient())
+                    .divide(to.getCoefficient());
+
+            measure.setValue(resultValue);
+            measure.setUnit(to);
             return measure;
-//        } else throw new IllegalUnitException();
+        } else throw new IllegalArgumentException();
     }
 }

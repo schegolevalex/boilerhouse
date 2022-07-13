@@ -1,4 +1,9 @@
 package com.schegolevalex.boilerhouse.unit_converter.repositories;
 
-public class UnitRepository {
+import com.schegolevalex.boilerhouse.unit_converter.entities.units.Unit;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UnitRepository extends JpaRepository<Unit, String> {
+    public Unit getByFullName(String fullName);
+
 }
