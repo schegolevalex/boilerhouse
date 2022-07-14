@@ -1,4 +1,4 @@
-package com.schegolevalex.boilerhouse.unit_converter;
+package com.schegolevalex.boilerhouse.unit_converter.converters;
 
 import com.schegolevalex.boilerhouse.unit_converter.converters.MeasureConverter;
 import com.schegolevalex.boilerhouse.unit_converter.entities.measures.Measure;
