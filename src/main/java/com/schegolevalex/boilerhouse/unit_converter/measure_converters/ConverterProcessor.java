@@ -1,6 +1,5 @@
-package com.schegolevalex.boilerhouse.unit_converter.converters;
+package com.schegolevalex.boilerhouse.unit_converter.measure_converters;
 
-import com.schegolevalex.boilerhouse.unit_converter.converters.MeasureConverter;
 import com.schegolevalex.boilerhouse.unit_converter.entities.measures.Measure;
 import com.schegolevalex.boilerhouse.unit_converter.entities.units.Unit;
 import org.springframework.beans.factory.annotation.Autowired;
