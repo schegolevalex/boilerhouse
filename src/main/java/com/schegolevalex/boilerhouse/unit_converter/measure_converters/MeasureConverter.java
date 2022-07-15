@@ -18,4 +18,16 @@ public class MeasureConverter {
             return measure;
         } else throw new IllegalArgumentException();
     }
+
+    public static Measure convertToPrimary (Measure measure) {
+        Unit primary =
+
+        BigDecimal resultValue = measure.getValue()
+                .multiply(measure.getUnit().getCoefficient())
+                .divide(primary.getCoefficient());
+
+        measure.setValue(resultValue);
+        measure.setUnit(primary);
+        return measure;
+    }
 }

@@ -3,7 +3,6 @@ package com.schegolevalex.boilerhouse.unit_converter.entities.units;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
 import javax.persistence.*;
 import java.math.BigDecimal;
 
