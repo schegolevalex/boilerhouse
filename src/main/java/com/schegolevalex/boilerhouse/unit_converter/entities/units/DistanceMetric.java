@@ -12,8 +12,8 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class DistanceMetric extends Unit {
 
-    public DistanceMetric(String fullName, String shortName, BigDecimal coefficient, Boolean primary) {
-        super(UnitType.DISTANCE, fullName, shortName, coefficient, primary);
+    public DistanceMetric(String fullName, String shortName, BigDecimal coefficient, Boolean isPrimary) {
+        super(UnitType.DISTANCE, fullName, shortName, coefficient, isPrimary);
     }
 
     public DistanceMetric(String fullName, String shortName, double coefficient, Boolean isPrimary) {

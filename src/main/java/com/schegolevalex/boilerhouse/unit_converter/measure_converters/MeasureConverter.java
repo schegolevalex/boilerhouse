@@ -2,32 +2,40 @@ package com.schegolevalex.boilerhouse.unit_converter.measure_converters;
 
 import com.schegolevalex.boilerhouse.unit_converter.entities.measures.Measure;
 import com.schegolevalex.boilerhouse.unit_converter.entities.units.Unit;
+import com.schegolevalex.boilerhouse.unit_converter.repositories.UnitRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
+@Component
 public class MeasureConverter {
-    public static Measure convert(Measure measure, Unit to) {
+    private final UnitRepository unitRepository;
 
-        if (measure.getUnit().getType() == to.getType()) {
+    public MeasureConverter(UnitRepository unitRepository) {
+        this.unitRepository = unitRepository;
+    }
+
+    public Measure convert(Measure measure, Unit unitTo) {
+
+        if (measure.getUnit().getType() == unitTo.getType()) {
             BigDecimal resultValue = measure.getValue()
                     .multiply(measure.getUnit().getCoefficient())
-                    .divide(to.getCoefficient());
+                    .divide(unitTo.getCoefficient());
 
             measure.setValue(resultValue);
-            measure.setUnit(to);
+            measure.setUnit(unitTo);
             return measure;
         } else throw new IllegalArgumentException();
     }
 
-    public static Measure convertToPrimary (Measure measure) {
-        Unit primary =
+    public Measure convert(BigDecimal value, Unit unitFrom, Unit unitTo) {
+        Measure inputMeasure = new Measure(value, unitFrom);
+        return convert(inputMeasure, unitTo);
+    }
 
-        BigDecimal resultValue = measure.getValue()
-                .multiply(measure.getUnit().getCoefficient())
-                .divide(primary.getCoefficient());
-
-        measure.setValue(resultValue);
-        measure.setUnit(primary);
-        return measure;
+    public Measure convertToPrimary (BigDecimal value, Unit unit) {
+        Measure primary = new Measure(value, unit);
+        return convert(primary, unitRepository.getByTypeAndIsPrimaryIsTrue(unit.getType()));
     }
 }

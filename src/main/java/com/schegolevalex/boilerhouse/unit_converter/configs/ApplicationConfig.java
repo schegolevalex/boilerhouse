@@ -2,6 +2,7 @@ package com.schegolevalex.boilerhouse.unit_converter.configs;
 
 import com.schegolevalex.boilerhouse.unit_converter.controllers.converters.StringToUnitConverter;
 import com.schegolevalex.boilerhouse.unit_converter.entities.units.DistanceMetric;
+import com.schegolevalex.boilerhouse.unit_converter.entities.units.Temperature;
 import com.schegolevalex.boilerhouse.unit_converter.repositories.UnitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -37,5 +38,9 @@ public class ApplicationConfig implements WebMvcConfigurer {
         unitRepository.save(new DistanceMetric("MICROMETER", "micron", 1E-6, false));
         unitRepository.save(new DistanceMetric("NANOMETER", "nm", 1E-9, false));
         unitRepository.save(new DistanceMetric("ANGSTROM", null, 1E-10, false));
+
+        unitRepository.save(new Temperature("DEGREE_CELSIUS", "°C", 1, true));
+        unitRepository.save(new Temperature("DEGREE_FAHRENHEIT", "°F", 1E1, false));
+        unitRepository.save(new Temperature("KELVIN", "K", 1E2, false));
     }
 }

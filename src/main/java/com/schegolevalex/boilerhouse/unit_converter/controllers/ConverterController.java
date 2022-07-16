@@ -27,7 +27,6 @@ public class ConverterController {
                              @RequestParam("from") Unit unitFrom,
                              @RequestParam("to") Unit unitTo) {
 
-        Measure inputMeasure = new Measure(value, unitFrom);
-        return converterProcessor.getConvertedResult(inputMeasure, unitTo);
+        return converterProcessor.getConvertedResult(value, unitFrom, unitTo);
     }
 }
