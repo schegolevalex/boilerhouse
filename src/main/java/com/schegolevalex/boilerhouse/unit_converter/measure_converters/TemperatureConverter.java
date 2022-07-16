@@ -34,13 +34,11 @@ public class TemperatureConverter implements MeasureConverter {
         } else throw new IllegalUnitException("Конвертация невозможна. Единицы измерения разного типа.");
     }
 
-    @Override
     public Measure convert(BigDecimal value, Unit unitFrom, Unit unitTo) {
         Measure inputMeasure = new Measure(value, unitFrom);
         return convert(inputMeasure, unitTo);
     }
 
-    @Override
     public Measure convertToPrimary(BigDecimal value, Unit unit) {
         Measure primary = new Measure(value, unit);
         return convert(primary, unitRepository.getByTypeAndIsPrimaryIsTrue(unit.getType()));

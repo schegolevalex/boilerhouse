@@ -10,9 +10,7 @@ public interface MeasureConverter {
 
     Measure convert(Measure measure, Unit unitTo);
 
-    Measure convert(BigDecimal value, Unit unitFrom, Unit unitTo);
-
-    Measure convertToPrimary(BigDecimal value, Unit unit);
+    Measure convertToPrimary(Measure measure);
 
     UnitType getType();
 }
