@@ -3,7 +3,6 @@ package com.schegolevalex.boilerhouse.unit_converter.entities.units;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
 import javax.persistence.*;
 import java.math.BigDecimal;
 
@@ -26,7 +25,7 @@ public abstract class Unit {
     @Column(name = "full_name")
     String fullName;
 
-    @Column(name = "short_name", nullable = true)
+    @Column(name = "short_name")
     String shortName;
 
     @Column(name = "coefficient", nullable = false)

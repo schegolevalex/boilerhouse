@@ -39,8 +39,9 @@ public class ApplicationConfig implements WebMvcConfigurer {
         unitRepository.save(new DistanceMetric("NANOMETER", "nm", 1E-9, false));
         unitRepository.save(new DistanceMetric("ANGSTROM", null, 1E-10, false));
 
-        unitRepository.save(new Temperature("DEGREE_CELSIUS", "°C", 1, true));
-        unitRepository.save(new Temperature("DEGREE_FAHRENHEIT", "°F", 1E1, false));
-        unitRepository.save(new Temperature("KELVIN", "K", 1E2, false));
+        unitRepository.save(new Temperature("KELVIN", "K", 1, 0, true));
+        unitRepository.save(new Temperature("DEGREE_CELSIUS", "°C", 1, 273.15, false));
+        unitRepository.save(new Temperature("DEGREE_FAHRENHEIT", "°F", 5/9, 5/9*459.67, false));
+
     }
 }

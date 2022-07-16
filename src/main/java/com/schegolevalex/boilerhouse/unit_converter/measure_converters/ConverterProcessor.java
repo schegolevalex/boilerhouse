@@ -10,15 +10,16 @@ import java.math.BigDecimal;
 @Component
 public class ConverterProcessor {
     private final Measure measure;
-    private final MeasureConverter converter;
+    private final ConverterFactory factory;
 
     @Autowired
-    public ConverterProcessor(Measure measure, MeasureConverter converter) {
+    public ConverterProcessor(Measure measure, ConverterFactory factory) {
         this.measure = measure;
-        this.converter = converter;
+        this.factory = factory;
     }
 
     public Measure getConvertedResult(BigDecimal value, Unit unitFrom, Unit unitTo) {
+        MeasureConverter converter = factory.getConverter(unitFrom.getType());
         return converter.convert(value, unitFrom, unitTo);
     }
 }
