@@ -2,7 +2,9 @@ package com.schegolevalex.boilerhouse.unit_converter.entities.units;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.Column;
@@ -16,6 +18,8 @@ import java.math.BigDecimal;
 @DiscriminatorValue(value = "temperature")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @NoArgsConstructor
+@Setter
+@Getter
 public class Temperature extends Unit {
 
     @Column(name = "term")

@@ -1,6 +1,8 @@
 package com.schegolevalex.boilerhouse.unit_converter.measure_converters;
 
 import com.schegolevalex.boilerhouse.unit_converter.entities.measures.Measure;
+import com.schegolevalex.boilerhouse.unit_converter.entities.relations_in_type.Relation;
+import com.schegolevalex.boilerhouse.unit_converter.entities.relations_in_type.RelationInType;
 import com.schegolevalex.boilerhouse.unit_converter.entities.units.Unit;
 import com.schegolevalex.boilerhouse.unit_converter.entities.units.UnitType;
 import com.schegolevalex.boilerhouse.unit_converter.exceptions.IllegalUnitException;
@@ -10,9 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 @Component
-public class DistanceConverter implements MeasureConverter {
+public class DistanceConverter extends MeasureConverter {
 
     private final UnitType converterType;
     private final UnitRepository unitRepository;
@@ -27,28 +30,40 @@ public class DistanceConverter implements MeasureConverter {
     }
 
     @Override
-    public Measure convert(Measure measure, Unit unitTo) {
+    public Measure convert(Measure measureFrom, Unit unitTo) {
 
-        Unit unitFrom = measure.getUnit();
+        Unit unitFrom = measureFrom.getUnit();
 
         if (unitFrom.getType() == unitTo.getType()) {
-            Measure primaryMeasureFrom = convertToPrimary(measure);
-            relationInTypeRepository.findBy
+            Measure primaryMeasureFrom = convertToPrimary(measureFrom);
 
+            String subtypeFrom = unitFrom.getSubtype();
+            String subtypeTo = unitTo.getSubtype();
+            Optional<RelationInType> relationInType1 = relationInTypeRepository.findById(new Relation(subtypeFrom, subtypeTo));
+            BigDecimal subtypeCoefficient = null;
+            if (relationInType1.isPresent()) {
+                subtypeCoefficient = relationInType1.get().getSubtypeCoefficient();
+            } else {
+                Optional<RelationInType> relationInType2 = relationInTypeRepository.findById(new Relation(subtypeTo, subtypeFrom));
+                if (relationInType2.isPresent()) {
+                    subtypeCoefficient = new BigDecimal(1).divide(relationInType2.get().getSubtypeCoefficient());
+                }
+            }
 
-            BigDecimal resultValue = measure.getValue()
-                    .multiply(measure.getUnit().getCoefficient())
-                    .divide(unitTo.getCoefficient());
+            UnitType typeTo = unitTo.getType();
+            Unit primaryUnitTo = unitRepository.getByTypeAndIsPrimaryIsTrue(typeTo);
 
+            BigDecimal resultValue = primaryMeasureFrom.getValue().multiply(subtypeCoefficient);
+            resultValue = resultValue.multiply(unitTo.getCoefficient()).divide(primaryUnitTo.getCoefficient());
 
-
-
-            measure.setValue(resultValue);
-            measure.setUnit(unitTo);
-            return measure;
-        } else throw new IllegalUnitException("Конвертация невозможна. Единицы измерения разного типа.");
+            measureFrom.setValue(resultValue);
+            measureFrom.setUnit(unitTo);
+            return measureFrom;
+        } else throw new
+                IllegalUnitException("Конвертация невозможна. Единицы измерения разного типа.");
     }
 
+    @Override
     public Measure convert(BigDecimal value, Unit unitFrom, Unit unitTo) {
         Measure inputMeasure = new Measure(value, unitFrom);
         return convert(inputMeasure, unitTo);
@@ -68,13 +83,9 @@ public class DistanceConverter implements MeasureConverter {
         return measure;
     }
 
+    @Override
     public Measure convertToPrimary(BigDecimal value, Unit unit) {
         Measure primary = new Measure(value, unit);
         return convertToPrimary(primary);
-    }
-
-    @Override
-    public UnitType getType() {
-        return converterType;
     }
 }

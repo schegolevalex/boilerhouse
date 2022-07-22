@@ -6,11 +6,18 @@ import com.schegolevalex.boilerhouse.unit_converter.entities.units.UnitType;
 
 import java.math.BigDecimal;
 
-public interface MeasureConverter {
+public abstract class MeasureConverter {
+    private UnitType converterType;
 
-    Measure convert(Measure measure, Unit unitTo);
+    public abstract Measure convert(Measure measure, Unit unitTo);
 
-    Measure convertToPrimary(Measure measure);
+    public abstract Measure convert(BigDecimal value, Unit unitFrom, Unit unitTo);
 
-    UnitType getType();
+    public abstract Measure convertToPrimary(Measure measure);
+
+    public abstract Measure convertToPrimary(BigDecimal value, Unit unit);
+
+    public UnitType getType() {
+        return converterType;
+    };
 }

@@ -10,16 +10,18 @@ import java.math.BigDecimal;
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "discriminator", discriminatorType = DiscriminatorType.STRING)
 @Table(name = "abstract_unit")
-
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public abstract class Unit {
     @Column(name = "type", nullable = false)
     @Enumerated(value = EnumType.STRING)
     UnitType type;
+
+    @Column(name = "subtype")
+    @JsonIgnore
+    protected String subtype = null;
 
     @Id
     @Column(name = "full_name")
@@ -35,4 +37,12 @@ public abstract class Unit {
     @Column(name = "is_primary", nullable = false)
     @JsonIgnore
     Boolean isPrimary;
+
+    public Unit(UnitType type, String fullName, String shortName, BigDecimal coefficient, Boolean isPrimary) {
+        this.type = type;
+        this.fullName = fullName;
+        this.shortName = shortName;
+        this.coefficient = coefficient;
+        this.isPrimary = isPrimary;
+    }
 }
