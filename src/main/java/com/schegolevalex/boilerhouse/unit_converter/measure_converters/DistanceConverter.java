@@ -39,7 +39,7 @@ public class DistanceConverter extends MeasureConverter {
 
         //Получили primary Unit другого типа и сконвертировали resultValue с прошлого шага в целевой Unit.
         Unit primaryUnitTo = unitRepository.getBySubtypeAndIsPrimaryIsTrue(unitTo.getSubtype());
-        resultValue = resultValue.multiply(unitTo.getCoefficient()).divide(primaryUnitTo.getCoefficient(), 15, RoundingMode.HALF_UP);
+        resultValue = resultValue.multiply(primaryUnitTo.getCoefficient()).divide(unitTo.getCoefficient(), 15, RoundingMode.HALF_UP).stripTrailingZeros();
 
         measureFrom.setValue(resultValue);
         measureFrom.setUnit(unitTo);

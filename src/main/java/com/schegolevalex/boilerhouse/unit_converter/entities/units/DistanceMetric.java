@@ -20,10 +20,6 @@ import java.math.BigDecimal;
 @Getter
 public class DistanceMetric extends Unit {
 
-//    @Column(name = "subtype")
-//    @JsonIgnore
-//    String subtype;
-
     public DistanceMetric(String fullName, String shortName, BigDecimal coefficient, Boolean isPrimary) {
         super(UnitType.DISTANCE, fullName, shortName, coefficient, isPrimary);
         this.subtype = "distance_metric";
