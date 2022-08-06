@@ -6,6 +6,7 @@ public enum UnitType {
     AREA,
     VOLUME,
     TEMPERATURE,
+    PRESSURE,
 
 
 }

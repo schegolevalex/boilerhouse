@@ -8,7 +8,6 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "relation_in_type")
-
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
 @Setter

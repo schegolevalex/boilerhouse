@@ -19,7 +19,10 @@ public class ConverterProcessor {
     }
 
     public Measure getConvertedResult(BigDecimal value, Unit unitFrom, Unit unitTo) {
+        measure.setValue(value);
+        measure.setUnit(unitFrom);
+
         MeasureConverter converter = factory.getConverter(unitFrom.getType());
-        return converter.convert(value,unitFrom,unitTo);
+        return converter.convert(measure, unitTo);
     }
 }

@@ -15,6 +15,7 @@ public class ConverterFactory {
     }
 
     public MeasureConverter getConverter(UnitType unitType) {
+        // todo обработать null?
         return converters.stream().filter(c -> c.getType() == unitType).findFirst().orElse(null);
     }
 

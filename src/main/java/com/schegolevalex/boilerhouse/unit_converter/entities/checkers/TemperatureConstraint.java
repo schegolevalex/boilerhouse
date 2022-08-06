@@ -5,6 +5,7 @@ import com.schegolevalex.boilerhouse.unit_converter.entities.units.Unit;
 import com.schegolevalex.boilerhouse.unit_converter.entities.units.UnitType;
 import com.schegolevalex.boilerhouse.unit_converter.exceptions.IllegalMeasureException;
 import com.schegolevalex.boilerhouse.unit_converter.measure_converters.DistanceConverter;
+import com.schegolevalex.boilerhouse.unit_converter.measure_converters.TemperatureConverter;
 import com.schegolevalex.boilerhouse.unit_converter.repositories.UnitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,7 +16,7 @@ import java.math.BigDecimal;
 public class TemperatureConstraint extends MeasureConstraint {
 
     @Autowired
-    public TemperatureConstraint(DistanceConverter converter, UnitRepository unitRepository) {
+    public TemperatureConstraint(TemperatureConverter converter, UnitRepository unitRepository) {
         super(converter, unitRepository);
         this.type = UnitType.TEMPERATURE;
     }

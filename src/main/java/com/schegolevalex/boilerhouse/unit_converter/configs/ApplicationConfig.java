@@ -1,23 +1,30 @@
 package com.schegolevalex.boilerhouse.unit_converter.configs;
 
 import com.schegolevalex.boilerhouse.unit_converter.controllers.converters.StringToUnitConverter;
+import com.schegolevalex.boilerhouse.unit_converter.entities.relations_in_type.Relation;
+import com.schegolevalex.boilerhouse.unit_converter.entities.relations_in_type.RelationInType;
+import com.schegolevalex.boilerhouse.unit_converter.entities.units.DistanceImperial;
 import com.schegolevalex.boilerhouse.unit_converter.entities.units.DistanceMetric;
 import com.schegolevalex.boilerhouse.unit_converter.entities.units.Temperature;
+import com.schegolevalex.boilerhouse.unit_converter.entities.units.UnitType;
+import com.schegolevalex.boilerhouse.unit_converter.repositories.RelationInTypeRepository;
 import com.schegolevalex.boilerhouse.unit_converter.repositories.UnitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
 import javax.annotation.PostConstruct;
+import java.math.BigDecimal;
 
 @Configuration
 public class ApplicationConfig implements WebMvcConfigurer {
     private final UnitRepository unitRepository;
+    private final RelationInTypeRepository relationInTypeRepository;
 
     @Autowired
-    public ApplicationConfig(UnitRepository unitRepository) {
+    public ApplicationConfig(UnitRepository unitRepository, RelationInTypeRepository relationInTypeRepository) {
         this.unitRepository = unitRepository;
+        this.relationInTypeRepository = relationInTypeRepository;
     }
 
     @Override
@@ -39,9 +46,16 @@ public class ApplicationConfig implements WebMvcConfigurer {
         unitRepository.save(new DistanceMetric("NANOMETER", "nm", 1E-9, false));
         unitRepository.save(new DistanceMetric("ANGSTROM", null, 1E-10, false));
 
+        unitRepository.save(new DistanceImperial("INCH", "in", 1, true));
+        unitRepository.save(new DistanceImperial("MILE", "mi", 63360, false));
+        unitRepository.save(new DistanceImperial("YARD", "yd", 36, false));
+        unitRepository.save(new DistanceImperial("FOOT", "ft", 12, false));
+
         unitRepository.save(new Temperature("KELVIN", "K", 1, 0, true));
         unitRepository.save(new Temperature("DEGREE_CELSIUS", "°C", 1, 273.15, false));
         unitRepository.save(new Temperature("DEGREE_FAHRENHEIT", "°F", 5/9, 5/9*459.67, false));
+
+        relationInTypeRepository.save(new RelationInType(new Relation("DistanceMetric", "DistanceImperial"), new BigDecimal(0.0254), UnitType.DISTANCE));
 
     }
 }
