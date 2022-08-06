@@ -17,7 +17,7 @@ public class RelationInType {
     @EmbeddedId
     Relation relation;
 
-    @Column(name = "coefficient")
+    @Column(name = "coefficient", precision = 20, scale = 10)
     BigDecimal subtypeCoefficient;
 
     @Column(name = "type")

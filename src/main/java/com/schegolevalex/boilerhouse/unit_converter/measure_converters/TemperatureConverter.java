@@ -1,18 +1,12 @@
 package com.schegolevalex.boilerhouse.unit_converter.measure_converters;
 
 import com.schegolevalex.boilerhouse.unit_converter.entities.measures.Measure;
-import com.schegolevalex.boilerhouse.unit_converter.entities.relations_in_type.Relation;
-import com.schegolevalex.boilerhouse.unit_converter.entities.relations_in_type.RelationInType;
 import com.schegolevalex.boilerhouse.unit_converter.entities.units.Unit;
 import com.schegolevalex.boilerhouse.unit_converter.entities.units.UnitType;
-import com.schegolevalex.boilerhouse.unit_converter.exceptions.IllegalUnitException;
 import com.schegolevalex.boilerhouse.unit_converter.repositories.RelationInTypeRepository;
 import com.schegolevalex.boilerhouse.unit_converter.repositories.UnitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.math.BigDecimal;
-import java.util.Optional;
 
 @Component
 public class TemperatureConverter extends MeasureConverter {
@@ -44,7 +38,7 @@ public class TemperatureConverter extends MeasureConverter {
 //        } else {
 //            Optional<RelationInType> relationInType2 = relationInTypeRepository.findById(new Relation(subtypeTo, subtypeFrom));
 //            if (relationInType2.isPresent()) {
-//                subtypeCoefficient = new BigDecimal(1).divide(relationInType2.get().getSubtypeCoefficient());
+//                subtypeCoefficient = BigDecimal.valueOf(1).divide(relationInType2.get().getSubtypeCoefficient());
 //            }
 //        }
 //

@@ -32,7 +32,7 @@ public class Temperature extends Unit {
     }
 
     public Temperature(String fullName, String shortName, double coefficient, double term, Boolean isPrimary) {
-        super(UnitType.TEMPERATURE, fullName, shortName, new BigDecimal(coefficient), isPrimary);
-        this.term = new BigDecimal(term);
+        super(UnitType.TEMPERATURE, fullName, shortName, BigDecimal.valueOf(coefficient), isPrimary);
+        this.term = BigDecimal.valueOf(term);
     }
 }

@@ -30,11 +30,11 @@ public abstract class Unit {
     @Column(name = "short_name")
     String shortName;
 
-    @Column(name = "coefficient", nullable = false)
+    @Column(name = "coefficient", nullable = false, precision = 30, scale = 15)
     @JsonIgnore
     BigDecimal coefficient;
 
-    @Column(name = "is_primary", nullable = false)
+    @Column(name = "isPrimary", nullable = false)
     @JsonIgnore
     Boolean isPrimary;
 

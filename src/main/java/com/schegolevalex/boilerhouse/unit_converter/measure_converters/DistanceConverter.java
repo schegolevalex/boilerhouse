@@ -1,19 +1,15 @@
 package com.schegolevalex.boilerhouse.unit_converter.measure_converters;
 
 import com.schegolevalex.boilerhouse.unit_converter.entities.measures.Measure;
-import com.schegolevalex.boilerhouse.unit_converter.entities.relations_in_type.Relation;
-import com.schegolevalex.boilerhouse.unit_converter.entities.relations_in_type.RelationInType;
 import com.schegolevalex.boilerhouse.unit_converter.entities.units.Unit;
 import com.schegolevalex.boilerhouse.unit_converter.entities.units.UnitType;
-import com.schegolevalex.boilerhouse.unit_converter.exceptions.IllegalMeasureException;
-import com.schegolevalex.boilerhouse.unit_converter.exceptions.IllegalUnitException;
 import com.schegolevalex.boilerhouse.unit_converter.repositories.RelationInTypeRepository;
 import com.schegolevalex.boilerhouse.unit_converter.repositories.UnitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.util.Optional;
+import java.math.RoundingMode;
 
 @Component
 public class DistanceConverter extends MeasureConverter {
@@ -32,7 +28,7 @@ public class DistanceConverter extends MeasureConverter {
         isTheSameType(measureFrom, unitTo);
 
         //получили коэффициент из отношения подтипов
-        BigDecimal subtypeCoefficient = new BigDecimal(1);
+        BigDecimal subtypeCoefficient = BigDecimal.valueOf(1);
         if (!measureFrom.getUnit().getSubtype().equals(unitTo.getSubtype()))
             subtypeCoefficient = getSubtypeCoefficient(measureFrom, unitTo);
 
@@ -42,8 +38,8 @@ public class DistanceConverter extends MeasureConverter {
         BigDecimal resultValue = primaryMeasureFrom.getValue().multiply(subtypeCoefficient);
 
         //Получили primary Unit другого типа и сконвертировали resultValue с прошлого шага в целевой Unit.
-        Unit primaryUnitTo = unitRepository.getByTypeAndIsPrimaryIsTrue(unitTo.getType());
-        resultValue = resultValue.multiply(unitTo.getCoefficient()).divide(primaryUnitTo.getCoefficient());
+        Unit primaryUnitTo = unitRepository.getBySubtypeAndIsPrimaryIsTrue(unitTo.getSubtype());
+        resultValue = resultValue.multiply(unitTo.getCoefficient()).divide(primaryUnitTo.getCoefficient(), 15, RoundingMode.HALF_UP);
 
         measureFrom.setValue(resultValue);
         measureFrom.setUnit(unitTo);

@@ -9,7 +9,9 @@ import com.schegolevalex.boilerhouse.unit_converter.exceptions.IllegalMeasureExc
 import com.schegolevalex.boilerhouse.unit_converter.exceptions.IllegalUnitException;
 import com.schegolevalex.boilerhouse.unit_converter.repositories.RelationInTypeRepository;
 import com.schegolevalex.boilerhouse.unit_converter.repositories.UnitRepository;
+
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Optional;
 
 public abstract class MeasureConverter {
@@ -42,8 +44,8 @@ public abstract class MeasureConverter {
         } else {
             Optional<RelationInType> relationInType2 = relationInTypeRepository.findById(new Relation(subtypeTo, subtypeFrom));
             if (relationInType2.isPresent()) {
-                subtypeCoefficient = new BigDecimal(1).divide(relationInType2.get().getSubtypeCoefficient());
-            } else throw new IllegalMeasureException("Не удается произвести конвертацию.");
+                subtypeCoefficient = BigDecimal.valueOf(1).divide(relationInType2.get().getSubtypeCoefficient(), 10, RoundingMode.HALF_UP);
+            } else throw new IllegalMeasureException("************Не удается произвести конвертацию.***********");
         }
         return subtypeCoefficient;
     }
@@ -51,10 +53,9 @@ public abstract class MeasureConverter {
     public Measure convertToPrimary(Measure measure) {
         BigDecimal value = measure.getValue();
         Unit unitFrom = measure.getUnit();
-        UnitType type = unitFrom.getType();
-        Unit primaryUnit = unitRepository.getByTypeAndIsPrimaryIsTrue(type);
+        Unit primaryUnit = unitRepository.getBySubtypeAndIsPrimaryIsTrue(unitFrom.getSubtype());
 
-        BigDecimal primaryValue = value.multiply(unitFrom.getCoefficient()).divide(primaryUnit.getCoefficient());
+        BigDecimal primaryValue = value.multiply(unitFrom.getCoefficient()).divide(primaryUnit.getCoefficient(), 10, RoundingMode.HALF_UP);
 
         measure.setValue(primaryValue);
         measure.setUnit(primaryUnit);
@@ -69,6 +70,4 @@ public abstract class MeasureConverter {
     public UnitType getType() {
         return converterType;
     }
-
-    ;
 }

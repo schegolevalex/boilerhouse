@@ -33,6 +33,6 @@ public class Measure {
     }
 
     public Measure(String value, Unit unit) {
-        this(new BigDecimal(value), unit);
+        this(BigDecimal.valueOf(Long.parseLong(value)), unit);
     }
 }

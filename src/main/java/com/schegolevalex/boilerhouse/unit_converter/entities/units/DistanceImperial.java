@@ -30,7 +30,7 @@ public class DistanceImperial extends Unit {
     }
 
     public DistanceImperial(String fullName, String shortName, double coefficient, Boolean isPrimary) {
-        super(UnitType.DISTANCE, fullName, shortName, new BigDecimal(coefficient), isPrimary);
+        super(UnitType.DISTANCE, fullName, shortName, BigDecimal.valueOf(coefficient), isPrimary);
         this.subtype = "distance_imperial";
     }
 }
