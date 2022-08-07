@@ -50,24 +50,23 @@ public abstract class MeasureConverter {
         return subtypeCoefficient;
     }
 
-    public Measure convertToPrimary(Measure measure) {
-        BigDecimal value = measure.getValue();
-        Unit unitFrom = measure.getUnit();
-        Unit primaryUnit = unitRepository.getBySubtypeAndIsPrimaryIsTrue(unitFrom.getSubtype());
+    protected Measure convertUtil(Measure measureFrom, Unit unitTo) {
+        BigDecimal valueFrom = measureFrom.getValue();
+        Unit unitFrom = measureFrom.getUnit();
 
-        BigDecimal primaryValue = value
+        BigDecimal valueTo = valueFrom
                 .multiply(unitFrom.getCoefficient())
-                .divide(primaryUnit.getCoefficient(), 10, RoundingMode.HALF_UP)
+                .divide(unitTo.getCoefficient(), 10, RoundingMode.HALF_UP)
                 .stripTrailingZeros();
 
-        measure.setValue(primaryValue);
-        measure.setUnit(primaryUnit);
-        return measure;
+        measureFrom.setValue(valueTo);
+        measureFrom.setUnit(unitTo);
+        return measureFrom;
     }
 
-    public Measure convertToPrimary(BigDecimal value, Unit unit) {
-        Measure primary = new Measure(value, unit);
-        return convertToPrimary(primary);
+    public Measure convertUtil(BigDecimal value, Unit unitFrom, Unit unitTo) {
+        Measure primary = new Measure(value, unitFrom);
+        return convertUtil(primary, unitTo);
     }
 
     public UnitType getType() {

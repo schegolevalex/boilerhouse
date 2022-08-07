@@ -35,7 +35,7 @@ public class DistanceConverter extends MeasureConverter {
 
         //сконвертировали исходное Measure в primary и умножили его на коэффициент из отношения подтипов, полученный выше.
         //Тем самым мы перевели исходное значение value в primary другого типа.
-        Measure primaryMeasureFrom = convertToPrimary(measureFrom);
+        Measure primaryMeasureFrom = convertUtil(measureFrom);
         BigDecimal resultValue = primaryMeasureFrom.getValue().multiply(subtypeCoefficient);
 
         //Получили primary Unit другого типа и сконвертировали resultValue с прошлого шага в целевой Unit.

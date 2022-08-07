@@ -40,7 +40,7 @@ public class TemperatureConverter extends MeasureConverter {
 
         //сконвертировали исходное Measure в primary и умножили его на коэффициент из отношения подтипов, полученный выше.
         //Тем самым мы перевели исходное значение value в primary другого типа.
-        Measure primaryTemperatureFrom = convertToPrimary(temperatureFrom);
+        Measure primaryTemperatureFrom = convertUtil(temperatureFrom);
         BigDecimal resultValue = primaryTemperatureFrom.getValue().multiply(subtypeCoefficient);
 
         //Получили primary Unit другого типа и сконвертировали resultValue с прошлого шага в целевой Unit.
@@ -57,7 +57,7 @@ public class TemperatureConverter extends MeasureConverter {
     }
 
     @Override
-    public Measure convertToPrimary(Measure measureFrom) {
+    public Measure convertUtil(Measure measureFrom) {
         BigDecimal valueFrom = measureFrom.getValue();
         Temperature temperatureUnitFrom = (Temperature) measureFrom.getUnit();
         Temperature temperatureUnitTo = (Temperature) unitRepository.getBySubtypeAndIsPrimaryIsTrue(temperatureUnitFrom.getSubtype());
