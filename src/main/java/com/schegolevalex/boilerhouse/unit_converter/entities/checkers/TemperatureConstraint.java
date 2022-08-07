@@ -23,12 +23,12 @@ public class TemperatureConstraint extends MeasureConstraint {
     @Override
     public void check(BigDecimal value, Unit unit) {
         Measure measureWithPrimaryValueAndUnit = converter.convertToPrimary(value, unit);
-        if (measureWithPrimaryValueAndUnit.getValue().compareTo(BigDecimal.valueOf(-273.15)) < 0) {
-            Measure constraintMeasure = new Measure(BigDecimal.valueOf(-273.15), unitRepository.getByFullName("DEGREE_CELSIUS"));
+        if (measureWithPrimaryValueAndUnit.getValue().compareTo(BigDecimal.valueOf(0)) < 0) {
+            Measure constraintMeasure = new Measure(BigDecimal.valueOf(0), unitRepository.getByFullName("KELVIN"));
             Measure convertedConstraintMeasure = converter.convert(constraintMeasure, unit);
             throw new IllegalMeasureException("Значение должно быть больше "
                     + convertedConstraintMeasure
-                    + constraintMeasure.getUnit().getShortName());
+                    + convertedConstraintMeasure.getUnit().getShortName());
         }
     }
 }

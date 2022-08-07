@@ -24,13 +24,14 @@ public class DistanceConverter extends MeasureConverter {
 
     @Override
     public Measure convert(Measure measureFrom, Unit unitTo) {
-
         isTheSameType(measureFrom, unitTo);
 
         //получили коэффициент из отношения подтипов
         BigDecimal subtypeCoefficient = BigDecimal.valueOf(1);
-        if (!measureFrom.getUnit().getSubtype().equals(unitTo.getSubtype()))
-            subtypeCoefficient = getSubtypeCoefficient(measureFrom, unitTo);
+        if (measureFrom.getUnit().getSubtype() != null
+                && unitTo.getSubtype() != null
+                && !measureFrom.getUnit().getSubtype().equals(unitTo.getSubtype()))
+            subtypeCoefficient = getSubtypeCoefficient(measureFrom.getUnit(), unitTo);
 
         //сконвертировали исходное Measure в primary и умножили его на коэффициент из отношения подтипов, полученный выше.
         //Тем самым мы перевели исходное значение value в primary другого типа.

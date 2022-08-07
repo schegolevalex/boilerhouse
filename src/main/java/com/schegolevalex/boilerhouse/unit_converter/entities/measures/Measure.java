@@ -7,6 +7,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -22,7 +23,6 @@ public class Measure {
     List<MeasureConstraint> constraintsList;
 
     public Measure(BigDecimal value, Unit unit) {
-        constraintsList.stream().filter(c-> c.getType()==unit.getType()).forEach(c->c.check(value, unit));
         this.value = value;
         this.unit = unit;
     }
@@ -32,7 +32,8 @@ public class Measure {
         this.constraintsList = constraintsList;
     }
 
-    public Measure(String value, Unit unit) {
-        this(BigDecimal.valueOf(Long.parseLong(value)), unit);
+//    @PostConstruct
+    private void checkConstraints() {
+        constraintsList.stream().filter(c -> c.getType() == unit.getType()).forEach(c -> c.check(value, unit));
     }
 }

@@ -9,7 +9,6 @@ import com.schegolevalex.boilerhouse.unit_converter.exceptions.IllegalMeasureExc
 import com.schegolevalex.boilerhouse.unit_converter.exceptions.IllegalUnitException;
 import com.schegolevalex.boilerhouse.unit_converter.repositories.RelationInTypeRepository;
 import com.schegolevalex.boilerhouse.unit_converter.repositories.UnitRepository;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Optional;
@@ -33,8 +32,8 @@ public abstract class MeasureConverter {
             throw new IllegalUnitException("Конвертация невозможна. Единицы измерения разного типа.");
     }
 
-    protected BigDecimal getSubtypeCoefficient(Measure measureFrom, Unit unitTo) {
-        String subtypeFrom = measureFrom.getUnit().getSubtype();
+    protected BigDecimal getSubtypeCoefficient(Unit unitFrom, Unit unitTo) {
+        String subtypeFrom = unitFrom.getSubtype();
         String subtypeTo = unitTo.getSubtype();
 
         Optional<RelationInType> relationInType1 = relationInTypeRepository.findById(new Relation(subtypeFrom, subtypeTo));
@@ -44,7 +43,8 @@ public abstract class MeasureConverter {
         } else {
             Optional<RelationInType> relationInType2 = relationInTypeRepository.findById(new Relation(subtypeTo, subtypeFrom));
             if (relationInType2.isPresent()) {
-                subtypeCoefficient = BigDecimal.valueOf(1).divide(relationInType2.get().getSubtypeCoefficient(), 10, RoundingMode.HALF_UP);
+                subtypeCoefficient = BigDecimal.valueOf(1)
+                        .divide(relationInType2.get().getSubtypeCoefficient(), 10, RoundingMode.HALF_UP);
             } else throw new IllegalMeasureException("************Не удается произвести конвертацию.***********");
         }
         return subtypeCoefficient;
@@ -55,7 +55,10 @@ public abstract class MeasureConverter {
         Unit unitFrom = measure.getUnit();
         Unit primaryUnit = unitRepository.getBySubtypeAndIsPrimaryIsTrue(unitFrom.getSubtype());
 
-        BigDecimal primaryValue = value.multiply(unitFrom.getCoefficient()).divide(primaryUnit.getCoefficient(), 10, RoundingMode.HALF_UP);
+        BigDecimal primaryValue = value
+                .multiply(unitFrom.getCoefficient())
+                .divide(primaryUnit.getCoefficient(), 10, RoundingMode.HALF_UP)
+                .stripTrailingZeros();
 
         measure.setValue(primaryValue);
         measure.setUnit(primaryUnit);
