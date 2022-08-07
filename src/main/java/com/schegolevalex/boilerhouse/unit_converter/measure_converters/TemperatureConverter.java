@@ -24,40 +24,7 @@ public class TemperatureConverter extends MeasureConverter {
     }
 
     @Override
-    public Measure convert(Measure temperatureFrom, Unit unitTo) {
-        Temperature temperatureUnitTo = (Temperature) unitTo;
-
-        //проверка на соответствие типов
-        isTheSameType(temperatureFrom, temperatureUnitTo);
-
-        //получили коэффициент из отношения подтипов
-        BigDecimal subtypeCoefficient = BigDecimal.valueOf(1);
-        if (temperatureFrom.getUnit().getSubtype() != null
-                && temperatureUnitTo.getSubtype() != null
-                && !temperatureFrom.getUnit().getSubtype().equals(temperatureUnitTo.getSubtype())) {
-            subtypeCoefficient = getSubtypeCoefficient(temperatureFrom.getUnit(), temperatureUnitTo);
-        }
-
-        //сконвертировали исходное Measure в primary и умножили его на коэффициент из отношения подтипов, полученный выше.
-        //Тем самым мы перевели исходное значение value в primary другого типа.
-        Measure primaryTemperatureFrom = convertUtil(temperatureFrom);
-        BigDecimal resultValue = primaryTemperatureFrom.getValue().multiply(subtypeCoefficient);
-
-        //Получили primary Unit другого типа и сконвертировали resultValue с прошлого шага в целевой Unit.
-        Temperature primaryTemperatureUnitTo = (Temperature) unitRepository.getBySubtypeAndIsPrimaryIsTrue(temperatureUnitTo.getSubtype());
-        resultValue = resultValue
-                .multiply(primaryTemperatureUnitTo.getCoefficient())
-                .divide(temperatureUnitTo.getCoefficient(), 15, RoundingMode.HALF_UP)
-                .subtract(primaryTemperatureUnitTo.getTerm())
-                .stripTrailingZeros();
-
-        temperatureFrom.setValue(resultValue);
-        temperatureFrom.setUnit(temperatureUnitTo);
-        return temperatureFrom;
-    }
-
-    @Override
-    public Measure convertUtil(Measure measureFrom) {
+    public Measure convertUtil(Measure measureFrom, Unit unitTo) {
         BigDecimal valueFrom = measureFrom.getValue();
         Temperature temperatureUnitFrom = (Temperature) measureFrom.getUnit();
         Temperature temperatureUnitTo = (Temperature) unitRepository.getBySubtypeAndIsPrimaryIsTrue(temperatureUnitFrom.getSubtype());

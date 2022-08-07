@@ -9,6 +9,7 @@ import com.schegolevalex.boilerhouse.unit_converter.exceptions.IllegalMeasureExc
 import com.schegolevalex.boilerhouse.unit_converter.exceptions.IllegalUnitException;
 import com.schegolevalex.boilerhouse.unit_converter.repositories.RelationInTypeRepository;
 import com.schegolevalex.boilerhouse.unit_converter.repositories.UnitRepository;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Optional;
@@ -18,7 +19,28 @@ public abstract class MeasureConverter {
     protected UnitRepository unitRepository;
     protected RelationInTypeRepository relationInTypeRepository;
 
-    public abstract Measure convert(Measure measure, Unit unitTo);
+    public Measure convert(Measure measureFrom, Unit unitTo) {
+        //проверка на соответствие типов
+        isTheSameType(measureFrom, unitTo);
+
+        //получили коэффициент из отношения подтипов
+        BigDecimal subtypeCoefficient = BigDecimal.valueOf(1);
+        if (measureFrom.getUnit().getSubtype() != null
+                && unitTo.getSubtype() != null
+                && !measureFrom.getUnit().getSubtype().equals(unitTo.getSubtype()))
+            subtypeCoefficient = getSubtypeCoefficient(measureFrom.getUnit(), unitTo);
+
+        //сконвертировали исходное Measure в primary исходного типа
+        Measure primaryMeasureFrom = convertUtil(measureFrom, unitRepository.getBySubtypeAndIsPrimaryIsTrue(measureFrom.getUnit().getSubtype()));
+
+        //и умножили его на коэффициент из отношения подтипов, полученный выше.
+        //Тем самым мы перевели исходное значение value в primary другого типа.
+        Measure primaryMeasureTo = new Measure(primaryMeasureFrom.getValue().multiply(subtypeCoefficient),
+                unitRepository.getBySubtypeAndIsPrimaryIsTrue(unitTo.getSubtype()));
+
+        //Получили primary Unit другого типа и сконвертировали valueTo с прошлого шага в целевой Unit.
+        return convertUtil(primaryMeasureTo, unitTo);
+    }
 
     public Measure convert(BigDecimal value, Unit unitFrom, Unit unitTo) {
         Measure inputMeasure = new Measure(value, unitFrom);
