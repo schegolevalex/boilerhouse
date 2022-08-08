@@ -22,17 +22,41 @@ import java.math.BigDecimal;
 @Getter
 public class Temperature extends Unit {
 
-    @Column(name = "term")
+    @Column(name = "term", nullable = false, precision = 30, scale = 15)
     @JsonIgnore
     BigDecimal term;
 
-    public Temperature(String fullName, String shortName, BigDecimal coefficient, BigDecimal term, Boolean isPrimary) {
+    @Column(name = "coefficient_from_primary", nullable = false, precision = 30, scale = 15)
+    @JsonIgnore
+    BigDecimal coefficientFromPrimary;
+
+    @Column(name = "term_from_primary", nullable = false, precision = 30, scale = 15)
+    @JsonIgnore
+    BigDecimal termFromPrimary;
+
+    public Temperature(String fullName,
+                       String shortName,
+                       BigDecimal coefficient,
+                       BigDecimal term,
+                       BigDecimal coefficientFromPrimary,
+                       BigDecimal termFromPrimary,
+                       Boolean isPrimary) {
         super(UnitType.TEMPERATURE, fullName, shortName, coefficient, isPrimary);
+        this.coefficientFromPrimary = coefficientFromPrimary;
+        this.termFromPrimary = termFromPrimary;
         this.term = term;
     }
 
-    public Temperature(String fullName, String shortName, double coefficient, double term, Boolean isPrimary) {
+    public Temperature(String fullName,
+                       String shortName,
+                       double coefficient,
+                       double term,
+                       double coefficientFromPrimary,
+                       double termFromPrimary,
+                       Boolean isPrimary) {
         super(UnitType.TEMPERATURE, fullName, shortName, BigDecimal.valueOf(coefficient), isPrimary);
         this.term = BigDecimal.valueOf(term);
+        this.coefficientFromPrimary = BigDecimal.valueOf(coefficientFromPrimary);
+        this.termFromPrimary = BigDecimal.valueOf(termFromPrimary);
     }
 }

@@ -31,7 +31,7 @@ public abstract class MeasureConverter {
             subtypeCoefficient = getSubtypeCoefficient(measureFrom.getUnit(), unitTo);
 
         //сконвертировали исходное Measure в primary исходного типа
-        Measure primaryMeasureFrom = convertUtil(measureFrom, unitRepository.getBySubtypeAndIsPrimaryIsTrue(measureFrom.getUnit().getSubtype()));
+        Measure primaryMeasureFrom = converterUtil(measureFrom, unitRepository.getBySubtypeAndIsPrimaryIsTrue(measureFrom.getUnit().getSubtype()));
 
         //и умножили его на коэффициент из отношения подтипов, полученный выше.
         //Тем самым мы перевели исходное значение value в primary другого типа.
@@ -39,7 +39,7 @@ public abstract class MeasureConverter {
                 unitRepository.getBySubtypeAndIsPrimaryIsTrue(unitTo.getSubtype()));
 
         //Получили primary Unit другого типа и сконвертировали valueTo с прошлого шага в целевой Unit.
-        return convertUtil(primaryMeasureTo, unitTo);
+        return converterUtil(primaryMeasureTo, unitTo);
     }
 
     public Measure convert(BigDecimal value, Unit unitFrom, Unit unitTo) {
@@ -72,7 +72,7 @@ public abstract class MeasureConverter {
         return subtypeCoefficient;
     }
 
-    protected Measure convertUtil(Measure measureFrom, Unit unitTo) {
+    protected Measure converterUtil(Measure measureFrom, Unit unitTo) {
         BigDecimal valueFrom = measureFrom.getValue();
         Unit unitFrom = measureFrom.getUnit();
 
@@ -86,9 +86,9 @@ public abstract class MeasureConverter {
         return measureFrom;
     }
 
-    public Measure convertUtil(BigDecimal value, Unit unitFrom, Unit unitTo) {
+    protected Measure converterUtil(BigDecimal value, Unit unitFrom, Unit unitTo) {
         Measure primary = new Measure(value, unitFrom);
-        return convertUtil(primary, unitTo);
+        return converterUtil(primary, unitTo);
     }
 
     public UnitType getType() {

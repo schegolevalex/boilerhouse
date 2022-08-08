@@ -34,7 +34,7 @@ public abstract class Unit {
     @JsonIgnore
     BigDecimal coefficient;
 
-    @Column(name = "isPrimary", nullable = false)
+    @Column(name = "is_primary", nullable = false)
     @JsonIgnore
     Boolean isPrimary;
 
