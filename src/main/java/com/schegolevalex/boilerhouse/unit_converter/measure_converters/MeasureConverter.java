@@ -51,7 +51,7 @@ public abstract class MeasureConverter {
         Unit unitFrom = measureFrom.getUnit();
 
         if (unitFrom.getType() != unitTo.getType())
-            throw new IllegalUnitException("Конвертация невозможна. Единицы измерения разного типа.");
+            throw new IllegalUnitException("Conversion is not possible. Units has different types.");
     }
 
     protected BigDecimal getSubtypeCoefficient(Unit unitFrom, Unit unitTo) {
@@ -67,7 +67,7 @@ public abstract class MeasureConverter {
             if (relationInType2.isPresent()) {
                 subtypeCoefficient = BigDecimal.valueOf(1)
                         .divide(relationInType2.get().getSubtypeCoefficient(), 10, RoundingMode.HALF_UP);
-            } else throw new IllegalMeasureException("************Не удается произвести конвертацию.***********");
+            } else throw new IllegalMeasureException("Conversion is not possible. Units has same types, but relation between subtypes is not define.");
         }
         return subtypeCoefficient;
     }

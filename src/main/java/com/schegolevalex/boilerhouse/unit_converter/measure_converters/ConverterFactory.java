@@ -1,6 +1,7 @@
 package com.schegolevalex.boilerhouse.unit_converter.measure_converters;
 
 import com.schegolevalex.boilerhouse.unit_converter.entities.units.UnitType;
+import com.schegolevalex.boilerhouse.unit_converter.exceptions.IllegalMeasureException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.List;
@@ -15,8 +16,10 @@ public class ConverterFactory {
     }
 
     public MeasureConverter getConverter(UnitType unitType) {
-        // todo обработать null?
-        return converters.stream().filter(c -> c.getType() == unitType).findFirst().orElse(null);
+        MeasureConverter converter = converters.stream().filter(c -> c.getType() == unitType).findFirst().orElse(null);
+        if (converter == null) {
+            throw new IllegalMeasureException("No converter for unit type \"" + unitType + "\".");
+        } else return converter;
     }
 
 }
