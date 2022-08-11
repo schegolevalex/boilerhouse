@@ -1,4 +1,4 @@
-package com.schegolevalex.boilerhouse.unit_converter.entities.checkers;
+package com.schegolevalex.boilerhouse.unit_converter.entities.measures.constraints;
 
 import com.schegolevalex.boilerhouse.unit_converter.entities.measures.Measure;
 import com.schegolevalex.boilerhouse.unit_converter.entities.units.Unit;
@@ -22,13 +22,16 @@ public class TemperatureConstraint extends MeasureConstraint {
 
     @Override
     public void check(BigDecimal value, Unit unit) {
-//        Measure measureWithPrimaryValueAndUnit = converter.convertUtil(value, unit);
-//        if (measureWithPrimaryValueAndUnit.getValue().compareTo(BigDecimal.valueOf(0)) < 0) {
-//            Measure constraintMeasure = new Measure(BigDecimal.valueOf(0), unitRepository.getByFullName("KELVIN"));
-//            Measure convertedConstraintMeasure = converter.convert(constraintMeasure, unit);
-//            throw new IllegalMeasureException("Значение должно быть больше "
-//                    + convertedConstraintMeasure
-//                    + convertedConstraintMeasure.getUnit().getShortName());
-//        }
+        Measure primaryMeasure = converter.convert(value,
+                unit,
+                unitRepository.getBySubtypeAndIsPrimaryIsTrue(unit.getSubtype()));
+
+        if (primaryMeasure.getValue().compareTo(BigDecimal.valueOf(-273.15)) < 0) {
+            Measure constraintMeasure = new Measure(BigDecimal.valueOf(-273.15), unitRepository.getByFullName("DEGREE_CELSIUS"));
+            Measure convertedConstraintMeasure = converter.convert(constraintMeasure, unit);
+            throw new IllegalMeasureException("The value must be greater than "
+                    + convertedConstraintMeasure.getValue() + ""
+                    + convertedConstraintMeasure.getUnit().getShortName());
+        }
     }
 }

@@ -23,35 +23,36 @@ public class TemperatureConverter extends MeasureConverter {
         this.converterType = UnitType.TEMPERATURE;
     }
 
+//    @Override
+//    public Measure convert(BigDecimal valueFrom, Unit unitFrom, Unit unitTo) {
+//        //проверка на соответствие типов
+//        isTheSameType(unitFrom, unitTo);
+//
+//        //получили коэффициент из отношения подтипов
+//        BigDecimal subtypeCoefficient = BigDecimal.valueOf(1);
+//        if (unitFrom.getSubtype() != null
+//                && unitTo.getSubtype() != null
+//                && !unitFrom.getSubtype().equals(unitTo.getSubtype()))
+//            subtypeCoefficient = getSubtypeCoefficient(unitFrom, unitTo);
+//
+//        //сконвертировали исходное Measure в primary исходного типа
+//        Measure primaryMeasureFrom = convertToPrimary(valueFrom,
+//                unitFrom,
+//                unitRepository.getBySubtypeAndIsPrimaryIsTrue(unitFrom.getSubtype()));
+//
+//        //и умножили его на коэффициент из отношения подтипов, полученный выше.
+//        //Тем самым мы перевели исходное значение value в primary другого типа.
+//        Measure primaryMeasureTo = new Measure(primaryMeasureFrom.getValue().multiply(subtypeCoefficient),
+//                unitRepository.getBySubtypeAndIsPrimaryIsTrue(unitTo.getSubtype()));
+//
+//        //Cконвертировали primaryMeasureTo с прошлого шага в целевой Unit.
+//        return convertFromPrimary(primaryMeasureTo, unitTo);
+//    }
+
     @Override
-    public Measure convert(Measure measureFrom, Unit unitTo) {
-        //проверка на соответствие типов
-        isTheSameType(measureFrom, unitTo);
-
-        //получили коэффициент из отношения подтипов
-        BigDecimal subtypeCoefficient = BigDecimal.valueOf(1);
-        if (measureFrom.getUnit().getSubtype() != null
-                && unitTo.getSubtype() != null
-                && !measureFrom.getUnit().getSubtype().equals(unitTo.getSubtype()))
-            subtypeCoefficient = getSubtypeCoefficient(measureFrom.getUnit(), unitTo);
-
-        //сконвертировали исходное Measure в primary исходного типа
-        Measure primaryMeasureFrom = convertTemperatureToPrimary(measureFrom);
-
-        //и умножили его на коэффициент из отношения подтипов, полученный выше.
-        //Тем самым мы перевели исходное значение value в primary другого типа.
-        Measure primaryMeasureTo = new Measure(primaryMeasureFrom.getValue().multiply(subtypeCoefficient),
-                unitRepository.getBySubtypeAndIsPrimaryIsTrue(unitTo.getSubtype()));
-
-        //Cконвертировали primaryMeasureTo с прошлого шага в целевой Unit.
-        return convertTemperatureFromPrimary(primaryMeasureTo, unitTo);
-    }
-
-    private Measure convertTemperatureToPrimary(Measure measureFrom) {
-        Temperature temperatureFrom = (Temperature) measureFrom.getUnit();
-        Temperature temperatureTo = (Temperature) unitRepository.getBySubtypeAndIsPrimaryIsTrue(measureFrom.getUnit().getSubtype());
-
-        BigDecimal valueFrom = measureFrom.getValue();
+    Measure convertToPrimary(BigDecimal valueFrom, Unit unitFrom, Unit unitTo) {
+        Temperature temperatureFrom = (Temperature) unitFrom;
+        Temperature temperatureTo = (Temperature) unitTo;
 
         BigDecimal valueTo = valueFrom
                 .multiply(temperatureFrom.getCoefficient())
@@ -59,16 +60,13 @@ public class TemperatureConverter extends MeasureConverter {
                 .add(temperatureFrom.getTerm())
                 .stripTrailingZeros();
 
-        measureFrom.setValue(valueTo);
-        measureFrom.setUnit(temperatureTo);
-        return measureFrom;
+        return new Measure(valueTo, unitTo);
     }
 
-    private Measure convertTemperatureFromPrimary(Measure measureFrom, Unit unitTo) {
-        Temperature temperatureFrom = (Temperature) measureFrom.getUnit();
+    @Override
+    Measure convertFromPrimary(BigDecimal valueFrom, Unit unitFrom, Unit unitTo) {
+        Temperature temperatureFrom = (Temperature) unitFrom;
         Temperature temperatureTo = (Temperature) unitTo;
-
-        BigDecimal valueFrom = measureFrom.getValue();
 
         BigDecimal valueTo = valueFrom
                 .multiply(temperatureTo.getCoefficientFromPrimary())
@@ -76,8 +74,6 @@ public class TemperatureConverter extends MeasureConverter {
                 .add(temperatureTo.getTermFromPrimary())
                 .stripTrailingZeros();
 
-        measureFrom.setValue(valueTo);
-        measureFrom.setUnit(temperatureTo);
-        return measureFrom;
+        return new Measure(valueTo, unitTo);
     }
 }
