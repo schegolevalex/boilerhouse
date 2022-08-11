@@ -69,7 +69,9 @@ public abstract class MeasureConverter {
     }
 
     Measure convertFromPrimary(Measure measureFrom, Unit unitTo) {
-        return convertToPrimary(measureFrom, unitTo);
+        BigDecimal valueFrom = measureFrom.getValue();
+        Unit unitFrom = measureFrom.getUnit();
+        return convertFromPrimary(valueFrom, unitFrom, unitTo);
     }
 
     void isTheSameType(Unit unitFrom, Unit unitTo) {
