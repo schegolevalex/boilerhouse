@@ -5,14 +5,14 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "discriminator", discriminatorType = DiscriminatorType.STRING)
 @Table(name = "abstract_unit")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 public abstract class Unit {
     @Column(name = "type", nullable = false)

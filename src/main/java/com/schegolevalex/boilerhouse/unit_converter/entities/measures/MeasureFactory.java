@@ -9,7 +9,7 @@ import java.util.List;
 
 @Component
 public class MeasureFactory {
-    private List<MeasureConstraint> constraintsList;
+    private final List<MeasureConstraint> constraintsList;
 
     public MeasureFactory(List<MeasureConstraint> constraintsList) {
         this.constraintsList = constraintsList;
