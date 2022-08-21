@@ -15,9 +15,9 @@ import java.math.RoundingMode;
 import java.util.Optional;
 
 public abstract class MeasureConverter {
-    protected UnitType converterType;
-    protected UnitRepository unitRepository;
-    protected RelationInTypeRepository relationInTypeRepository;
+    UnitType converterType;
+    UnitRepository unitRepository;
+    RelationInTypeRepository relationInTypeRepository;
 
     public Measure convert(BigDecimal valueFrom, Unit unitFrom, Unit unitTo) {
         //проверка на соответствие типов

@@ -10,12 +10,11 @@ import java.math.BigDecimal;
 
 @Getter
 public abstract class MeasureConstraint {
-    protected final MeasureConverter converter;
-    protected final UnitRepository unitRepository;
+    final MeasureConverter converter;
+    final UnitRepository unitRepository;
+    UnitType type;
 
-    protected UnitType type;
-
-    protected MeasureConstraint(MeasureConverter converter, UnitRepository unitRepository) {
+    MeasureConstraint(MeasureConverter converter, UnitRepository unitRepository) {
         this.converter = converter;
         this.unitRepository = unitRepository;
     }
