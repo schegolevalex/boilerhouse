@@ -1,12 +1,11 @@
 package unit_converter.measure_converters;
 
-import unit_converter.entities.units.UnitType;
-import unit_converter.exceptions.IllegalMeasureException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import unit_converter.entities.units.UnitType;
+import unit_converter.exceptions.IllegalMeasureException;
 
 import java.util.List;
-import java.util.function.Supplier;
 
 @Component
 public class ConverterFactory {
@@ -17,7 +16,7 @@ public class ConverterFactory {
         this.converters = converters;
     }
 
-    public MeasureConverter getConverter(UnitType unitType) throws Throwable {
+    public MeasureConverter getConverter(UnitType unitType) {
         return converters
                 .stream()
                 .filter(c -> c.getType() == unitType)
@@ -26,7 +25,7 @@ public class ConverterFactory {
                         .stream()
                         .filter(c -> c.getType() == UnitType.DEFAULT)
                         .findFirst()
-                        .orElseThrow((Supplier<Throwable>) () -> new IllegalMeasureException("No converter for this this unit type.")));
+                        .orElseThrow(() -> new IllegalMeasureException("No converter for this this unit type.")));
     }
 
 }

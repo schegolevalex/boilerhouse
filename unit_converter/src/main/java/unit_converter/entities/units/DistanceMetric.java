@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -18,7 +17,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Setter
 @Getter
-public class DistanceMetric extends Unit {
+public class DistanceMetric extends Distance {
 
     public DistanceMetric(String fullName, String shortName, BigDecimal coefficient, Boolean isPrimary) {
         super(UnitType.DISTANCE, fullName, shortName, coefficient, isPrimary);

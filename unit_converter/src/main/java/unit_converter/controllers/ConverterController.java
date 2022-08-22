@@ -23,7 +23,7 @@ public class ConverterController {
     @GetMapping("/")
     public Measure onReceive(@RequestParam("value") BigDecimal value,
                              @RequestParam("from") Unit unitFrom,
-                             @RequestParam("to") Unit unitTo) throws Throwable {
+                             @RequestParam("to") Unit unitTo) {
 
         return converterProcessor.getConvertedResult(value, unitFrom, unitTo);
     }
