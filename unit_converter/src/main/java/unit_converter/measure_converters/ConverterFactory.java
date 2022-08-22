@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 @Component
 public class ConverterFactory {
@@ -16,11 +17,16 @@ public class ConverterFactory {
         this.converters = converters;
     }
 
-    public MeasureConverter getConverter(UnitType unitType) {
-        MeasureConverter converter = converters.stream().filter(c -> c.getType() == unitType).findFirst().orElse(null);
-        if (converter == null) {
-            throw new IllegalMeasureException("No converter for unit type \"" + unitType + "\".");
-        } else return converter;
+    public MeasureConverter getConverter(UnitType unitType) throws Throwable {
+        return converters
+                .stream()
+                .filter(c -> c.getType() == unitType)
+                .findFirst()
+                .orElse(converters
+                        .stream()
+                        .filter(c -> c.getType() == UnitType.DEFAULT)
+                        .findFirst()
+                        .orElseThrow((Supplier<Throwable>) () -> new IllegalMeasureException("No converter for this this unit type.")));
     }
 
 }

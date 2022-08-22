@@ -1,5 +1,7 @@
 package unit_converter.measure_converters;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import unit_converter.entities.measures.Measure;
 import unit_converter.entities.relations_in_type.Relation;
 import unit_converter.entities.relations_in_type.RelationInType;
@@ -14,10 +16,17 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Optional;
 
-public abstract class MeasureConverter {
-    UnitType converterType;
+@Component
+public class MeasureConverter {
+    UnitType converterType = UnitType.DEFAULT;
     UnitRepository unitRepository;
     RelationInTypeRepository relationInTypeRepository;
+
+    @Autowired
+    public MeasureConverter(UnitRepository unitRepository, RelationInTypeRepository relationInTypeRepository) {
+        this.unitRepository = unitRepository;
+        this.relationInTypeRepository = relationInTypeRepository;
+    }
 
     public Measure convert(BigDecimal valueFrom, Unit unitFrom, Unit unitTo) {
         //проверка на соответствие типов

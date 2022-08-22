@@ -19,7 +19,7 @@ public class ConverterProcessor {
         this.factory = factory;
     }
 
-    public Measure getConvertedResult(BigDecimal value, Unit unitFrom, Unit unitTo) {
+    public Measure getConvertedResult(BigDecimal value, Unit unitFrom, Unit unitTo) throws Throwable {
         Measure measure = measureFactory.createMeasure(value, unitFrom);
         MeasureConverter converter = factory.getConverter(unitFrom.getType());
         return converter.convert(measure, unitTo);

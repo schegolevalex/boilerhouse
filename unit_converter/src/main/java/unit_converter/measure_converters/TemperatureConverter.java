@@ -18,8 +18,7 @@ public class TemperatureConverter extends MeasureConverter {
     @Autowired
     public TemperatureConverter(UnitRepository unitRepository,
                                 RelationInTypeRepository relationInTypeRepository) {
-        this.unitRepository = unitRepository;
-        this.relationInTypeRepository = relationInTypeRepository;
+        super(unitRepository, relationInTypeRepository);
         this.converterType = UnitType.TEMPERATURE;
     }
 
