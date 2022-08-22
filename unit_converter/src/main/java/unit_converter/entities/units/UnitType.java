@@ -7,6 +7,6 @@ public enum UnitType {
     VOLUME,
     TEMPERATURE,
     PRESSURE,
-
+    POWER
 
 }

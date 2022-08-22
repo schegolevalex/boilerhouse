@@ -3,10 +3,7 @@ package unit_converter.configs;
 import unit_converter.controllers.converters.StringToUnitConverter;
 import unit_converter.entities.relations_in_type.Relation;
 import unit_converter.entities.relations_in_type.RelationInType;
-import unit_converter.entities.units.DistanceImperial;
-import unit_converter.entities.units.DistanceMetric;
-import unit_converter.entities.units.Temperature;
-import unit_converter.entities.units.UnitType;
+import unit_converter.entities.units.*;
 import unit_converter.repositories.RelationInTypeRepository;
 import unit_converter.repositories.UnitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +53,40 @@ public class ApplicationConfig implements WebMvcConfigurer {
         unitRepository.save(new Temperature("KELVIN", "K", 1, -273.15, 1, 273.15, false));
         unitRepository.save(new Temperature("DEGREE_FAHRENHEIT", "°F", 5.0 / 9, -5.0 / 9 * 32, 9 / 5.0, 32, false));
 
+        unitRepository.save(new PowerInternationalSystem("MEGAWATT", "MW", 1, true));
+        unitRepository.save(new PowerInternationalSystem("KILOWATT", "kW", 1E-3, false));
+        unitRepository.save(new PowerInternationalSystem("GIGAWATT", "GW", 1E3, false));
+        unitRepository.save(new PowerInternationalSystem("WATT", "W", 1E-6, false));
+        unitRepository.save(new PowerInternationalSystem("VOLT-AMPERE", "VA", 1E-6, false));
+
+        unitRepository.save(new PowerCommonUnits("GIGACALORIES_PER_HOUR", "Gcal/h", 1, true));
+        unitRepository.save(new PowerCommonUnits("GIGACALORIES_PER_MINUTE", "Gcal/m", 60, false));
+        unitRepository.save(new PowerCommonUnits("GIGACALORIES_PER_SECOND", "Gcal/s", 3600, false));
+        unitRepository.save(new PowerCommonUnits("KILOCALORIES_PER_HOUR", "kcal/h", 1 / 1E6, false));
+        unitRepository.save(new PowerCommonUnits("KILOCALORIES_PER_MINUTE", "kcal/m", 60 / 1E6, false));
+        unitRepository.save(new PowerCommonUnits("KILOCALORIES_PER_SECOND", "kcal/s", 3600 / 1E6, false));
+        unitRepository.save(new PowerCommonUnits("CALORIES_PER_HOUR", "cal/h", 1 / 1E9, false));
+        unitRepository.save(new PowerCommonUnits("CALORIES_PER_MINUTE", "cal/m", 60 / 1E9, false));
+        unitRepository.save(new PowerCommonUnits("CALORIES_PER_SECOND", "cal/s", 3600 / 1E9, false));
+        unitRepository.save(new PowerCommonUnits("MEGACALORIES_PER_HOUR", "Mcal/h", 1 / 1E3, false));
+        unitRepository.save(new PowerCommonUnits("MEGACALORIES_PER_MINUTE", "Mcal/m", 60 / 1E3, false));
+        unitRepository.save(new PowerCommonUnits("MEGACALORIES_PER_SECOND", "Mcal/s", 3600 / 1E3, false));
+
+        unitRepository.save(new PowerCommonUnits("GIGAJOULE_PER_HOUR", "GJ/h", 0.238845897 * 1, false));
+        unitRepository.save(new PowerCommonUnits("GIGAJOULE_PER_MINUTE", "GJ/m", 0.238845897 * 60, false));
+        unitRepository.save(new PowerCommonUnits("GIGAJOULE_PER_SECOND", "GJ/s", 0.238845897 * 3600, false));
+        unitRepository.save(new PowerCommonUnits("MEGAJOULE_PER_HOUR", "MJ/h", 0.238845897 * 1 / 1E6, false));
+        unitRepository.save(new PowerCommonUnits("MEGAJOULE_PER_MINUTE", "MJ/m", 0.238845897 * 60 / 1E6, false));
+        unitRepository.save(new PowerCommonUnits("MEGAJOULE_PER_SECOND", "MJ/s", 0.238845897 * 3600 / 1E6, false));
+        unitRepository.save(new PowerCommonUnits("KILOJOULE_PER_HOUR", "J/h", 0.238845897 * 1 / 1E3, false));
+        unitRepository.save(new PowerCommonUnits("KILOJOULE_PER_MINUTE", "J/m", 0.238845897 * 60 / 1E3, false));
+        unitRepository.save(new PowerCommonUnits("KILOJOULE_PER_SECOND", "J/s", 0.238845897 * 3600 / 1E3, false));
+        unitRepository.save(new PowerCommonUnits("JOULE_PER_HOUR", "J/h", 0.238845897 * 1 / 1E9, false));
+        unitRepository.save(new PowerCommonUnits("JOULE_PER_MINUTE", "J/m", 0.238845897 * 60 / 1E9, false));
+        unitRepository.save(new PowerCommonUnits("JOULE_PER_SECOND", "J/s", 0.238845897 * 3600 / 1E9, false));
+
         relationInTypeRepository.save(new RelationInType(new Relation("distance_metric", "distance_imperial"), BigDecimal.valueOf(39.3700787), UnitType.DISTANCE));
+        relationInTypeRepository.save(new RelationInType(new Relation("power_international_system", "power_common_units"), BigDecimal.valueOf(0.85984523), UnitType.POWER));
 
     }
 }
