@@ -9,5 +9,7 @@ public enum UnitType {
     TEMPERATURE,
     PRESSURE,
     POWER,
+    FLOW_RATE_BY_MASS,
+
 
 }
