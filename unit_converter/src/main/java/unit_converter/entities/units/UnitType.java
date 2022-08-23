@@ -10,6 +10,6 @@ public enum UnitType {
     PRESSURE,
     POWER,
     FLOW_RATE_BY_MASS,
-
+    FLOW_RATE_BY_VOLUME,
 
 }

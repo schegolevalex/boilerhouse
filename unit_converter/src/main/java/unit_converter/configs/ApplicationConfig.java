@@ -101,15 +101,32 @@ public class ApplicationConfig implements WebMvcConfigurer {
         unitRepository.save(new FlowRateByMassMetric("GRAM_PER_DAY", "g/d", 1 / 1E6 / 24, false));
         unitRepository.save(new FlowRateByMassMetric("GRAM_PER_YEAR", "g/y", 1 / 1E6 / 24 / 365, false));
 
+        unitRepository.save(new FlowRateByMassImperial("POUND_PER_HOUR", "lb/h", 1.0, true));
+        unitRepository.save(new FlowRateByMassImperial("POUND_PER_MINUTE", "lb/m", 1.0 * 60, false));
+        unitRepository.save(new FlowRateByMassImperial("POUND_PER_SECOND", "lb/s", 1.0 * 3600, false));
+        unitRepository.save(new FlowRateByMassImperial("POUND_PER_DAY", "lb/d", 1.0 / 24, false));
+        unitRepository.save(new FlowRateByMassImperial("POUND_PER_YEAR", "lb/y", 1.0 / 24 / 365, false));
+        unitRepository.save(new FlowRateByMassImperial("OUNCE_PER_HOUR", "oz/h", 0.0625, false));
+        unitRepository.save(new FlowRateByMassImperial("OUNCE_PER_MINUTE", "oz/m", 0.0625 * 60, false));
+        unitRepository.save(new FlowRateByMassImperial("OUNCE_PER_SECOND", "oz/s", 0.0625 * 3600, false));
+        unitRepository.save(new FlowRateByMassImperial("OUNCE_PER_DAY", "oz/d", 0.0625 / 24, false));
+        unitRepository.save(new FlowRateByMassImperial("OUNCE_PER_YEAR", "oz/y", 0.0625 / 24 / 365, false));
 
         unitRepository.save(new MassMetric("TONNE", "t", 1.0, true));
         unitRepository.save(new MassMetric("KILOGRAM", "kg", 1E3, false));
         unitRepository.save(new MassMetric("GRAM", "g", 1E6, false));
         unitRepository.save(new MassMetric("MILLIGRAM", "mg", 1E9, false));
         unitRepository.save(new MassMetric("MICROGRAM", "mcg", 1E12, false));
+        unitRepository.save(new MassImperial("POUND", "lb", 1.0, true));
+        unitRepository.save(new MassImperial("OUNCE", "oz", 0.0625, false));
+
 
         relationInTypeRepository.save(new RelationInType(new Relation("distance_metric", "distance_imperial"), BigDecimal.valueOf(39.3700787), UnitType.DISTANCE));
         relationInTypeRepository.save(new RelationInType(new Relation("power_international_system", "power_common_units"), BigDecimal.valueOf(0.85984523), UnitType.POWER));
+        relationInTypeRepository.save(new RelationInType(new Relation("flow_rate_by_mass_metric", "flow_rate_by_mass_imperial"), BigDecimal.valueOf(2204.62262), UnitType.FLOW_RATE_BY_MASS));
+        relationInTypeRepository.save(new RelationInType(new Relation("mass_metric", "mass_imperial"), BigDecimal.valueOf(2204.62262), UnitType.MASS));
+//        relationInTypeRepository.save(new RelationInType(new Relation("flow_rate_by_volume_metric", "flow_rate_by_volume_imperial"), BigDecimal.valueOf(), UnitType.FLOW_RATE_BY_VOLUME));
+
 
     }
 }
