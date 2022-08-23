@@ -85,6 +85,29 @@ public class ApplicationConfig implements WebMvcConfigurer {
         unitRepository.save(new PowerCommonUnits("JOULE_PER_MINUTE", "J/m", 0.238845897 * 60 / 1E9, false));
         unitRepository.save(new PowerCommonUnits("JOULE_PER_SECOND", "J/s", 0.238845897 * 3600 / 1E9, false));
 
+        unitRepository.save(new FlowRateByMassMetric("TONNE_PER_HOUR", "t/h", 1.0, true));
+        unitRepository.save(new FlowRateByMassMetric("TONNE_PER_MINUTE", "t/m", 1.0 * 60, false));
+        unitRepository.save(new FlowRateByMassMetric("TONNE_PER_SECOND", "t/s", 1.0 * 3600, false));
+        unitRepository.save(new FlowRateByMassMetric("TONNE_PER_DAY", "t/d", 1.0 / 24, false));
+        unitRepository.save(new FlowRateByMassMetric("TONNE_PER_YEAR", "t/y", 1.0 / 24 / 365, false));
+        unitRepository.save(new FlowRateByMassMetric("KILOGRAM_PER_HOUR", "kg/h", 1.0 / 1E3, false));
+        unitRepository.save(new FlowRateByMassMetric("KILOGRAM_PER_MINUTE", "kg/m", 1.0 * 60 / 1E3, false));
+        unitRepository.save(new FlowRateByMassMetric("KILOGRAM_PER_SECOND", "kg/s", 1.0 * 3600 / 1E3, false));
+        unitRepository.save(new FlowRateByMassMetric("KILOGRAM_PER_DAY", "kg/d", 1.0 / 1E3 / 24, false));
+        unitRepository.save(new FlowRateByMassMetric("KILOGRAM_PER_YEAR", "kg/y", 1.0 / 1E3 / 24 / 365, false));
+        unitRepository.save(new FlowRateByMassMetric("GRAM_PER_HOUR", "g/h", 1.0 / 1E6, false));
+        unitRepository.save(new FlowRateByMassMetric("GRAM_PER_MINUTE", "g/m", 1.0 * 60 / 1E6, false));
+        unitRepository.save(new FlowRateByMassMetric("GRAM_PER_SECOND", "g/s", 1.0 * 3600 / 1E6, false));
+        unitRepository.save(new FlowRateByMassMetric("GRAM_PER_DAY", "g/d", 1 / 1E6 / 24, false));
+        unitRepository.save(new FlowRateByMassMetric("GRAM_PER_YEAR", "g/y", 1 / 1E6 / 24 / 365, false));
+
+
+        unitRepository.save(new MassMetric("TONNE", "t", 1.0, true));
+        unitRepository.save(new MassMetric("KILOGRAM", "kg", 1E3, false));
+        unitRepository.save(new MassMetric("GRAM", "g", 1E6, false));
+        unitRepository.save(new MassMetric("MILLIGRAM", "mg", 1E9, false));
+        unitRepository.save(new MassMetric("MICROGRAM", "mcg", 1E12, false));
+
         relationInTypeRepository.save(new RelationInType(new Relation("distance_metric", "distance_imperial"), BigDecimal.valueOf(39.3700787), UnitType.DISTANCE));
         relationInTypeRepository.save(new RelationInType(new Relation("power_international_system", "power_common_units"), BigDecimal.valueOf(0.85984523), UnitType.POWER));
 

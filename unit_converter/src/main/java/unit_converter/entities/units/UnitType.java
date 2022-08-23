@@ -3,7 +3,7 @@ package unit_converter.entities.units;
 public enum UnitType {
     DEFAULT,
     DISTANCE,
-    WEIGHT,
+    MASS,
     AREA,
     VOLUME,
     TEMPERATURE,
