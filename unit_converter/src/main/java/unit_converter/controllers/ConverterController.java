@@ -31,7 +31,6 @@ public class ConverterController {
     @GetMapping("/convert_to_primary")
     public Measure convertToPrimary(@RequestParam("value") BigDecimal value,
                                     @RequestParam("from") Unit unitFrom) {
-        Unit unitTo =
-        return converterProcessor.getConvertedResult(value, unitFrom, unitTo);
+        return converterProcessor.getConvertedResult(value, unitFrom);
     }
 }
