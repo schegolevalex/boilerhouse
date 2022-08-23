@@ -1,8 +1,8 @@
 package unit_converter.entities.relations_in_type;
 
-import unit_converter.entities.units.UnitType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import unit_converter.entities.units.UnitType;
 
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;

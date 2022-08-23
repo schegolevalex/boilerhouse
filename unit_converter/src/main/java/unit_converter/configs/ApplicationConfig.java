@@ -1,15 +1,15 @@
 package unit_converter.configs;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.format.FormatterRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import unit_converter.controllers.converters.StringToUnitConverter;
 import unit_converter.entities.relations_in_type.Relation;
 import unit_converter.entities.relations_in_type.RelationInType;
 import unit_converter.entities.units.*;
 import unit_converter.repositories.RelationInTypeRepository;
 import unit_converter.repositories.UnitRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.format.FormatterRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;

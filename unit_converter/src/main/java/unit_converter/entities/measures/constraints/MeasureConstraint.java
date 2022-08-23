@@ -1,10 +1,10 @@
 package unit_converter.entities.measures.constraints;
 
+import lombok.Getter;
 import unit_converter.entities.units.Unit;
 import unit_converter.entities.units.UnitType;
 import unit_converter.measure_converters.MeasureConverter;
 import unit_converter.repositories.UnitRepository;
-import lombok.Getter;
 
 import java.math.BigDecimal;
 

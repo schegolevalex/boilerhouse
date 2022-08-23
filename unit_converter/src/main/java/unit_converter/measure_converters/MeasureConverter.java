@@ -19,8 +19,8 @@ import java.util.Optional;
 @Component
 public class MeasureConverter {
     UnitType converterType = UnitType.DEFAULT;
-    UnitRepository unitRepository;
-    RelationInTypeRepository relationInTypeRepository;
+    final UnitRepository unitRepository;
+    final RelationInTypeRepository relationInTypeRepository;
 
     @Autowired
     public MeasureConverter(UnitRepository unitRepository, RelationInTypeRepository relationInTypeRepository) {
@@ -40,9 +40,7 @@ public class MeasureConverter {
             subtypeCoefficient = getSubtypeCoefficient(unitFrom, unitTo);
 
         //сконвертировали исходное Measure в primary исходного типа
-        Measure primaryMeasureFrom = convertToPrimary(valueFrom,
-                unitFrom,
-                unitRepository.getBySubtypeAndIsPrimaryIsTrue(unitFrom.getSubtype()));
+        Measure primaryMeasureFrom = convertToPrimary(valueFrom, unitFrom);
 
         //и умножили его на коэффициент из отношения подтипов, полученный выше.
         //Тем самым мы перевели исходное значение valueFrom в primary другого типа.
@@ -65,6 +63,12 @@ public class MeasureConverter {
                 .divide(unitTo.getCoefficient(), 10, RoundingMode.HALF_UP)
                 .stripTrailingZeros();
         return new Measure(valueTo, unitTo);
+    }
+
+    public Measure convertToPrimary(BigDecimal valueFrom, Unit unitFrom) {
+        return convertToPrimary(valueFrom,
+                unitFrom,
+                unitRepository.getBySubtypeAndIsPrimaryIsTrue(unitFrom.getSubtype()));
     }
 
     Measure convertToPrimary(Measure measureFrom, Unit unitTo) {

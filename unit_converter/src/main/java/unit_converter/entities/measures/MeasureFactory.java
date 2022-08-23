@@ -1,8 +1,8 @@
 package unit_converter.entities.measures;
 
+import org.springframework.stereotype.Component;
 import unit_converter.entities.measures.constraints.MeasureConstraint;
 import unit_converter.entities.units.Unit;
-import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.List;

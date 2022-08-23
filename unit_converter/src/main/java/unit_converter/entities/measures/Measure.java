@@ -1,12 +1,12 @@
 package unit_converter.entities.measures;
 
-import unit_converter.entities.units.Unit;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
+import unit_converter.entities.units.Unit;
 
 import java.math.BigDecimal;
 

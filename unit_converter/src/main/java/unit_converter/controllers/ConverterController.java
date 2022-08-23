@@ -1,12 +1,12 @@
 package unit_converter.controllers;
 
-import unit_converter.entities.measures.Measure;
-import unit_converter.entities.units.Unit;
-import unit_converter.measure_converters.ConverterProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import unit_converter.entities.measures.Measure;
+import unit_converter.entities.units.Unit;
+import unit_converter.measure_converters.ConverterProcessor;
 
 import java.math.BigDecimal;
 
@@ -20,11 +20,18 @@ public class ConverterController {
         this.converterProcessor = converterProcessor;
     }
 
-    @GetMapping("/")
-    public Measure onReceive(@RequestParam("value") BigDecimal value,
-                             @RequestParam("from") Unit unitFrom,
-                             @RequestParam("to") Unit unitTo) {
+    @GetMapping("/convert")
+    public Measure convert(@RequestParam("value") BigDecimal value,
+                           @RequestParam("from") Unit unitFrom,
+                           @RequestParam("to") Unit unitTo) {
 
+        return converterProcessor.getConvertedResult(value, unitFrom, unitTo);
+    }
+
+    @GetMapping("/convert_to_primary")
+    public Measure convertToPrimary(@RequestParam("value") BigDecimal value,
+                                    @RequestParam("from") Unit unitFrom) {
+        Unit unitTo =
         return converterProcessor.getConvertedResult(value, unitFrom, unitTo);
     }
 }
