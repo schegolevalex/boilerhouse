@@ -11,5 +11,4 @@ public class ApplicationConfig implements WebMvcConfigurer {
     public RestTemplate restTemplate(){
         return new RestTemplate();
     }
-
 }
