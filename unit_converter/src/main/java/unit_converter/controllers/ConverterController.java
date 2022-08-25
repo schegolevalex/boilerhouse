@@ -1,6 +1,7 @@
 package unit_converter.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -58,7 +59,12 @@ public class ConverterController {
 
     @GetMapping("/units")
     public CollectionModel<EntityModel<Unit>> getAllUnits() {
-        List<EntityModel<Unit>> units = unitRepository.findAll().stream().map(assembler::toModel).collect(Collectors.toList());
+        List<EntityModel<Unit>> units = unitRepository
+                .findAll(Sort.by("type", "subtype").and(Sort.by(Sort.Direction.DESC, "isPrimary").and(Sort.by("fullName"))))
+                .stream()
+                .sorted((o1, o2) -> o1.getType().compareTo(o2.getType()))
+                .map(assembler::toModel)
+                .collect(Collectors.toList());
         return CollectionModel.of(units,
                 linkTo(methodOn(ConverterController.class).getAllUnits()).withSelfRel());
     }
