@@ -19,5 +19,5 @@ public abstract class MeasureConstraint {
         this.unitRepository = unitRepository;
     }
 
-    public abstract void check(BigDecimal value, Unit unit);
+    public abstract void check(BigDecimal value, Unit clientUnit);
 }

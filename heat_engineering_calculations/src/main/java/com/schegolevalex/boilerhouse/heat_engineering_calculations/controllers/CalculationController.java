@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import unit_converter.entities.measures.Measure;
-import unit_converter.entities.units.FlowRateByMass;
 
 @RestController
 public class CalculationController {
@@ -17,7 +16,7 @@ public class CalculationController {
     }
 
     @PostMapping("/flow-rate-by-mass")
-    public FlowRateByMass getFlowRateByMass(@RequestBody Measure power,
+    public Measure getFlowRateByMass(@RequestBody Measure power,
                                             @RequestBody Measure temperatureLow,
                                             @RequestBody Measure temperatureHigh) {
         return calculation.getFlowRateByMass(power, temperatureLow, temperatureHigh);
