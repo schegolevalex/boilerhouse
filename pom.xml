@@ -10,7 +10,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>com.schegolevalex.boilerhouse</groupId>
+    <groupId>com.schegolevalex</groupId>
     <artifactId>boilerhouse</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>boilerhouse</name>
@@ -18,7 +18,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <java.version>18</java.version>
+        <java.version>8</java.version>
     </properties>
 
     <dependencies>
@@ -53,6 +53,11 @@
         </dependency>
     </dependencies>
 
+    <modules>
+        <module>unit_converter</module>
+        <module>heat_engineering_calculations</module>
+    </modules>
+
     <build>
         <plugins>
             <plugin>
@@ -67,6 +72,8 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                    <classifier>exec</classifier>
+
                 </configuration>
             </plugin>
         </plugins>

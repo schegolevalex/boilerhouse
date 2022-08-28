@@ -6,17 +6,13 @@ import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import unit_converter.entities.measures.Measure;
 
-import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -64,10 +60,10 @@ public class UnitConverterClient {
         ClientUnit clientUnit = restTemplate.getForObject(unitConverterURL + unitPathSegment, ClientUnit.class);
         return null;
     }
-
-    @PostConstruct
-    @Scheduled(fixedDelay = 1, timeUnit = TimeUnit.DAYS)
-    public void setAllClientUnits() {
-        allClientUnits = restTemplate.getForObject(unitConverterURL + unitPathSegment, ArrayList.class);
-    }
+//
+//    @PostConstruct
+//    @Scheduled(fixedDelay = 1, timeUnit = TimeUnit.DAYS)
+//    public void setAllClientUnits() {
+//        allClientUnits = restTemplate.getForObject(unitConverterURL + unitPathSegment, ArrayList.class);
+//    }
 }

@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @EnableScheduling
 @ComponentScan(basePackages = {"unit_converter"})
-public class ApplicationConfig implements WebMvcConfigurer {
+public class HeatEngineeringCalculationsApplicationConfig implements WebMvcConfigurer {
     @Bean
     public RestTemplate restTemplate(){
         return new RestTemplate();

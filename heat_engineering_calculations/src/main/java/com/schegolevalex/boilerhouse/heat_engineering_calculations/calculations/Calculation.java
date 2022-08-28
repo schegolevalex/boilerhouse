@@ -43,7 +43,8 @@ public class Calculation {
         BigDecimal delta = fTemperatureHighValue.subtract(fTemperatureLowValue);
         BigDecimal answer = fPowerValue.divide(delta, RoundingMode.HALF_UP).divide(HEAT_CAPACITY, RoundingMode.HALF_UP);
 
-        return measureFactory.createMeasure(answer, findUnit("TONNE_PER_HOUR"));
+        return null;
+//        return measureFactory.createMeasure(answer, findUnit("TONNE_PER_HOUR"));
     }
 
     private ClientUnit findUnit(String name) {
