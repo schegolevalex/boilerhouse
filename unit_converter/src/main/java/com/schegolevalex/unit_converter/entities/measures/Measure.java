@@ -1,6 +1,6 @@
 package com.schegolevalex.unit_converter.entities.measures;
 
-import com.schegolevalex.unit_converter.entities.units.Unit;
+import com.schegolevalex.library.entities.units.Unit;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

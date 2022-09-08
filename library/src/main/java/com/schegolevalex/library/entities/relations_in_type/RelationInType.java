@@ -1,6 +1,6 @@
 package com.schegolevalex.library.entities.relations_in_type;
 
-import com.schegolevalex.unit_converter.entities.units.UnitType;
+import com.schegolevalex.library.entities.units.UnitType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 

@@ -1,16 +1,16 @@
 package com.schegolevalex.unit_converter.measure_converters;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import com.schegolevalex.unit_converter.entities.measures.Measure;
-import com.schegolevalex.unit_converter.entities.relations_in_type.Relation;
-import com.schegolevalex.unit_converter.entities.relations_in_type.RelationInType;
-import com.schegolevalex.unit_converter.entities.units.Unit;
-import com.schegolevalex.unit_converter.entities.units.UnitType;
+import com.schegolevalex.library.entities.relations_in_type.Relation;
+import com.schegolevalex.library.entities.relations_in_type.RelationInType;
+import com.schegolevalex.library.entities.units.Unit;
+import com.schegolevalex.library.entities.units.UnitType;
 import com.schegolevalex.unit_converter.exceptions.IllegalMeasureException;
 import com.schegolevalex.unit_converter.exceptions.IllegalUnitException;
-import com.schegolevalex.unit_converter.repositories.RelationInTypeRepository;
-import com.schegolevalex.unit_converter.repositories.UnitRepository;
+import com.schegolevalex.unit_converter.repositories.RelationInTypeService;
+import com.schegolevalex.unit_converter.repositories.UnitService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -19,13 +19,13 @@ import java.util.Optional;
 @Component
 public class MeasureConverter {
     UnitType converterType = UnitType.DEFAULT;
-    final UnitRepository unitRepository;
-    final RelationInTypeRepository relationInTypeRepository;
+    final UnitService unitRepository;
+    final RelationInTypeService relationInTypeService;
 
     @Autowired
-    public MeasureConverter(UnitRepository unitRepository, RelationInTypeRepository relationInTypeRepository) {
+    public MeasureConverter(UnitService unitRepository, RelationInTypeService relationInTypeService) {
         this.unitRepository = unitRepository;
-        this.relationInTypeRepository = relationInTypeRepository;
+        this.relationInTypeService = relationInTypeService;
     }
 
     public Measure convert(BigDecimal valueFrom, Unit unitFrom, Unit unitTo) {
@@ -101,12 +101,12 @@ public class MeasureConverter {
         String subtypeFrom = unitFrom.getSubtype();
         String subtypeTo = unitTo.getSubtype();
 
-        Optional<RelationInType> relationInType1 = relationInTypeRepository.findById(new Relation(subtypeFrom, subtypeTo));
+        Optional<RelationInType> relationInType1 = relationInTypeService.findById(new Relation(subtypeFrom, subtypeTo));
         BigDecimal subtypeCoefficient;
         if (relationInType1.isPresent()) {
             subtypeCoefficient = relationInType1.get().getSubtypeCoefficient();
         } else {
-            Optional<RelationInType> relationInType2 = relationInTypeRepository.findById(new Relation(subtypeTo, subtypeFrom));
+            Optional<RelationInType> relationInType2 = relationInTypeService.findById(new Relation(subtypeTo, subtypeFrom));
             if (relationInType2.isPresent()) {
                 subtypeCoefficient = BigDecimal.valueOf(1)
                         .divide(relationInType2.get().getSubtypeCoefficient(), 10, RoundingMode.HALF_UP);

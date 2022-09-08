@@ -1,6 +1,10 @@
 package com.schegolevalex.unit_converter.controllers;
 
-import com.schegolevalex.unit_converter.entities.units.Unit;
+import com.schegolevalex.unit_converter.entities.measures.Measure;
+import com.schegolevalex.library.entities.units.Unit;
+import com.schegolevalex.unit_converter.exceptions.IllegalUnitException;
+import com.schegolevalex.unit_converter.repositories.UnitService;
+import com.schegolevalex.unit_converter.controllers.converters.UnitModelAssembler;
 import com.schegolevalex.unit_converter.measure_converters.ConverterProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -10,10 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.schegolevalex.unit_converter.controllers.converters.UnitModelAssembler;
-import com.schegolevalex.unit_converter.entities.measures.Measure;
-import com.schegolevalex.unit_converter.exceptions.IllegalUnitException;
-import com.schegolevalex.unit_converter.repositories.UnitRepository;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,15 +25,15 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class ConverterController {
 
     private final ConverterProcessor converterProcessor;
-    private final UnitRepository unitRepository;
+    private final UnitService unitService;
     private final UnitModelAssembler assembler;
 
     @Autowired
     public ConverterController(ConverterProcessor converterProcessor,
-                               UnitRepository unitRepository,
+                               UnitService unitService,
                                UnitModelAssembler assembler) {
         this.converterProcessor = converterProcessor;
-        this.unitRepository = unitRepository;
+        this.unitService = unitService;
         this.assembler = assembler;
     }
 
@@ -53,13 +53,13 @@ public class ConverterController {
 
     @GetMapping("/units/{id}")
     public EntityModel<Unit> getUnit(@PathVariable String id) {
-        Unit unit = unitRepository.findById(id).orElseThrow(() -> new IllegalUnitException("No such unit in database"));
+        Unit unit = unitService.findById(id).orElseThrow(() -> new IllegalUnitException("No such unit in database"));
         return assembler.toModel(unit);
     }
 
     @GetMapping("/units")
     public CollectionModel<EntityModel<Unit>> getAllUnits() {
-        List<EntityModel<Unit>> units = unitRepository
+        List<EntityModel<Unit>> units = unitService
                 .findAll(Sort.by("type", "subtype").and(Sort.by(Sort.Direction.DESC, "isPrimary").and(Sort.by("fullName"))))
                 .stream()
                 .sorted((o1, o2) -> o1.getType().compareTo(o2.getType()))

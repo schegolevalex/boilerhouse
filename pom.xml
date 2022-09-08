@@ -54,6 +54,7 @@
     </dependencies>
 
     <modules>
+        <module>library</module>
         <module>unit_converter</module>
         <module>heat_engineering_calculations</module>
     </modules>
@@ -73,9 +74,9 @@
                         </exclude>
                     </excludes>
                     <classifier>exec</classifier>
-
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
 

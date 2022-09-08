@@ -1,8 +1,8 @@
 package com.schegolevalex.unit_converter.entities.measures;
 
-import com.schegolevalex.unit_converter.entities.units.Unit;
-import org.springframework.stereotype.Component;
 import com.schegolevalex.unit_converter.entities.measures.constraints.MeasureConstraint;
+import com.schegolevalex.library.entities.units.Unit;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.List;

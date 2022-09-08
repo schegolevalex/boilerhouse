@@ -1,6 +1,7 @@
 package com.schegolevalex.heat_engineering_calculations.clients;
 
 import com.schegolevalex.heat_engineering_calculations.entities.ClientUnit;
+import com.schegolevalex.unit_converter.entities.measures.Measure;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
@@ -8,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import com.schegolevalex.unit_converter.entities.measures.Measure;
 
 import java.util.HashMap;
 import java.util.List;
