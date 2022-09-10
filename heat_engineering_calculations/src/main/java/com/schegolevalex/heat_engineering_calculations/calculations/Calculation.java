@@ -1,10 +1,10 @@
 package com.schegolevalex.heat_engineering_calculations.calculations;
 
 import com.schegolevalex.heat_engineering_calculations.clients.UnitConverterClient;
-import com.schegolevalex.heat_engineering_calculations.entities.ClientUnit;
 import com.schegolevalex.unit_converter.entities.measures.Measure;
 import com.schegolevalex.unit_converter.entities.measures.MeasureFactory;
 import com.schegolevalex.unit_converter.exceptions.IllegalUnitException;
+import com.schegolevalex.unit_library.entities.units.Unit;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
@@ -47,10 +47,10 @@ public class Calculation {
 //        return measureFactory.createMeasure(answer, findUnit("TONNE_PER_HOUR"));
     }
 
-    private ClientUnit findUnit(String name) {
-        List<ClientUnit> allClientUnits = unitConverterClient.getAllClientUnits();
+    private Unit findUnit(String name) {
+        List<Unit> allUnits = unitConverterClient.getAllUnits();
 
-        return allClientUnits.stream()
+        return allUnits.stream()
                 .filter((clientUnit) -> clientUnit.getFullName() == name)
                 .findFirst()
                 .orElseThrow(() -> new IllegalUnitException("No such unit in database"));

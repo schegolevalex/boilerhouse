@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableScheduling
-@ComponentScan(basePackages = {"unit_converter"})
+@ComponentScan({"com.schegolevalex.unit_converter"})
 public class HeatEngineeringCalculationsApplicationConfig implements WebMvcConfigurer {
     @Bean
     public RestTemplate restTemplate(){

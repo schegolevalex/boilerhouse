@@ -1,7 +1,7 @@
 package com.schegolevalex.heat_engineering_calculations.clients;
 
-import com.schegolevalex.heat_engineering_calculations.entities.ClientUnit;
 import com.schegolevalex.unit_converter.entities.measures.Measure;
+import com.schegolevalex.unit_library.entities.units.Unit;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
@@ -26,13 +26,13 @@ public class UnitConverterClient {
     @Value("${unit_converter.convert-to-primary-path-segment}")
     String convertToPrimaryPathSegment;
 
-    @Value("${unit_converter.clientUnit-path-segment}")
+    @Value("${unit_converter.unit-path-segment}")
     String unitPathSegment;
 
     final RestTemplate restTemplate;
 
     @Getter
-    List<ClientUnit> allClientUnits;
+    private List<Unit> allUnits;
 
     @Autowired
     public UnitConverterClient(RestTemplate restTemplate) {
@@ -47,18 +47,17 @@ public class UnitConverterClient {
         return restTemplate.getForEntity(unitConverterURL + convertToPrimaryPathSegment, Measure.class, parameters).getBody();
     }
 
-    public Measure convert(Measure measure, ClientUnit clientUnitTo) {
+    public Measure convert(Measure measure, Unit unitTo) {
         Map<String, String> parameters = new HashMap<>();
         parameters.put("value", String.valueOf(measure.getValue()));
         parameters.put("unitFrom", String.valueOf(measure.getUnit()));
-        parameters.put("unitTo", String.valueOf(clientUnitTo));
+        parameters.put("unitTo", String.valueOf(unitTo));
 
         return restTemplate.getForEntity(unitConverterURL + convertPathSegment, Measure.class, parameters).getBody();
     }
 
-    public ClientUnit getUnit(String id) {
-        ClientUnit clientUnit = restTemplate.getForObject(unitConverterURL + unitPathSegment, ClientUnit.class);
-        return null;
+    public Unit getUnit(String id) {
+        return restTemplate.getForObject(unitConverterURL + unitPathSegment, Unit.class);
     }
 //
 //    @PostConstruct
