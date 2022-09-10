@@ -1,6 +1,6 @@
-package com.schegolevalex.unit_converter.services;
+package com.schegolevalex.unit_library.services;
 
-import com.schegolevalex.unit_converter.repositories.UnitRepository;
+import com.schegolevalex.unit_library.repositories.UnitRepository;
 import com.schegolevalex.unit_library.entities.units.Unit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;

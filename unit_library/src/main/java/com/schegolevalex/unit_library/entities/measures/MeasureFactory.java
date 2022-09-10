@@ -1,6 +1,6 @@
-package com.schegolevalex.unit_converter.entities.measures;
+package com.schegolevalex.unit_library.entities.measures;
 
-import com.schegolevalex.unit_converter.entities.measures.constraints.MeasureConstraint;
+import com.schegolevalex.unit_library.entities.measures.constraints.MeasureConstraint;
 import com.schegolevalex.unit_library.entities.units.Unit;
 import org.springframework.stereotype.Component;
 

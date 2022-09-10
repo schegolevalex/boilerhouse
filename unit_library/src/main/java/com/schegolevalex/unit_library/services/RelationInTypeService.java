@@ -1,6 +1,6 @@
-package com.schegolevalex.unit_converter.services;
+package com.schegolevalex.unit_library.services;
 
-import com.schegolevalex.unit_converter.repositories.RelationInTypeRepository;
+import com.schegolevalex.unit_library.repositories.RelationInTypeRepository;
 import com.schegolevalex.unit_library.entities.relations_in_type.RelationInType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

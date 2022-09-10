@@ -1,4 +1,4 @@
-package com.schegolevalex.unit_converter.exceptions;
+package com.schegolevalex.unit_library.exceptions;
 
 public class IllegalMeasureException extends IllegalArgumentException {
 

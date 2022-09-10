@@ -1,4 +1,4 @@
-package com.schegolevalex.unit_converter.exceptions;
+package com.schegolevalex.unit_library.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

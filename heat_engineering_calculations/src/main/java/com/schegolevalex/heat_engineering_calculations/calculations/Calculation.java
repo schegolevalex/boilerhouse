@@ -1,9 +1,9 @@
 package com.schegolevalex.heat_engineering_calculations.calculations;
 
 import com.schegolevalex.heat_engineering_calculations.clients.UnitConverterClient;
-import com.schegolevalex.unit_converter.entities.measures.Measure;
-import com.schegolevalex.unit_converter.entities.measures.MeasureFactory;
-import com.schegolevalex.unit_converter.exceptions.IllegalUnitException;
+import com.schegolevalex.unit_library.entities.measures.Measure;
+import com.schegolevalex.unit_library.entities.measures.MeasureFactory;
+import com.schegolevalex.unit_library.exceptions.IllegalUnitException;
 import com.schegolevalex.unit_library.entities.units.Unit;
 import lombok.AccessLevel;
 import lombok.Getter;

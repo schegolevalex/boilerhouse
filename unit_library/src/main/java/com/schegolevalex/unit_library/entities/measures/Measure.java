@@ -1,4 +1,4 @@
-package com.schegolevalex.unit_converter.entities.measures;
+package com.schegolevalex.unit_library.entities.measures;
 
 import com.schegolevalex.unit_library.entities.units.Unit;
 import lombok.AccessLevel;

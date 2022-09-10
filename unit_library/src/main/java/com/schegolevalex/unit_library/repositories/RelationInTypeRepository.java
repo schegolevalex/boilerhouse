@@ -1,4 +1,4 @@
-package com.schegolevalex.unit_converter.repositories;
+package com.schegolevalex.unit_library.repositories;
 
 import com.schegolevalex.unit_library.entities.relations_in_type.Relation;
 import com.schegolevalex.unit_library.entities.relations_in_type.RelationInType;

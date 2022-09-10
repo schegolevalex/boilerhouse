@@ -1,8 +1,8 @@
 package com.schegolevalex.unit_converter.configs;
 
 import com.schegolevalex.unit_converter.controllers.converters.StringToUnitConverter;
-import com.schegolevalex.unit_converter.services.RelationInTypeService;
-import com.schegolevalex.unit_converter.services.UnitService;
+import com.schegolevalex.unit_library.services.RelationInTypeService;
+import com.schegolevalex.unit_library.services.UnitService;
 import com.schegolevalex.unit_library.entities.relations_in_type.Relation;
 import com.schegolevalex.unit_library.entities.relations_in_type.RelationInType;
 import com.schegolevalex.unit_library.entities.units.*;

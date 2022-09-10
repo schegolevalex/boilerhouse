@@ -1,4 +1,4 @@
-package com.schegolevalex.unit_converter.exceptions;
+package com.schegolevalex.unit_library.exceptions;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

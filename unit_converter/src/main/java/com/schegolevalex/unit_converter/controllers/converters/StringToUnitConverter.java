@@ -1,7 +1,7 @@
 package com.schegolevalex.unit_converter.controllers.converters;
 
-import com.schegolevalex.unit_converter.exceptions.IllegalUnitException;
-import com.schegolevalex.unit_converter.services.UnitService;
+import com.schegolevalex.unit_library.exceptions.IllegalUnitException;
+import com.schegolevalex.unit_library.services.UnitService;
 import com.schegolevalex.unit_library.entities.units.Unit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;

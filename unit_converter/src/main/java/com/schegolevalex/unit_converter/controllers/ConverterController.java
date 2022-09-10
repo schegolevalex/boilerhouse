@@ -2,10 +2,10 @@ package com.schegolevalex.unit_converter.controllers;
 
 import com.schegolevalex.unit_library.entities.units.Unit;
 import com.schegolevalex.unit_converter.controllers.converters.UnitModelAssembler;
-import com.schegolevalex.unit_converter.entities.measures.Measure;
-import com.schegolevalex.unit_converter.exceptions.IllegalUnitException;
+import com.schegolevalex.unit_library.entities.measures.Measure;
+import com.schegolevalex.unit_library.exceptions.IllegalUnitException;
 import com.schegolevalex.unit_converter.measure_converters.ConverterProcessor;
-import com.schegolevalex.unit_converter.services.UnitService;
+import com.schegolevalex.unit_library.services.UnitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.hateoas.CollectionModel;

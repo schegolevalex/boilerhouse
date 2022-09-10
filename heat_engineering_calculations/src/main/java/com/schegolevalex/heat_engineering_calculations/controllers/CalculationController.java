@@ -1,7 +1,7 @@
 package com.schegolevalex.heat_engineering_calculations.controllers;
 
 import com.schegolevalex.heat_engineering_calculations.calculations.Calculation;
-import com.schegolevalex.unit_converter.entities.measures.Measure;
+import com.schegolevalex.unit_library.entities.measures.Measure;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
