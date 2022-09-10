@@ -1,6 +1,6 @@
 package com.schegolevalex.unit_converter.measure_converters;
 
-import com.schegolevalex.library.entities.units.UnitType;
+import com.schegolevalex.unit_library.entities.units.UnitType;
 import com.schegolevalex.unit_converter.exceptions.IllegalMeasureException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

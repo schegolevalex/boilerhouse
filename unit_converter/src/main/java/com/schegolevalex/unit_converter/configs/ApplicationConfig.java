@@ -1,12 +1,13 @@
 package com.schegolevalex.unit_converter.configs;
 
-import com.schegolevalex.library.entities.relations_in_type.Relation;
-import com.schegolevalex.library.entities.relations_in_type.RelationInType;
-import com.schegolevalex.library.entities.units.*;
-import com.schegolevalex.unit_converter.repositories.RelationInTypeService;
-import com.schegolevalex.unit_converter.repositories.UnitService;
 import com.schegolevalex.unit_converter.controllers.converters.StringToUnitConverter;
+import com.schegolevalex.unit_converter.services.RelationInTypeService;
+import com.schegolevalex.unit_converter.services.UnitService;
+import com.schegolevalex.unit_library.entities.relations_in_type.Relation;
+import com.schegolevalex.unit_library.entities.relations_in_type.RelationInType;
+import com.schegolevalex.unit_library.entities.units.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -15,6 +16,7 @@ import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 
 @Configuration
+@EntityScan({"com.schegolevalex.unit_library.entities"})
 public class ApplicationConfig implements WebMvcConfigurer {
     private final UnitService unitService;
     private final RelationInTypeService relationInTypeService;

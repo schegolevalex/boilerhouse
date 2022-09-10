@@ -6,7 +6,7 @@
         <groupId>com.schegolevalex</groupId>
         <artifactId>boilerhouse</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath/> <!-- lookup parent from repository -->
+<!--        <relativePath/> &lt;!&ndash; lookup parent from repository &ndash;&gt;-->
     </parent>
 
     <artifactId>heat_engineering_calculations</artifactId>
@@ -43,7 +43,7 @@
         </dependency>
         <dependency>
             <groupId>com.schegolevalex</groupId>
-            <artifactId>library</artifactId>
+            <artifactId>unit_library</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 

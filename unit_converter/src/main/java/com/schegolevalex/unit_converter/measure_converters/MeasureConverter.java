@@ -1,14 +1,14 @@
 package com.schegolevalex.unit_converter.measure_converters;
 
 import com.schegolevalex.unit_converter.entities.measures.Measure;
-import com.schegolevalex.library.entities.relations_in_type.Relation;
-import com.schegolevalex.library.entities.relations_in_type.RelationInType;
-import com.schegolevalex.library.entities.units.Unit;
-import com.schegolevalex.library.entities.units.UnitType;
+import com.schegolevalex.unit_library.entities.relations_in_type.Relation;
+import com.schegolevalex.unit_library.entities.relations_in_type.RelationInType;
+import com.schegolevalex.unit_library.entities.units.Unit;
+import com.schegolevalex.unit_library.entities.units.UnitType;
 import com.schegolevalex.unit_converter.exceptions.IllegalMeasureException;
 import com.schegolevalex.unit_converter.exceptions.IllegalUnitException;
-import com.schegolevalex.unit_converter.repositories.RelationInTypeService;
-import com.schegolevalex.unit_converter.repositories.UnitService;
+import com.schegolevalex.unit_converter.repositories.RelationInTypeRepository;
+import com.schegolevalex.unit_converter.repositories.UnitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,11 +19,11 @@ import java.util.Optional;
 @Component
 public class MeasureConverter {
     UnitType converterType = UnitType.DEFAULT;
-    final UnitService unitRepository;
-    final RelationInTypeService relationInTypeService;
+    final UnitRepository unitRepository;
+    final RelationInTypeRepository relationInTypeService;
 
     @Autowired
-    public MeasureConverter(UnitService unitRepository, RelationInTypeService relationInTypeService) {
+    public MeasureConverter(UnitRepository unitRepository, RelationInTypeRepository relationInTypeService) {
         this.unitRepository = unitRepository;
         this.relationInTypeService = relationInTypeService;
     }

@@ -17,8 +17,8 @@ public class CalculationController {
 
     @PostMapping("/flow-rate-by-mass")
     public Measure getFlowRateByMass(@RequestBody Measure power,
-                                            @RequestBody Measure temperatureLow,
-                                            @RequestBody Measure temperatureHigh) {
+                                     @RequestBody Measure temperatureLow,
+                                     @RequestBody Measure temperatureHigh) {
         return calculation.getFlowRateByMass(power, temperatureLow, temperatureHigh);
     }
 

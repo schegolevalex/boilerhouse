@@ -1,11 +1,11 @@
 package com.schegolevalex.unit_converter.measure_converters;
 
 import com.schegolevalex.unit_converter.entities.measures.Measure;
-import com.schegolevalex.library.entities.units.Temperature;
-import com.schegolevalex.library.entities.units.Unit;
-import com.schegolevalex.library.entities.units.UnitType;
-import com.schegolevalex.unit_converter.repositories.RelationInTypeService;
-import com.schegolevalex.unit_converter.repositories.UnitService;
+import com.schegolevalex.unit_library.entities.units.Temperature;
+import com.schegolevalex.unit_library.entities.units.Unit;
+import com.schegolevalex.unit_library.entities.units.UnitType;
+import com.schegolevalex.unit_converter.repositories.RelationInTypeRepository;
+import com.schegolevalex.unit_converter.repositories.UnitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,8 +16,8 @@ import java.math.RoundingMode;
 public class TemperatureConverter extends MeasureConverter {
 
     @Autowired
-    public TemperatureConverter(UnitService unitRepository,
-                                RelationInTypeService relationInTypeService) {
+    public TemperatureConverter(UnitRepository unitRepository,
+                                RelationInTypeRepository relationInTypeService) {
         super(unitRepository, relationInTypeService);
         this.converterType = UnitType.TEMPERATURE;
     }

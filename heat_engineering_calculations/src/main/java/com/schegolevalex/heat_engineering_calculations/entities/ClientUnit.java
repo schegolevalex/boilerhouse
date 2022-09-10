@@ -1,10 +1,10 @@
 package com.schegolevalex.heat_engineering_calculations.entities;
 
+import com.schegolevalex.unit_library.entities.units.UnitType;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import com.schegolevalex.unit_converter.entities.units.UnitType;
 
 import java.util.Map;
 

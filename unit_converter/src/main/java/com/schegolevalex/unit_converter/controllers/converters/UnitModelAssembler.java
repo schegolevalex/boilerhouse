@@ -1,6 +1,6 @@
 package com.schegolevalex.unit_converter.controllers.converters;
 
-import com.schegolevalex.library.entities.units.Unit;
+import com.schegolevalex.unit_library.entities.units.Unit;
 import com.schegolevalex.unit_converter.controllers.ConverterController;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
