@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Setter
 @Getter
-public class MassImperial extends Distance {
+public class MassImperial extends Mass {
 
     public MassImperial(String fullName, String shortName, BigDecimal coefficient, Boolean isPrimary) {
         super(UnitType.MASS, fullName, shortName, coefficient, isPrimary);

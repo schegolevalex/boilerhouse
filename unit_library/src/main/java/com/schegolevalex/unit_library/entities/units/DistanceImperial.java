@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Setter
 @Getter
-public class DistanceImperial extends Unit {
+public class DistanceImperial extends Distance {
 
     public DistanceImperial(String fullName, String shortName, BigDecimal coefficient, Boolean isPrimary) {
         super(UnitType.DISTANCE, fullName, shortName, coefficient, isPrimary);

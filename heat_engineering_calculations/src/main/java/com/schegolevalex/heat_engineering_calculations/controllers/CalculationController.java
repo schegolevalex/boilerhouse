@@ -22,4 +22,10 @@ public class CalculationController {
         return calculation.getFlowRateByMass(power, temperatureLow, temperatureHigh);
     }
 
+    @PostMapping("/flow-rate-by_volume")
+    public Measure getFlowRateByVolume(@RequestBody Measure power,
+                                       @RequestBody Measure temperatureLow,
+                                       @RequestBody Measure temperatureHigh) {
+        return calculation.getFlowRateByVolume(power, temperatureLow, temperatureHigh);
+    }
 }

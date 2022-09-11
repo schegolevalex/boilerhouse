@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Setter
 @Getter
-public class FlowRateByMassImperial extends Distance {
+public class FlowRateByMassImperial extends FlowRateByMass {
 
     public FlowRateByMassImperial(String fullName, String shortName, BigDecimal coefficient, Boolean isPrimary) {
         super(UnitType.FLOW_RATE_BY_MASS, fullName, shortName, coefficient, isPrimary);

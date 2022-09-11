@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Setter
 @Getter
-public class FlowRateByVolumeMetric extends Distance {
+public class FlowRateByVolumeMetric extends FlowRateByVolume {
 
     public FlowRateByVolumeMetric(String fullName, String shortName, BigDecimal coefficient, Boolean isPrimary) {
         super(UnitType.FLOW_RATE_BY_VOLUME, fullName, shortName, coefficient, isPrimary);

@@ -20,6 +20,7 @@ import java.util.List;
 public class Calculation {
 
     final BigDecimal HEAT_CAPACITY = BigDecimal.valueOf(1.0);
+    final BigDecimal WATER_DENSITY = BigDecimal.valueOf(1.0);
     @Getter
     final UnitConverterClient unitConverterClient;
     @Getter
@@ -41,10 +42,9 @@ public class Calculation {
         BigDecimal fTemperatureHighValue = unitConverterClient.convert(temperatureHigh, findUnit("DEGREE_CELSIUS")).getValue();
 
         BigDecimal delta = fTemperatureHighValue.subtract(fTemperatureLowValue);
-        BigDecimal answer = fPowerValue.divide(delta, RoundingMode.HALF_UP).divide(HEAT_CAPACITY, RoundingMode.HALF_UP);
+        BigDecimal resultValue = fPowerValue.divide(delta, RoundingMode.HALF_UP).divide(HEAT_CAPACITY, RoundingMode.HALF_UP);
 
-        return null;
-//        return measureFactory.createMeasure(answer, findUnit("TONNE_PER_HOUR"));
+        return measureFactory.createMeasure(resultValue, findUnit("TONNE_PER_HOUR"));
     }
 
     private Unit findUnit(String name) {
@@ -54,5 +54,13 @@ public class Calculation {
                 .filter((clientUnit) -> clientUnit.getFullName() == name)
                 .findFirst()
                 .orElseThrow(() -> new IllegalUnitException("No such unit in database"));
+    }
+
+    public Measure getFlowRateByVolume(Measure power,
+                                       Measure temperatureLow,
+                                       Measure temperatureHigh) {
+        Measure flowRateByMass = getFlowRateByMass(power, temperatureLow, temperatureHigh);
+        BigDecimal resultValue = flowRateByMass.getValue().divide(WATER_DENSITY, RoundingMode.HALF_UP);
+        return measureFactory.createMeasure(resultValue, findUnit("M3_PER_HOUR")); //TODO insert FlowRateByVolume units to the DB
     }
 }

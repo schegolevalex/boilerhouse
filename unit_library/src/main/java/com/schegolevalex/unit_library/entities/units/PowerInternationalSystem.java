@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Setter
 @Getter
-public class PowerInternationalSystem extends Unit {
+public class PowerInternationalSystem extends Power {
 
     public PowerInternationalSystem(String fullName, String shortName, BigDecimal coefficient, Boolean isPrimary) {
         super(UnitType.POWER, fullName, shortName, coefficient, isPrimary);
