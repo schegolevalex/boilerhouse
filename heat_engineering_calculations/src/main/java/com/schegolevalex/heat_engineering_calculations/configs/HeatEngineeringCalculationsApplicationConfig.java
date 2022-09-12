@@ -1,5 +1,9 @@
 package com.schegolevalex.heat_engineering_calculations.configs;
 
+import com.fasterxml.jackson.databind.Module;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.schegolevalex.heat_engineering_calculations.deserializers.UnitDeserializer;
+import com.schegolevalex.unit_library.entities.units.Unit;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -14,5 +18,12 @@ public class HeatEngineeringCalculationsApplicationConfig implements WebMvcConfi
     @Bean
     public RestTemplate restTemplate(){
         return new RestTemplate();
+    }
+
+    @Bean
+    public Module unitDeserializer() {
+        SimpleModule simpleModule = new SimpleModule();
+        simpleModule.addDeserializer(Unit.class, new UnitDeserializer());
+        return simpleModule;
     }
 }

@@ -228,4 +228,11 @@ public enum Unit {
     public static List<Unit> findAll() {
         return UNIT_LIST;
     }
+
+    @Override
+    public String toString() {
+        return "{unitType = " + unitType
+                + ", fullName = " + fullName
+                + ", shortName = " + shortName + "}";
+    }
 }
