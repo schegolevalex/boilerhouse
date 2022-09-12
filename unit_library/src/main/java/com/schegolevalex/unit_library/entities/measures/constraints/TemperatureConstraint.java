@@ -3,7 +3,6 @@ package com.schegolevalex.unit_library.entities.measures.constraints;
 import com.schegolevalex.unit_library.entities.units.Unit;
 import com.schegolevalex.unit_library.entities.units.UnitType;
 import com.schegolevalex.unit_library.exceptions.IllegalMeasureException;
-import com.schegolevalex.unit_library.services.UnitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,8 +12,7 @@ import java.math.BigDecimal;
 public class TemperatureConstraint extends MeasureConstraint {
 
     @Autowired
-    public TemperatureConstraint(UnitService unitRepository) {
-        super(unitRepository);
+    public TemperatureConstraint() {
         this.unitType = UnitType.TEMPERATURE;
     }
 
