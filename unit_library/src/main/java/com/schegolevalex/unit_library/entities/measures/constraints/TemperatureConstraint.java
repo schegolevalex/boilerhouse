@@ -3,7 +3,7 @@ package com.schegolevalex.unit_library.entities.measures.constraints;
 import com.schegolevalex.unit_library.entities.units.Unit;
 import com.schegolevalex.unit_library.entities.units.UnitType;
 import com.schegolevalex.unit_library.exceptions.IllegalMeasureException;
-import com.schegolevalex.unit_library.repositories.UnitRepository;
+import com.schegolevalex.unit_library.services.UnitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,14 +13,14 @@ import java.math.BigDecimal;
 public class TemperatureConstraint extends MeasureConstraint {
 
     @Autowired
-    public TemperatureConstraint(UnitRepository unitRepository) {
+    public TemperatureConstraint(UnitService unitRepository) {
         super(unitRepository);
-        this.type = UnitType.TEMPERATURE;
+        this.unitType = UnitType.TEMPERATURE;
     }
 
     @Override
     public void check(BigDecimal value, Unit unit) {
-        switch (unit.getFullName()) {
+        switch (unit.name()) {
             case "DEGREE_CELSIUS":
                 if (value.compareTo(BigDecimal.valueOf(-273.15)) < 0)
                     throw new IllegalMeasureException("The value must be greater than -273.15"

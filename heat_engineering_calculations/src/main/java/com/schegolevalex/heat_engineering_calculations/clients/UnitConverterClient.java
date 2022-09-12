@@ -1,7 +1,6 @@
 package com.schegolevalex.heat_engineering_calculations.clients;
 
 import com.schegolevalex.unit_library.entities.measures.Measure;
-import com.schegolevalex.unit_library.entities.units.Unit;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;

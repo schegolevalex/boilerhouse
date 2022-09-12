@@ -1,14 +1,9 @@
 package com.schegolevalex.unit_converter.measure_converters;
 
 import com.schegolevalex.unit_library.entities.measures.Measure;
-import com.schegolevalex.unit_library.entities.relations_in_type.Relation;
-import com.schegolevalex.unit_library.entities.relations_in_type.RelationInType;
 import com.schegolevalex.unit_library.entities.units.Unit;
-import com.schegolevalex.unit_library.entities.units.UnitType;
 import com.schegolevalex.unit_library.exceptions.IllegalMeasureException;
 import com.schegolevalex.unit_library.exceptions.IllegalUnitException;
-import com.schegolevalex.unit_library.repositories.RelationInTypeRepository;
-import com.schegolevalex.unit_library.repositories.UnitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +13,7 @@ import java.util.Optional;
 
 @Component
 public class MeasureConverter {
-    UnitType converterType = UnitType.DEFAULT;
+    Unit converterType = Unit.DEFAULT;
     final UnitRepository unitRepository;
     final RelationInTypeRepository relationInTypeService;
 
@@ -116,7 +111,7 @@ public class MeasureConverter {
         return subtypeCoefficient;
     }
 
-    public UnitType getType() {
+    public Unit getType() {
         return converterType;
     }
 }

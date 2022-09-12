@@ -1,11 +1,7 @@
 package com.schegolevalex.unit_converter.measure_converters;
 
 import com.schegolevalex.unit_library.entities.measures.Measure;
-import com.schegolevalex.unit_library.entities.units.Temperature;
 import com.schegolevalex.unit_library.entities.units.Unit;
-import com.schegolevalex.unit_library.entities.units.UnitType;
-import com.schegolevalex.unit_library.repositories.RelationInTypeRepository;
-import com.schegolevalex.unit_library.repositories.UnitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +15,7 @@ public class TemperatureConverter extends MeasureConverter {
     public TemperatureConverter(UnitRepository unitRepository,
                                 RelationInTypeRepository relationInTypeService) {
         super(unitRepository, relationInTypeService);
-        this.converterType = UnitType.TEMPERATURE;
+        this.converterType = Unit.TEMPERATURE;
     }
 
     @Override

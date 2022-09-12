@@ -2,7 +2,6 @@ package com.schegolevalex.unit_converter.measure_converters;
 
 import com.schegolevalex.unit_library.entities.measures.Measure;
 import com.schegolevalex.unit_library.entities.measures.MeasureFactory;
-import com.schegolevalex.unit_library.entities.units.Unit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -29,5 +28,4 @@ public class ConverterProcessor {
         MeasureConverter converter = factory.getConverter(unitFrom.getType());
         return converter.convertToPrimary(valueFrom, unitFrom);
     }
-
 }

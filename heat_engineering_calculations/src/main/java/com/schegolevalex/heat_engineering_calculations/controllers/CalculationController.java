@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @RestController
 public class CalculationController {
 
@@ -16,13 +18,13 @@ public class CalculationController {
     }
 
     @PostMapping("/flow-rate-by-mass")
-    public Measure getFlowRateByMass(@RequestBody Measure power,
-                                     @RequestBody Measure temperatureLow,
-                                     @RequestBody Measure temperatureHigh) {
-        return calculation.getFlowRateByMass(power, temperatureLow, temperatureHigh);
+    public Measure getFlowRateByMass(@RequestBody Map<String,Measure> measures) {
+        System.out.println(measures);
+        return null;
+//        return calculation.getFlowRateByMass(power, temperatureLow, temperatureHigh);
     }
 
-    @PostMapping("/flow-rate-by_volume")
+    @PostMapping("/flow-rate-by-volume")
     public Measure getFlowRateByVolume(@RequestBody Measure power,
                                        @RequestBody Measure temperatureLow,
                                        @RequestBody Measure temperatureHigh) {

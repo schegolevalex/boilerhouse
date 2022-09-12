@@ -1,10 +1,10 @@
 package com.schegolevalex.unit_converter.controllers;
 
-import com.schegolevalex.unit_library.entities.units.Unit;
 import com.schegolevalex.unit_converter.controllers.converters.UnitModelAssembler;
-import com.schegolevalex.unit_library.entities.measures.Measure;
-import com.schegolevalex.unit_library.exceptions.IllegalUnitException;
 import com.schegolevalex.unit_converter.measure_converters.ConverterProcessor;
+import com.schegolevalex.unit_library.entities.measures.Measure;
+import com.schegolevalex.unit_library.entities.units.Unit;
+import com.schegolevalex.unit_library.exceptions.IllegalUnitException;
 import com.schegolevalex.unit_library.services.UnitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -52,9 +52,9 @@ public class ConverterController {
         return converterProcessor.getConvertedResult(value, unitFrom);
     }
 
-    @GetMapping("/units/{id}")
-    public EntityModel<Unit> getUnit(@PathVariable String id) {
-        Unit unit = unitService.findById(id).orElseThrow(() -> new IllegalUnitException("No such unit in database"));
+    @GetMapping("/units/{fullName}")
+    public EntityModel<Unit> getUnit(@PathVariable String fullName) {
+        Unit unit = unitService.findByFullName(fullName));
         return assembler.toModel(unit);
     }
 
