@@ -1,7 +1,11 @@
 package com.schegolevalex.unit_converter.measure_converters;
 
 import com.schegolevalex.unit_library.entities.measures.Measure;
+import com.schegolevalex.unit_library.entities.measures.MeasureFactory;
 import com.schegolevalex.unit_library.entities.units.Unit;
+import com.schegolevalex.unit_library.entities.units.UnitType;
+import com.schegolevalex.unit_library.services.SubtypeRelationInTypeService;
+import com.schegolevalex.unit_library.services.UnitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,37 +16,34 @@ import java.math.RoundingMode;
 public class TemperatureConverter extends MeasureConverter {
 
     @Autowired
-    public TemperatureConverter(UnitRepository unitRepository,
-                                RelationInTypeRepository relationInTypeService) {
-        super(unitRepository, relationInTypeService);
-        this.converterType = Unit.TEMPERATURE;
+    public TemperatureConverter(UnitService unitService,
+                                SubtypeRelationInTypeService subtypeRelationInTypeService,
+                                MeasureFactory measureFactory) {
+        super(unitService, subtypeRelationInTypeService, measureFactory);
+        this.converterType = UnitType.TEMPERATURE;
     }
 
     @Override
     Measure convertToPrimary(BigDecimal valueFrom, Unit unitFrom, Unit unitTo) {
-        Temperature temperatureFrom = (Temperature) unitFrom;
-        Temperature temperatureTo = (Temperature) unitTo;
 
         BigDecimal valueTo = valueFrom
-                .multiply(temperatureFrom.getCoefficient())
-                .divide(temperatureTo.getCoefficient(), 10, RoundingMode.HALF_UP)
-                .add(temperatureFrom.getTerm())
+                .multiply(unitFrom.getCoefficient())
+                .divide(unitTo.getCoefficient(), 10, RoundingMode.HALF_UP)
+                .add(unitFrom.getTerm())
                 .stripTrailingZeros();
 
-        return new Measure(valueTo, unitTo);
+        return measureFactory.createMeasure(valueTo, unitTo);
     }
 
     @Override
     Measure convertFromPrimary(BigDecimal valueFrom, Unit unitFrom, Unit unitTo) {
-        Temperature temperatureFrom = (Temperature) unitFrom;
-        Temperature temperatureTo = (Temperature) unitTo;
 
         BigDecimal valueTo = valueFrom
-                .multiply(temperatureTo.getCoefficientFromPrimary())
-                .divide(temperatureFrom.getCoefficientFromPrimary(), 10, RoundingMode.HALF_UP)
-                .add(temperatureTo.getTermFromPrimary())
+                .multiply(unitTo.getCoefficientFromPrimary())
+                .divide(unitFrom.getCoefficientFromPrimary(), 10, RoundingMode.HALF_UP)
+                .add(unitTo.getTermFromPrimary())
                 .stripTrailingZeros();
 
-        return new Measure(valueTo, unitTo);
+        return measureFactory.createMeasure(valueTo, unitTo);
     }
 }

@@ -4,10 +4,8 @@ import com.schegolevalex.unit_converter.controllers.converters.UnitModelAssemble
 import com.schegolevalex.unit_converter.measure_converters.ConverterProcessor;
 import com.schegolevalex.unit_library.entities.measures.Measure;
 import com.schegolevalex.unit_library.entities.units.Unit;
-import com.schegolevalex.unit_library.exceptions.IllegalUnitException;
 import com.schegolevalex.unit_library.services.UnitService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -54,16 +52,16 @@ public class ConverterController {
 
     @GetMapping("/units/{fullName}")
     public EntityModel<Unit> getUnit(@PathVariable String fullName) {
-        Unit unit = unitService.findByFullName(fullName));
+        Unit unit = unitService.findByFullName(fullName);
         return assembler.toModel(unit);
     }
 
     @GetMapping("/units")
     public CollectionModel<EntityModel<Unit>> getAllUnits() {
         List<EntityModel<Unit>> units = unitService
-                .findAll(Sort.by("type", "subtype").and(Sort.by(Sort.Direction.DESC, "isPrimary").and(Sort.by("fullName"))))
+                .findAll()
                 .stream()
-                .sorted((o1, o2) -> o1.getType().compareTo(o2.getType()))
+                .sorted((o1, o2) -> o1.getUnitType().compareTo(o2.getUnitType())) //TODO
                 .map(assembler::toModel)
                 .collect(Collectors.toList());
         return CollectionModel.of(units,

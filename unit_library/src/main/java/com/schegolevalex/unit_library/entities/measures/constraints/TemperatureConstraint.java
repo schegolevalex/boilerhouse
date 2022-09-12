@@ -20,7 +20,7 @@ public class TemperatureConstraint extends MeasureConstraint {
 
     @Override
     public void check(BigDecimal value, Unit unit) {
-        switch (unit.name()) {
+        switch (unit.getFullName()) {
             case "DEGREE_CELSIUS":
                 if (value.compareTo(BigDecimal.valueOf(-273.15)) < 0)
                     throw new IllegalMeasureException("The value must be greater than -273.15"

@@ -1,5 +1,7 @@
 package com.schegolevalex.unit_library.entities.units;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.schegolevalex.unit_library.exceptions.IllegalUnitException;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -13,6 +15,7 @@ import java.util.Map;
 
 import static com.schegolevalex.unit_library.entities.units.UnitType.*;
 
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public enum Unit {
 
@@ -32,9 +35,9 @@ public enum Unit {
     YARD(DISTANCE, "distance_imperial", "yd", 36, false),
     FOOT(DISTANCE, "distance_imperial", "ft", 12, false),
 
-    DEGREE_CELSIUS(TEMPERATURE, null, "°C", 1.0, 0, 1.0, 0, true),
-    KELVIN(TEMPERATURE, null, "K", 1, -273.15, 1, 273.15, false),
-    DEGREE_FAHRENHEIT(TEMPERATURE, null, "°F", 5.0 / 9, -5.0 / 9 * 32, 9 / 5.0, 32, false),
+    DEGREE_CELSIUS(TEMPERATURE, "temperature_common_units", "°C", 1.0, 0, 1.0, 0, true),
+    KELVIN(TEMPERATURE, "temperature_common_units", "K", 1, -273.15, 1, 273.15, false),
+    DEGREE_FAHRENHEIT(TEMPERATURE, "temperature_common_units", "°F", 5.0 / 9, -5.0 / 9 * 32, 9 / 5.0, 32, false),
 
     MEGAWATT(POWER, "power_international_system", "MW", 1.0, true),
     KILOWATT(POWER, "power_international_system", "kW", 1E-3, false),
@@ -106,7 +109,8 @@ public enum Unit {
     OUNCE(MASS, "mass_imperial", "oz", 0.0625, false),
 
     ;
-
+    @Getter
+    String fullName;
     @Getter
     UnitType unitType;
     @Getter
@@ -114,15 +118,20 @@ public enum Unit {
     @Getter
     String shortName;
     @Getter
+    @JsonIgnore
     BigDecimal coefficient;
     @Getter
+    @JsonIgnore
     Boolean isPrimary;
 
     @Getter
+    @JsonIgnore
     BigDecimal term;
     @Getter
+    @JsonIgnore
     BigDecimal coefficientFromPrimary;
     @Getter
+    @JsonIgnore
     BigDecimal termFromPrimary;
 
     static List<Unit> UNIT_LIST = new ArrayList<>();
@@ -131,7 +140,7 @@ public enum Unit {
     static {
         for (Unit u : values()) {
             UNIT_LIST.add(u);
-            BY_FULL_NAME.put(u.name(), u);
+            BY_FULL_NAME.put(u.getFullName(), u);
         }
     }
 
@@ -140,6 +149,7 @@ public enum Unit {
          String shortName,
          BigDecimal coefficient,
          Boolean isPrimary) {
+        this.fullName = name();
         this.unitType = unitType;
         this.subtype = subtype;
         this.shortName = shortName;
@@ -171,6 +181,7 @@ public enum Unit {
          BigDecimal termFromPrimary,
          Boolean isPrimary
     ) {
+        this.fullName = name();
         this.unitType = unitType;
         this.subtype = subtype;
         this.shortName = shortName;
@@ -209,7 +220,7 @@ public enum Unit {
 
     public static Unit valueOfSubtypeAndIsPrimaryIsTrue(String subType) {
         return UNIT_LIST.stream()
-                .filter(u -> u.getIsPrimary() && u.getSubtype() == subType)
+                .filter(u -> u.getIsPrimary() && u.getSubtype().equals(subType))
                 .findFirst()
                 .orElseThrow(() -> new IllegalUnitException("No such unit"));
     }

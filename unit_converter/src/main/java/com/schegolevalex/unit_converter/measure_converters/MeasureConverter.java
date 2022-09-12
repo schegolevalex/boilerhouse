@@ -1,26 +1,34 @@
 package com.schegolevalex.unit_converter.measure_converters;
 
 import com.schegolevalex.unit_library.entities.measures.Measure;
+import com.schegolevalex.unit_library.entities.measures.MeasureFactory;
 import com.schegolevalex.unit_library.entities.units.Unit;
-import com.schegolevalex.unit_library.exceptions.IllegalMeasureException;
+import com.schegolevalex.unit_library.entities.units.UnitType;
 import com.schegolevalex.unit_library.exceptions.IllegalUnitException;
+import com.schegolevalex.unit_library.services.SubtypeRelationInTypeService;
+import com.schegolevalex.unit_library.services.UnitService;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Optional;
 
 @Component
 public class MeasureConverter {
-    Unit converterType = Unit.DEFAULT;
-    final UnitRepository unitRepository;
-    final RelationInTypeRepository relationInTypeService;
+    @Getter
+    UnitType converterType = UnitType.DEFAULT;
+    final UnitService unitService;
+    final SubtypeRelationInTypeService subtypeRelationInTypeService;
+    final MeasureFactory measureFactory;
 
     @Autowired
-    public MeasureConverter(UnitRepository unitRepository, RelationInTypeRepository relationInTypeService) {
-        this.unitRepository = unitRepository;
-        this.relationInTypeService = relationInTypeService;
+    public MeasureConverter(UnitService unitService,
+                            SubtypeRelationInTypeService subtypeRelationInTypeService,
+                            MeasureFactory measureFactory) {
+        this.unitService = unitService;
+        this.subtypeRelationInTypeService = subtypeRelationInTypeService;
+        this.measureFactory = measureFactory;
     }
 
     public Measure convert(BigDecimal valueFrom, Unit unitFrom, Unit unitTo) {
@@ -28,19 +36,15 @@ public class MeasureConverter {
         isTheSameType(unitFrom, unitTo);
 
         //получили коэффициент из отношения подтипов
-        BigDecimal subtypeCoefficient = BigDecimal.valueOf(1);
-        if (unitFrom.getSubtype() != null
-                && unitTo.getSubtype() != null
-                && !unitFrom.getSubtype().equals(unitTo.getSubtype()))
-            subtypeCoefficient = getSubtypeCoefficient(unitFrom, unitTo);
+        BigDecimal subtypeCoefficient = getSubtypeCoefficient(unitFrom, unitTo);
 
         //сконвертировали исходное Measure в primary исходного типа
         Measure primaryMeasureFrom = convertToPrimary(valueFrom, unitFrom);
 
         //и умножили его на коэффициент из отношения подтипов, полученный выше.
         //Тем самым мы перевели исходное значение valueFrom в primary другого типа.
-        Measure primaryMeasureTo = new Measure(primaryMeasureFrom.getValue().multiply(subtypeCoefficient),
-                unitRepository.getBySubtypeAndIsPrimaryIsTrue(unitTo.getSubtype()));
+        Measure primaryMeasureTo = measureFactory.createMeasure(primaryMeasureFrom.getValue().multiply(subtypeCoefficient),
+                unitService.getBySubtypeAndIsPrimaryIsTrue(unitTo.getSubtype()));
 
         //Получили primary Unit другого типа и сконвертировали valueTo с прошлого шага в целевой Unit.
         return convertFromPrimary(primaryMeasureTo, unitTo);
@@ -57,13 +61,13 @@ public class MeasureConverter {
                 .multiply(unitFrom.getCoefficient())
                 .divide(unitTo.getCoefficient(), 10, RoundingMode.HALF_UP)
                 .stripTrailingZeros();
-        return new Measure(valueTo, unitTo);
+        return measureFactory.createMeasure(valueTo, unitTo);
     }
 
     public Measure convertToPrimary(BigDecimal valueFrom, Unit unitFrom) {
         return convertToPrimary(valueFrom,
                 unitFrom,
-                unitRepository.getBySubtypeAndIsPrimaryIsTrue(unitFrom.getSubtype()));
+                unitService.getBySubtypeAndIsPrimaryIsTrue(unitFrom.getSubtype()));
     }
 
     Measure convertToPrimary(Measure measureFrom, Unit unitTo) {
@@ -83,7 +87,7 @@ public class MeasureConverter {
     }
 
     void isTheSameType(Unit unitFrom, Unit unitTo) {
-        if (unitFrom.getType() != unitTo.getType())
+        if (unitFrom.getUnitType() != unitTo.getUnitType())
             throw new IllegalUnitException("Conversion is not possible. Units has different types.");
     }
 
@@ -93,25 +97,9 @@ public class MeasureConverter {
     }
 
     BigDecimal getSubtypeCoefficient(Unit unitFrom, Unit unitTo) {
-        String subtypeFrom = unitFrom.getSubtype();
-        String subtypeTo = unitTo.getSubtype();
-
-        Optional<RelationInType> relationInType1 = relationInTypeService.findById(new Relation(subtypeFrom, subtypeTo));
-        BigDecimal subtypeCoefficient;
-        if (relationInType1.isPresent()) {
-            subtypeCoefficient = relationInType1.get().getSubtypeCoefficient();
-        } else {
-            Optional<RelationInType> relationInType2 = relationInTypeService.findById(new Relation(subtypeTo, subtypeFrom));
-            if (relationInType2.isPresent()) {
-                subtypeCoefficient = BigDecimal.valueOf(1)
-                        .divide(relationInType2.get().getSubtypeCoefficient(), 10, RoundingMode.HALF_UP);
-            } else
-                throw new IllegalMeasureException("Conversion is not possible. Units has same types, but relation between subtypes is not define.");
-        }
-        return subtypeCoefficient;
-    }
-
-    public Unit getType() {
-        return converterType;
+        if (unitFrom.getSubtype() != null && unitTo.getSubtype() != null && !unitFrom.getSubtype().equals(unitTo.getSubtype()))
+            return subtypeRelationInTypeService.getByRelationBySubtypes(unitFrom, unitTo).getSubtypeCoefficient();
+        else
+            return BigDecimal.valueOf(1.0);
     }
 }

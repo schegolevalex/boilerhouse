@@ -2,6 +2,7 @@ package com.schegolevalex.unit_library.entities.measures;
 
 import com.schegolevalex.unit_library.entities.measures.constraints.MeasureConstraint;
 import com.schegolevalex.unit_library.entities.units.Unit;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -11,6 +12,7 @@ import java.util.List;
 public class MeasureFactory {
     private final List<MeasureConstraint> constraintsList;
 
+    @Autowired
     public MeasureFactory(List<MeasureConstraint> constraintsList) {
         this.constraintsList = constraintsList;
     }

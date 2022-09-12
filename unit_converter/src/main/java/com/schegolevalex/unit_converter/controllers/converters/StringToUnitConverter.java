@@ -22,7 +22,7 @@ public class StringToUnitConverter implements Converter<String, Unit> {
     public Unit convert(String name) {
         Unit unit = unitService.findByFullName(name.toUpperCase(Locale.ROOT));
         if (unit == null) {
-            throw new IllegalUnitException("No such unit \"" + name + "\" in database.");
+            throw new IllegalUnitException("No such unit \"" + name + "\"");
         }
         return unit;
     }
