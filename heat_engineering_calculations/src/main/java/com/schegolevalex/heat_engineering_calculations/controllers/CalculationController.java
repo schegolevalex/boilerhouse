@@ -19,17 +19,15 @@ public class CalculationController {
 
     @PostMapping("/flow-rate-by-mass")
     public Measure getFlowRateByMass(@RequestBody Map<String, Measure> request) {
-//        System.out.println(measures);
-//        return null;
         return calculation.getFlowRateByMass(request.get("power"),
                 request.get("temperatureLow"),
                 request.get("temperatureHigh"));
     }
 
-//    @PostMapping("/flow-rate-by-volume")
-//    public Measure getFlowRateByVolume(@RequestBody Measure power,
-//                                       @RequestBody Measure temperatureLow,
-//                                       @RequestBody Measure temperatureHigh) {
-//        return calculation.getFlowRateByVolume(power, temperatureLow, temperatureHigh);
-//    }
+    @PostMapping("/flow-rate-by-volume")
+    public Measure getFlowRateByVolume(@RequestBody Map<String, Measure> request) {
+        return calculation.getFlowRateByVolume(request.get("power"),
+                request.get("temperatureLow"),
+                request.get("temperatureHigh"));
+    }
 }

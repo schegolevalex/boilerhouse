@@ -18,8 +18,6 @@ import java.math.BigDecimal;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Measure {
 
-    private static final long serialVersionUID = -7788619177798333712L;
-
     BigDecimal value;
 
     @JsonDeserialize(using = UnitDeserializer.class)

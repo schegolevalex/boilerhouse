@@ -16,6 +16,7 @@ import static com.schegolevalex.unit_library.entities.units.UnitType.*;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Getter
 public enum Unit {
 
     METER(DISTANCE, "distance_metric", "m", 1.0, true),
@@ -97,6 +98,17 @@ public enum Unit {
     OUNCE_PER_DAY(FLOW_RATE_BY_MASS, "flow_rate_by_mass_imperial", "oz/d", 0.0625 / 24, false),
     OUNCE_PER_YEAR(FLOW_RATE_BY_MASS, "flow_rate_by_mass_imperial", "oz/y", 0.0625 / 24 / 365, false),
 
+    METER_3_PER_HOUR(FLOW_RATE_BY_VOLUME, "flow_rate_by_volume_metric", "m3/h", 1.0, true),
+    METER_3_PER_MINUTE(FLOW_RATE_BY_VOLUME, "flow_rate_by_volume_metric", "m3/m", 1.0 * 60, false),
+    METER_3_PER_SECOND(FLOW_RATE_BY_VOLUME, "flow_rate_by_volume_metric", "m3/s", 1.0 * 3600, false),
+    METER_3_PER_DAY(FLOW_RATE_BY_VOLUME, "flow_rate_by_volume_metric", "m3/d", 1.0 / 24, false),
+    METER_3_PER_YEAR(FLOW_RATE_BY_VOLUME, "flow_rate_by_volume_metric", "m3/y", 1.0 / 24 / 365, false),
+    LITER_PER_HOUR(FLOW_RATE_BY_VOLUME, "flow_rate_by_volume_metric", "l/h", 1.0 / 1E3, false),
+    LITER_PER_MINUTE(FLOW_RATE_BY_VOLUME, "flow_rate_by_volume_metric", "l/m", 1.0 * 60 / 1E3, false),
+    LITER_PER_SECOND(FLOW_RATE_BY_VOLUME, "flow_rate_by_volume_metric", "l/s", 1.0 * 3600 / 1E3, false),
+    LITER_PER_DAY(FLOW_RATE_BY_VOLUME, "flow_rate_by_volume_metric", "l/d", 1.0 / 1E3 / 24, false),
+    LITER_PER_YEAR(FLOW_RATE_BY_VOLUME, "flow_rate_by_volume_metric", "l/y", 1.0 / 1E3 / 24 / 365, false),
+
 
     TONNE(MASS, "mass_metric", "t", 1.0, true),
     KILOGRAM(MASS, "mass_metric", "kg", 1E3, false),
@@ -108,26 +120,15 @@ public enum Unit {
     OUNCE(MASS, "mass_imperial", "oz", 0.0625, false),
 
     ;
-    private static final long serialVersionUID = -7788619177728333712L;
 
-    @Getter
     String fullName;
-    @Getter
     UnitType unitType;
-    @Getter
     String subtype;
-    @Getter
     String shortName;
-    @Getter
     BigDecimal coefficient;
-    @Getter
     Boolean isPrimary;
-
-    @Getter
     BigDecimal term;
-    @Getter
     BigDecimal coefficientFromPrimary;
-    @Getter
     BigDecimal termFromPrimary;
 
     static List<Unit> UNIT_LIST = new ArrayList<>();

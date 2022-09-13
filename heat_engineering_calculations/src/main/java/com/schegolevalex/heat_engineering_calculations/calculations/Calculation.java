@@ -45,11 +45,11 @@ public class Calculation {
         return measureFactory.createMeasure(resultValue, Unit.TONNE_PER_HOUR);
     }
 
-//    public Measure getFlowRateByVolume(Measure power,
-//                                       Measure temperatureLow,
-//                                       Measure temperatureHigh) {
-//        Measure flowRateByMass = getFlowRateByMass(power, temperatureLow, temperatureHigh);
-//        BigDecimal resultValue = flowRateByMass.getValue().divide(WATER_DENSITY, RoundingMode.HALF_UP);
-//        return measureFactory.createMeasure(resultValue, Unit.M3_PER_HOUR); //TODO insert FlowRateByVolume units to the DB
-//    }
+    public Measure getFlowRateByVolume(Measure power,
+                                       Measure temperatureLow,
+                                       Measure temperatureHigh) {
+        Measure flowRateByMass = getFlowRateByMass(power, temperatureLow, temperatureHigh);
+        BigDecimal resultValue = flowRateByMass.getValue().divide(WATER_DENSITY, RoundingMode.HALF_UP);
+        return measureFactory.createMeasure(resultValue, Unit.METER_3_PER_HOUR); //TODO insert all FlowRateByVolume units to the DB
+    }
 }
