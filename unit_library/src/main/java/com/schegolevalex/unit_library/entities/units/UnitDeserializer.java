@@ -1,11 +1,10 @@
-package com.schegolevalex.heat_engineering_calculations.deserializers;
+package com.schegolevalex.unit_library.entities.units;
 
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import com.schegolevalex.unit_library.entities.units.Unit;
 
 import java.io.IOException;
 

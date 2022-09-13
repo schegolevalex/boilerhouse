@@ -2,8 +2,9 @@ package com.schegolevalex.heat_engineering_calculations.configs;
 
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.schegolevalex.heat_engineering_calculations.deserializers.UnitDeserializer;
+import com.schegolevalex.unit_library.entities.measures.MeasureFactory;
 import com.schegolevalex.unit_library.entities.units.Unit;
+import com.schegolevalex.unit_library.entities.units.UnitDeserializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -15,13 +16,20 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableScheduling
 @ComponentScan({"com.schegolevalex.unit_converter"})
 public class HeatEngineeringCalculationsApplicationConfig implements WebMvcConfigurer {
+
+    final MeasureFactory measureFactory;
+
+    public HeatEngineeringCalculationsApplicationConfig(MeasureFactory measureFactory) {
+        this.measureFactory = measureFactory;
+    }
+
     @Bean
-    public RestTemplate restTemplate(){
+    public RestTemplate restTemplate() {
         return new RestTemplate();
     }
 
     @Bean
-    public Module unitDeserializer() {
+    public Module addCustomUnitDeserializer() {
         SimpleModule simpleModule = new SimpleModule();
         simpleModule.addDeserializer(Unit.class, new UnitDeserializer());
         return simpleModule;

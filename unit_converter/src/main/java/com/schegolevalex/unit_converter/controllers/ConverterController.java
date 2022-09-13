@@ -36,7 +36,7 @@ public class ConverterController {
         this.assembler = assembler;
     }
 
-    @GetMapping("/convert")
+    @GetMapping(value = "/convert")
     public Measure convert(@RequestParam("value") BigDecimal value,
                            @RequestParam("from") Unit unitFrom,
                            @RequestParam("to") Unit unitTo) {

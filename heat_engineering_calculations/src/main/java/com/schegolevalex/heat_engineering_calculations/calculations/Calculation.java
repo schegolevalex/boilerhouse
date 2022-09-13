@@ -35,7 +35,7 @@ public class Calculation {
                                      Measure temperatureLow,
                                      Measure temperatureHigh) {
 
-        BigDecimal fPowerValue = unitConverterClient.convert(power, Unit.GIGACALORIES_PER_HOUR).getValue();
+        BigDecimal fPowerValue = unitConverterClient.convert(power, Unit.MEGACALORIES_PER_HOUR).getValue();
         BigDecimal fTemperatureLowValue = unitConverterClient.convert(temperatureLow, Unit.DEGREE_CELSIUS).getValue();
         BigDecimal fTemperatureHighValue = unitConverterClient.convert(temperatureHigh, Unit.DEGREE_CELSIUS).getValue();
 

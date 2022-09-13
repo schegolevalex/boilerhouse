@@ -1,7 +1,6 @@
 package com.schegolevalex.unit_library.entities.units;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.schegolevalex.unit_library.exceptions.IllegalUnitException;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -109,6 +108,8 @@ public enum Unit {
     OUNCE(MASS, "mass_imperial", "oz", 0.0625, false),
 
     ;
+    private static final long serialVersionUID = -7788619177728333712L;
+
     @Getter
     String fullName;
     @Getter
@@ -118,20 +119,15 @@ public enum Unit {
     @Getter
     String shortName;
     @Getter
-    @JsonIgnore
     BigDecimal coefficient;
     @Getter
-    @JsonIgnore
     Boolean isPrimary;
 
     @Getter
-    @JsonIgnore
     BigDecimal term;
     @Getter
-    @JsonIgnore
     BigDecimal coefficientFromPrimary;
     @Getter
-    @JsonIgnore
     BigDecimal termFromPrimary;
 
     static List<Unit> UNIT_LIST = new ArrayList<>();
