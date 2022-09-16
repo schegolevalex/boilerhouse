@@ -1,6 +1,8 @@
 package com.schegolevalex.unit_library.entities.units;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.schegolevalex.unit_library.exceptions.IllegalUnitException;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -14,6 +16,7 @@ import java.util.Map;
 
 import static com.schegolevalex.unit_library.entities.units.UnitType.*;
 
+@JsonDeserialize(using = UnitDeserializer.class)
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Getter

@@ -1,8 +1,6 @@
 package com.schegolevalex.unit_library.entities.measures;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.schegolevalex.unit_library.entities.units.Unit;
-import com.schegolevalex.unit_library.entities.units.UnitDeserializer;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
@@ -20,7 +18,6 @@ public class Measure {
 
     BigDecimal value;
 
-    @JsonDeserialize(using = UnitDeserializer.class)
     Unit unit;
 
     public Measure(BigDecimal value, Unit unit) {

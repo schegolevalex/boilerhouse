@@ -18,16 +18,16 @@ import java.util.Map;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UnitConverterClient {
     @Value("${unit_converter.URL}")
-    String unitConverterURL;
+    static String unitConverterURL;
 
     @Value("${unit_converter.convert-path-segment}")
-    String convertPathSegment;
+    static String convertPathSegment;
 
     @Value("${unit_converter.convert-to-primary-path-segment}")
-    String convertToPrimaryPathSegment;
+    static String convertToPrimaryPathSegment;
 
     @Value("${unit_converter.unit-path-segment}")
-    String unitPathSegment;
+    static String unitPathSegment;
 
     final RestTemplate restTemplate;
 
@@ -55,19 +55,13 @@ public class UnitConverterClient {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 
-        //*************************
         HttpEntity<String> httpEntity = new HttpEntity<String>("body", headers);
-        //*************************
-        System.out.println(httpEntity);
 
         ResponseEntity<Measure> responseEntity = restTemplate
                 .exchange("http://localhost:8080/convert?value={value}&from={unitFrom}&to={unitTo}",
                         HttpMethod.GET, httpEntity, Measure.class, parameters);
         Measure body = responseEntity.getBody();
 
-//        Measure body = restTemplate.getForEntity("http://localhost:8080/convert?value={value}&from={unitFrom}&to={unitTo}", Measure.class, parameters).getBody();
-//        Measure body = restTemplate.getForObject("http://localhost:8080/convert?value={value}&from={unitFrom}&to={unitTo}", Measure.class, parameters);
-        System.out.println(body);
         return body;
     }
 

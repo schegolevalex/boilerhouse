@@ -1,13 +1,11 @@
 package com.schegolevalex.heat_engineering_calculations.configs;
 
-import com.fasterxml.jackson.databind.Module;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.schegolevalex.unit_library.entities.measures.MeasureFactory;
-import com.schegolevalex.unit_library.entities.units.Unit;
-import com.schegolevalex.unit_library.entities.units.UnitDeserializer;
+import com.schegolevalex.unit_library.entities.units.UnitSerializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -28,10 +26,21 @@ public class HeatEngineeringCalculationsApplicationConfig implements WebMvcConfi
         return new RestTemplate();
     }
 
+//    @Bean
+//    public Module addCustomUnitDeserializer() {
+//        SimpleModule simpleModule = new SimpleModule();
+//        simpleModule.addDeserializer(Unit.class, new UnitDeserializer());
+//        return simpleModule;
+//    }
+//
+//    @Bean
+//    public ObjectMapper mapper() {
+//        ObjectMapper mapper = new ObjectMapper();
+//        return mapper.registerModule(addCustomUnitDeserializer());
+//    }
+
     @Bean
-    public Module addCustomUnitDeserializer() {
-        SimpleModule simpleModule = new SimpleModule();
-        simpleModule.addDeserializer(Unit.class, new UnitDeserializer());
-        return simpleModule;
+    public Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder() {
+        return new Jackson2ObjectMapperBuilder().serializers(new UnitSerializer());
     }
 }
