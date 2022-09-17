@@ -2,17 +2,13 @@ package com.schegolevalex.unit_library.entities.units;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.schegolevalex.unit_library.exceptions.IllegalUnitException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.schegolevalex.unit_library.entities.units.UnitType.*;
 
@@ -212,7 +208,7 @@ public enum Unit {
     }
 
     public static Unit valueOfFullName(String fullName) {
-        Unit unit = BY_FULL_NAME.get(fullName);
+        Unit unit = BY_FULL_NAME.get(fullName.toUpperCase(Locale.ROOT));
         if (unit != null) return unit;
         else throw new IllegalUnitException("No such unit");
 
