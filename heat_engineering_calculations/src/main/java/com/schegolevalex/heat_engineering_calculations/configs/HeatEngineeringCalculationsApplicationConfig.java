@@ -1,7 +1,7 @@
 package com.schegolevalex.heat_engineering_calculations.configs;
 
 import com.schegolevalex.unit_library.entities.measures.MeasureFactory;
-import com.schegolevalex.unit_library.entities.units.UnitSerializer;
+import com.schegolevalex.unit_library.entities.units.UnwrappingUnitSerializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -41,6 +41,6 @@ public class HeatEngineeringCalculationsApplicationConfig implements WebMvcConfi
 
     @Bean
     public Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder() {
-        return new Jackson2ObjectMapperBuilder().serializers(new UnitSerializer());
+        return new Jackson2ObjectMapperBuilder().serializers(new UnwrappingUnitSerializer());
     }
 }

@@ -1,27 +1,27 @@
 package com.schegolevalex.unit_library.entities.units;
 
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import com.fasterxml.jackson.databind.util.NameTransformer;
 
 import java.io.IOException;
 
-public class UnitSerializer extends StdSerializer<Unit> {
-    public UnitSerializer(){
-        this(Unit.class);
-    }
+public class UnitSerializer extends JsonSerializer<Unit> {
 
-    public UnitSerializer(Class<Unit> t) {
-        super(t);
-    }
+
+    private final JsonSerializer<Unit> delegate = new UnwrappingUnitSerializer();
+
 
     @Override
     public void serialize(Unit unit, JsonGenerator gen, SerializerProvider provider) throws IOException {
         gen.writeStartObject();
-        gen.writeStringField("fullName",unit.getFullName());
-        gen.writeStringField("unitType",unit.getUnitType().name());
-        gen.writeStringField("subtype",unit.getSubtype());
-        gen.writeStringField("shortName",unit.getShortName());
+        this.delegate.serialize(unit, gen, provider);
         gen.writeEndObject();
+    }
+
+    @Override
+    public JsonSerializer<Unit> unwrappingSerializer(final NameTransformer nameTransformer) {
+        return new UnwrappingUnitSerializer();
     }
 }
