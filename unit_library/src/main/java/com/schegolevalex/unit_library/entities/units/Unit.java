@@ -9,6 +9,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.schegolevalex.unit_library.entities.units.UnitType.*;
 
@@ -232,6 +233,10 @@ public enum Unit {
                 .filter(u -> u.getIsPrimary() && u.getSubtype().equals(subType))
                 .findFirst()
                 .orElseThrow(() -> new IllegalUnitException("No such unit"));
+    }
+
+    public static List<Unit> valueOfType(UnitType unitType) {
+        return UNIT_LIST.stream().filter(unit -> unit.getUnitType() == unitType).collect(Collectors.toList());
     }
 
     public static List<Unit> findAll() {

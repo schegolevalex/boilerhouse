@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Component
 public class ConverterProcessor {
@@ -25,8 +26,14 @@ public class ConverterProcessor {
         return converter.convert(measure, unitTo);
     }
 
-    public Measure getConvertedResult(BigDecimal valueFrom, Unit unitFrom) {
+    public Measure getConvertedToPrimaryResult(BigDecimal valueFrom, Unit unitFrom) {
         MeasureConverter converter = factory.getConverter(unitFrom.getUnitType());
         return converter.convertToPrimary(valueFrom, unitFrom);
+    }
+
+    public List<Measure> getConvertedResultList(BigDecimal valueFrom, Unit unitFrom) {
+        Measure measure = measureFactory.createMeasure(valueFrom, unitFrom);
+        MeasureConverter converter = factory.getConverter(unitFrom.getUnitType());
+        return converter.convertAll(measure);
     }
 }

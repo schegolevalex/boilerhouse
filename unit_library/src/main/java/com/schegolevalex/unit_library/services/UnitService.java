@@ -1,6 +1,7 @@
 package com.schegolevalex.unit_library.services;
 
 import com.schegolevalex.unit_library.entities.units.Unit;
+import com.schegolevalex.unit_library.entities.units.UnitType;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,11 +13,14 @@ public class UnitService {
         return Unit.valueOfFullName(fullName);
     }
 
-    public Unit getBySubtypeAndIsPrimaryIsTrue(String subType) {
+    public Unit findBySubtypeAndIsPrimaryIsTrue(String subType) {
         return Unit.valueOfSubtypeAndIsPrimaryIsTrue(subType);
     }
 
     public List<Unit> findAll() {
         return Unit.findAll();
+    }
+    public List<Unit> findByType(UnitType unitType) {
+        return Unit.valueOfType(unitType);
     }
 }

@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class MeasureConverter {
@@ -44,7 +46,7 @@ public class MeasureConverter {
         //и умножили его на коэффициент из отношения подтипов, полученный выше.
         //Тем самым мы перевели исходное значение valueFrom в primary другого типа.
         Measure primaryMeasureTo = measureFactory.createMeasure(primaryMeasureFrom.getValue().multiply(subtypeCoefficient),
-                unitService.getBySubtypeAndIsPrimaryIsTrue(unitTo.getSubtype()));
+                unitService.findBySubtypeAndIsPrimaryIsTrue(unitTo.getSubtype()));
 
         //Получили primary Unit другого типа и сконвертировали valueTo с прошлого шага в целевой Unit.
         return convertFromPrimary(primaryMeasureTo, unitTo);
@@ -67,7 +69,7 @@ public class MeasureConverter {
     public Measure convertToPrimary(BigDecimal valueFrom, Unit unitFrom) {
         return convertToPrimary(valueFrom,
                 unitFrom,
-                unitService.getBySubtypeAndIsPrimaryIsTrue(unitFrom.getSubtype()));
+                unitService.findBySubtypeAndIsPrimaryIsTrue(unitFrom.getSubtype()));
     }
 
     Measure convertToPrimary(Measure measureFrom, Unit unitTo) {
@@ -84,6 +86,15 @@ public class MeasureConverter {
         BigDecimal valueFrom = measureFrom.getValue();
         Unit unitFrom = measureFrom.getUnit();
         return convertFromPrimary(valueFrom, unitFrom, unitTo);
+    }
+
+    List<Measure> convertAll(Measure measureFrom) {
+        List<Unit> unitsOfType = unitService.findByType(measureFrom.getUnit().getUnitType());
+        List<Measure> measureList = new ArrayList<>();
+        for (Unit unit : unitsOfType) {
+            measureList.add(convert(measureFrom, unit));
+        }
+        return measureList;
     }
 
     void isTheSameType(Unit unitFrom, Unit unitTo) {

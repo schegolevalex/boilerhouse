@@ -18,16 +18,16 @@ import java.util.Map;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UnitConverterClient {
     @Value("${unit_converter.URL}")
-    static String unitConverterURL;
+    String unitConverterURL;
 
     @Value("${unit_converter.convert-path-segment}")
-    static String convertPathSegment;
+    String convertPathSegment;
 
     @Value("${unit_converter.convert-to-primary-path-segment}")
-    static String convertToPrimaryPathSegment;
+    String convertToPrimaryPathSegment;
 
     @Value("${unit_converter.unit-path-segment}")
-    static String unitPathSegment;
+    String unitPathSegment;
 
     final RestTemplate restTemplate;
 
@@ -58,7 +58,7 @@ public class UnitConverterClient {
         HttpEntity<String> httpEntity = new HttpEntity<String>("body", headers);
 
         ResponseEntity<Measure> responseEntity = restTemplate
-                .exchange("http://localhost:8080/convert?value={value}&from={unitFrom}&to={unitTo}",
+                .exchange(unitConverterURL + convertPathSegment,
                         HttpMethod.GET, httpEntity, Measure.class, parameters);
         Measure body = responseEntity.getBody();
 

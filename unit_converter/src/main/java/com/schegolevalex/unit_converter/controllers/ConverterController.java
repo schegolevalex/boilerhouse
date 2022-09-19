@@ -40,15 +40,20 @@ public class ConverterController {
     @GetMapping(value = "/convert")
     public Measure convert(@RequestParam("value") BigDecimal value,
                            @RequestParam("from") Unit unitFrom,
-                           @RequestParam("to") Unit unitTo) {
-
+                           @RequestParam(value = "to") Unit unitTo) {
         return converterProcessor.getConvertedResult(value, unitFrom, unitTo);
+    }
+
+    @GetMapping(value = "/convert-all")
+    public List<Measure> convert(@RequestParam("value") BigDecimal value,
+                           @RequestParam("from") Unit unitFrom) {
+        return converterProcessor.getConvertedResultList(value, unitFrom);
     }
 
     @GetMapping("/convert-to-primary")
     public Measure convertToPrimary(@RequestParam("value") BigDecimal value,
                                     @RequestParam("from") Unit unitFrom) {
-        return converterProcessor.getConvertedResult(value, unitFrom);
+        return converterProcessor.getConvertedToPrimaryResult(value, unitFrom);
     }
 
     @GetMapping("/units/{fullName}")
