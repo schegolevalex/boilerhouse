@@ -108,7 +108,6 @@ public enum Unit {
     LITER_PER_DAY(FLOW_RATE_BY_VOLUME, "flow_rate_by_volume_metric", "l/d", 1.0 / 1E3 / 24, false),
     LITER_PER_YEAR(FLOW_RATE_BY_VOLUME, "flow_rate_by_volume_metric", "l/y", 1.0 / 1E3 / 24 / 365, false),
 
-
     TONNE(MASS, "mass_metric", "t", 1.0, true),
     KILOGRAM(MASS, "mass_metric", "kg", 1E3, false),
     GRAM(MASS, "mass_metric", "g", 1E6, false),
@@ -117,6 +116,20 @@ public enum Unit {
 
     POUND(MASS, "mass_imperial", "lb", 1.0, true),
     OUNCE(MASS, "mass_imperial", "oz", 0.0625, false),
+
+    METER_3(VOLUME, "volume_metric", "m3", 1.0, true),
+    DEKAMETER_3(VOLUME, "volume_metric", "dm3", 1E-3, false),
+    KILOMETER_3(VOLUME, "volume_metric", "km3", 1E9, false),
+    CENTIMETER_3(VOLUME, "volume_metric", "cm3", 1E-6, false),
+    MILLIMETER_3(VOLUME, "volume_metric", "mm3", 1E-9, false),
+    HECTOLITER(VOLUME, "volume_metric", "hl", 1E-1, false),
+    DECALITER(VOLUME, "volume_metric", "dal", 1E-2, false),
+    LITER(VOLUME, "volume_metric", "l", 1E-3, false),
+    DECILITER(VOLUME, "volume_metric", "dl", 1E-4, false),
+    CENTILITER(VOLUME, "volume_metric", "cl", 1E-5, false),
+    MILLILITER(VOLUME, "volume_metric", "ml", 1E-6, false),
+    MICROLITER(VOLUME, "volume_metric", "mcl", 1E-9, false),
+
 
     ;
 

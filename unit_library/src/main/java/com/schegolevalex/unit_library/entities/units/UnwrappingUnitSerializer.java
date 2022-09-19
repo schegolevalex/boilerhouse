@@ -17,12 +17,10 @@ public class UnwrappingUnitSerializer extends StdSerializer<Unit> {
 
     @Override
     public void serialize(Unit unit, JsonGenerator gen, SerializerProvider provider) throws IOException {
-//        gen.writeStartObject();
         gen.writeStringField("fullName",unit.getFullName());
         gen.writeStringField("unitType",unit.getUnitType().name());
         gen.writeStringField("subtype",unit.getSubtype());
         gen.writeStringField("shortName",unit.getShortName());
-//        gen.writeEndObject();
     }
 
     @Override

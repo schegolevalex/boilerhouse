@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -61,7 +62,7 @@ public class ConverterController {
         List<EntityModel<Unit>> units = unitService
                 .findAll()
                 .stream()
-                .sorted((o1, o2) -> o1.getUnitType().compareTo(o2.getUnitType())) //TODO
+                .sorted(Comparator.comparing(Unit::getUnitType))
                 .map(assembler::toModel)
                 .collect(Collectors.toList());
         return CollectionModel.of(units,

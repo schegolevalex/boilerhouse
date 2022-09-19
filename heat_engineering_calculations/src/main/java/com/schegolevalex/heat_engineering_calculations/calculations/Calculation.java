@@ -50,6 +50,6 @@ public class Calculation {
                                        Measure temperatureHigh) {
         Measure flowRateByMass = getFlowRateByMass(power, temperatureLow, temperatureHigh);
         BigDecimal resultValue = flowRateByMass.getValue().divide(WATER_DENSITY, RoundingMode.HALF_UP);
-        return measureFactory.createMeasure(resultValue, Unit.METER_3_PER_HOUR); //TODO insert all FlowRateByVolume units to the DB
+        return measureFactory.createMeasure(resultValue, Unit.METER_3_PER_HOUR);
     }
 }

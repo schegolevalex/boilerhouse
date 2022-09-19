@@ -8,11 +8,13 @@ import com.schegolevalex.unit_library.entities.units.UnitSerializer;
 import com.schegolevalex.unit_library.services.UnitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
+@ComponentScan({"com.schegolevalex.unit_library"})
 public class UnitConverterApplicationConfig implements WebMvcConfigurer {
 
     private final UnitService unitService;
@@ -31,7 +33,6 @@ public class UnitConverterApplicationConfig implements WebMvcConfigurer {
     public Module addCustomUnitSerializer() {
         SimpleModule simpleModule = new SimpleModule();
         simpleModule.addSerializer(Unit.class, new UnitSerializer());
-
         return simpleModule;
     }
 }

@@ -9,9 +9,7 @@ import java.io.IOException;
 
 public class UnitSerializer extends JsonSerializer<Unit> {
 
-
     private final JsonSerializer<Unit> delegate = new UnwrappingUnitSerializer();
-
 
     @Override
     public void serialize(Unit unit, JsonGenerator gen, SerializerProvider provider) throws IOException {
