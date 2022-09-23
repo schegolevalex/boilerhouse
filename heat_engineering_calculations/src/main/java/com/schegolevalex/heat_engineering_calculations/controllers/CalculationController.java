@@ -4,6 +4,7 @@ import com.schegolevalex.heat_engineering_calculations.calculations.Calculation;
 import com.schegolevalex.unit_library.entities.measures.Measure;
 import com.schegolevalex.unit_library.entities.reference_data.pipeNominalDiameters.PipeNominalDiameter;
 import com.schegolevalex.unit_library.entities.reference_data.pipe_materials.PipeMaterial;
+import com.schegolevalex.unit_library.entities.reference_data.roughness.Roughness;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,5 +69,10 @@ public class CalculationController {
     @GetMapping("/pipeNominalDiameters")
     public List<PipeNominalDiameter> getPipeNominalDiameters() {
         return Arrays.stream(PipeNominalDiameter.values()).toList();
+    }
+
+    @GetMapping("/roughness")
+    public Map<PipeMaterial, Measure> getRoughness() {
+        return Roughness.getRoughnessMap();
     }
 }

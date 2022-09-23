@@ -24,4 +24,9 @@ public class Measure {
         this.value = value;
         this.unit = unit;
     }
+
+    public Measure(double value, Unit unit) {
+        this.value = BigDecimal.valueOf(value);
+        this.unit = unit;
+    }
 }
