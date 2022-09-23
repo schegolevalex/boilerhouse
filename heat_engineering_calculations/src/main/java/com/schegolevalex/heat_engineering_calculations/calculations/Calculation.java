@@ -58,8 +58,10 @@ public class Calculation {
                                    Measure temperature,
                                    Measure roughness,
                                    PipeMaterial pipeMaterial,
-                                   BigDecimal pipeInnerDiameter) {
+                                   Measure pipeInnerDiameter) {
 
         return measureFactory.createMeasure(13.0, Unit.MEGAWATT);
     }
+
+//    public Measure getSpeed()
 }
