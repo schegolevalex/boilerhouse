@@ -3,8 +3,8 @@ package com.schegolevalex.heat_engineering_calculations.calculations;
 import com.schegolevalex.heat_engineering_calculations.clients.UnitConverterClient;
 import com.schegolevalex.unit_library.entities.measures.Measure;
 import com.schegolevalex.unit_library.entities.measures.MeasureFactory;
-import com.schegolevalex.unit_library.entities.reference_data.pipe_materials.PipeMaterial;
 import com.schegolevalex.unit_library.entities.reference_data.pipeNominalDiameters.PipeNominalDiameter;
+import com.schegolevalex.unit_library.entities.reference_data.pipe_materials.PipeMaterial;
 import com.schegolevalex.unit_library.entities.units.Unit;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -61,16 +61,16 @@ public class Calculation {
                                    PipeMaterial pipeMaterial,
                                    Measure pipeInnerDiameter) {
 
+
         return measureFactory.createMeasure(13.0, Unit.MEGAWATT);
     }
 
     public Measure getSpeed(Measure flowRateByVolume, PipeNominalDiameter nominalDiameter) {
         flowRateByVolume = unitConverterClient.convert(flowRateByVolume, Unit.METER_3_PER_HOUR);
-        return measureFactory.createMeasure(
-                flowRateByVolume.getValue()
-                        .multiply(BigDecimal.valueOf(1E6))
-                        .divide(BigDecimal.valueOf(nominalDiameter.getDiameter()).pow(2), RoundingMode.HALF_UP)
-                        .divide(BigDecimal.valueOf(3600), RoundingMode.HALF_UP)
-                        .divide(BigDecimal.valueOf(0.785), RoundingMode.HALF_UP), Unit.METER_PER_SECOND);
+        return measureFactory.createMeasure(flowRateByVolume.getValue()
+                .multiply(BigDecimal.valueOf(1E6))
+                .divide(BigDecimal.valueOf(nominalDiameter.getDiameter()).pow(2), RoundingMode.HALF_UP)
+                .divide(BigDecimal.valueOf(3600), RoundingMode.HALF_UP)
+                .divide(BigDecimal.valueOf(0.785), RoundingMode.HALF_UP), Unit.METER_PER_SECOND);
     }
 }
