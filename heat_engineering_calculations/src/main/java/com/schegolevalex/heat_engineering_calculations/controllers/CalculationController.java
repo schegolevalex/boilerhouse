@@ -3,6 +3,7 @@ package com.schegolevalex.heat_engineering_calculations.controllers;
 import com.schegolevalex.heat_engineering_calculations.calculations.Calculation;
 import com.schegolevalex.unit_library.entities.measures.Measure;
 import com.schegolevalex.unit_library.entities.pipes.PipeMaterial;
+import com.schegolevalex.unit_library.entities.pipes.PipeNominalDiameter;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,5 +49,11 @@ public class CalculationController {
                 roughness,
                 pipeMaterial,
                 pipeInnerDiameter);
+    }
+
+    @PostMapping("/speed")
+    public Measure getSpeed(@JsonArg("flowRateByVolume") Measure flowRateByVolume,
+                            @JsonArg("pipeNominalDiameter") PipeNominalDiameter nominalDiameter) {
+        return calculation.getSpeed(flowRateByVolume, nominalDiameter);
     }
 }
