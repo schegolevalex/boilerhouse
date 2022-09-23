@@ -2,8 +2,8 @@ package com.schegolevalex.heat_engineering_calculations.controllers;
 
 import com.schegolevalex.heat_engineering_calculations.calculations.Calculation;
 import com.schegolevalex.unit_library.entities.measures.Measure;
-import com.schegolevalex.unit_library.entities.pipes.PipeMaterial;
-import com.schegolevalex.unit_library.entities.pipes.PipeNominalDiameter;
+import com.schegolevalex.unit_library.entities.reference_data.pipe_materials.PipeMaterial;
+import com.schegolevalex.unit_library.entities.reference_data.pipeNominalDiameters.PipeNominalDiameter;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;

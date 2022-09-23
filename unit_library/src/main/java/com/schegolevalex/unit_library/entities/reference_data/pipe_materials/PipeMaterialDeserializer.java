@@ -1,4 +1,4 @@
-package com.schegolevalex.unit_library.entities.pipes;
+package com.schegolevalex.unit_library.entities.reference_data.pipe_materials;
 
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;

@@ -1,5 +1,10 @@
-package com.schegolevalex.unit_library.entities.pipes;
+package com.schegolevalex.unit_library.entities.reference_data.pipeNominalDiameters;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+@JsonSerialize(using = PipeNominalDiameterSerializer.class)
+@JsonDeserialize(using = PipeNominalDiameterDeserializer.class)
 public enum PipeNominalDiameter {
     DN8(8),
     DN10(10),

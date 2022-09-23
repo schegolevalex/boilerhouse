@@ -1,4 +1,4 @@
-package com.schegolevalex.unit_library.entities.pipes;
+package com.schegolevalex.unit_library.entities.reference_data.pipe_materials;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
