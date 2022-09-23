@@ -11,4 +11,6 @@ public enum UnitType {
     POWER,
     FLOW_RATE_BY_MASS,
     FLOW_RATE_BY_VOLUME,
+    SPEED,
+
 }
