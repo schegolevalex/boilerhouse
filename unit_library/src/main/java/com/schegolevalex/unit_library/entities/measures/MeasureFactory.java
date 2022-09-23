@@ -21,4 +21,9 @@ public class MeasureFactory {
         constraintsList.stream().filter(c -> c.getUnitType() == unit.getUnitType()).forEach(c -> c.check(value, unit));
         return new Measure(value, unit);
     }
+
+    public Measure createMeasure (double value, Unit unit) {
+        constraintsList.stream().filter(c -> c.getUnitType() == unit.getUnitType()).forEach(c -> c.check(BigDecimal.valueOf(value), unit));
+        return new Measure(BigDecimal.valueOf(value), unit);
+    }
 }

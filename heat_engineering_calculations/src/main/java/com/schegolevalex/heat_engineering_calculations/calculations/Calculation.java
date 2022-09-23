@@ -3,6 +3,7 @@ package com.schegolevalex.heat_engineering_calculations.calculations;
 import com.schegolevalex.heat_engineering_calculations.clients.UnitConverterClient;
 import com.schegolevalex.unit_library.entities.measures.Measure;
 import com.schegolevalex.unit_library.entities.measures.MeasureFactory;
+import com.schegolevalex.unit_library.entities.pipes.PipeMaterial;
 import com.schegolevalex.unit_library.entities.units.Unit;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -51,5 +52,14 @@ public class Calculation {
         Measure flowRateByMass = getFlowRateByMass(power, temperatureLow, temperatureHigh);
         BigDecimal resultValue = flowRateByMass.getValue().divide(WATER_DENSITY, RoundingMode.HALF_UP);
         return measureFactory.createMeasure(resultValue, Unit.METER_3_PER_HOUR);
+    }
+
+    public Measure getPressureLoss(Measure flowRateByMass,
+                                   Measure temperature,
+                                   Measure roughness,
+                                   PipeMaterial pipeMaterial,
+                                   BigDecimal pipeInnerDiameter) {
+
+        return measureFactory.createMeasure(13.0, Unit.MEGAWATT);
     }
 }
