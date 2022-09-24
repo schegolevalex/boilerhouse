@@ -55,12 +55,12 @@ public class Calculation {
         return measureFactory.createMeasure(resultValue, Unit.METER_3_PER_HOUR);
     }
 
-    public Measure getPressureLoss(Measure flowRateByMass,
+    public Measure getPressureLoss(Measure flowRateByVolume,
                                    Measure temperature,
                                    Measure roughness,
                                    PipeMaterial pipeMaterial,
                                    Measure pipeInnerDiameter) {
-
+//        getSpeed(flowRateByVolume)
 
         return measureFactory.createMeasure(13.0, Unit.MEGAWATT);
     }

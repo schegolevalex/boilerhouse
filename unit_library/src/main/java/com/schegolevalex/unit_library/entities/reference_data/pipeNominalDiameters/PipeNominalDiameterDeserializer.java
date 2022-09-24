@@ -14,10 +14,10 @@ public class PipeNominalDiameterDeserializer extends JsonDeserializer<PipeNomina
     public PipeNominalDiameter deserialize(JsonParser jsonParser, DeserializationContext ctxt)
             throws IOException, JacksonException {
         JsonNode node = jsonParser.getCodec().readTree(jsonParser);
-        String pipeNominalDiameter = node.get("pipeNominalDiameter").asText();
+        String name = node.get("name").asText();
 
         for (PipeNominalDiameter diameter : PipeNominalDiameter.values()) {
-            if (diameter.name().equalsIgnoreCase(pipeNominalDiameter)) {
+            if (diameter.name().equalsIgnoreCase(name)) {
                 return diameter;
             }
         }

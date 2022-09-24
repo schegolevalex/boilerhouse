@@ -11,8 +11,8 @@ public class PipeNominalDiameterSerializer extends JsonSerializer<PipeNominalDia
     @Override
     public void serialize(PipeNominalDiameter pipeNominalDiameter, JsonGenerator gen, SerializerProvider provider) throws IOException {
         gen.writeStartObject();
-        gen.writeFieldName("pipeNominalDiameter");
-        gen.writeString(pipeNominalDiameter.name());
+        gen.writeStringField("name", pipeNominalDiameter.name());
+        gen.writeNumberField("diameter", pipeNominalDiameter.getDiameter());
         gen.writeEndObject();
     }
 }
