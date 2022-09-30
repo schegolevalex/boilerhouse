@@ -20,6 +20,7 @@ public class UnitService {
     public List<Unit> findAll() {
         return Unit.findAll();
     }
+
     public List<Unit> findByType(UnitType unitType) {
         return Unit.valueOfType(unitType);
     }

@@ -41,4 +41,12 @@ public enum PipeNominalDiameter {
     public double getDiameter() {
         return diameter;
     }
+
+    public static PipeNominalDiameter valueOfDiameter(double diameter) {
+        for (PipeNominalDiameter pipeNominalDiameter : PipeNominalDiameter.values()) {
+            if (pipeNominalDiameter.getDiameter() == diameter)
+                return pipeNominalDiameter;
+        }
+        return null;
+    }
 }

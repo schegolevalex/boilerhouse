@@ -65,7 +65,8 @@ public class Calculation {
         return measureFactory.createMeasure(13.0, Unit.MEGAWATT);
     }
 
-    public Measure getSpeed(Measure flowRateByVolume, PipeNominalDiameter nominalDiameter) {
+    public Measure getSpeed(Measure flowRateByVolume,
+                            PipeNominalDiameter nominalDiameter) {
         flowRateByVolume = unitConverterClient.convert(flowRateByVolume, Unit.METER_3_PER_HOUR);
         return measureFactory.createMeasure(flowRateByVolume.getValue()
                         .multiply(BigDecimal.valueOf(1E6))
@@ -74,4 +75,6 @@ public class Calculation {
                         .divide(BigDecimal.valueOf(0.785), 10, RoundingMode.HALF_UP)
                 , Unit.METER_PER_SECOND);
     }
+
+//    public BigDecimal getReynoldsNumber()
 }

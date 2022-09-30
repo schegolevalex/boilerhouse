@@ -67,7 +67,6 @@ public class JsonArgumentResolver implements HandlerMethodArgumentResolver {
         Class<?> parameterType = parameter.getParameterType();
 
         Configuration.setDefaults(new Configuration.Defaults() {
-
             private final JsonProvider jsonProvider = new JacksonJsonProvider();
             private final MappingProvider mappingProvider = new JacksonMappingProvider();
 
@@ -86,7 +85,6 @@ public class JsonArgumentResolver implements HandlerMethodArgumentResolver {
                 return EnumSet.noneOf(Option.class);
             }
         });
-
 
         return JsonPath.parse(body).read(jsonPath, parameterType);
     }
