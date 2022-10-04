@@ -162,6 +162,45 @@ public enum Unit {
     CENTIMETER_PER_YEAR(SPEED, "speed_international_system", "cm/y", 1E-2 / 60 / 60 / 24 / 365, false),
     MILLIMETER_PER_YEAR(SPEED, "speed_international_system", "mm/y", 1E-3 / 60 / 60 / 24 / 365, false),
 
+    BAR(PRESSURE, "pressure_metric", null, 1, true),
+    KILOPASCAL(PRESSURE, "pressure_metric", "kPa", 1E-2, false),
+    HECTOPASCAL(PRESSURE, "pressure_metric", "hPa", 1E-3, false),
+    MEGAPASCAL(PRESSURE, "pressure_metric", "MPa", 1E1, false),
+    MILLIBAR(PRESSURE, "pressure_metric", null, 1E-3, false),
+    PASCAL(PRESSURE, "pressure_metric", "Pa", 1E-5, false),
+    GRAM_PER_SQUARE_CENTIMETER(PRESSURE, "pressure_metric", "gf/cm²", 0.000980665012, false),
+    TONNE_PER_SQUARE_CENTIMETER(PRESSURE, "pressure_metric", "tf/cm²", 980.665012, false),
+    KILOGRAM_PER_SQUARE_METER(PRESSURE, "pressure_metric", "kgf/m²", 0.0000980665012, false),
+    TONNE_PER_SQUARE_METER(PRESSURE, "pressure_metric", "tf/m²", 0.0980665012, false),
+    NEWTON_PER_SQUARE_METER(PRESSURE, "pressure_metric", "N/m²",1E-5, false),
+    KILONEWTON_PER_SQUARE_METER(PRESSURE, "pressure_metric", "kN/m²",1E-2, false),
+    MEGANEWTON_PER_SQUARE_METER(PRESSURE, "pressure_metric", "MN/m²",1E1, false),
+    NEWTON_PER_SQUARE_CENTIMETER(PRESSURE, "pressure_metric", "N/cm²",1E-1, false),
+    NEWTON_PER_SQUARE_MILLIMETER(PRESSURE, "pressure_metric", "N/mm²",1E1, false),
+
+    OUNCE_PER_SQUARE_INCH(PRESSURE, "pressure_imperial", "oz/in²", 1, true),
+    OUNCE_PER_SQUARE_FOOT(PRESSURE, "pressure_imperial", "oz/ft²", 0.00694444444, false),
+    POUND_PER_SQUARE_INCH(PRESSURE, "pressure_imperial", "psi", 16, false),
+    POUND_PER_SQUARE_FOOT(PRESSURE, "pressure_imperial", "lb/ft²", 0.111111111, false),
+    THOUSAND_POUNDS_PER_SQUARE_INCH(PRESSURE, "pressure_imperial", "ksi", 16000, false),
+
+    METER_OF_WATER(PRESSURE, "pressure_water", "m.w.с", 1, true),
+    CENTIMETER_OF_WATER(PRESSURE, "pressure_water", "cm.w.с", 1E-2, false),
+    MILLIMETER_OF_WATER(PRESSURE, "pressure_water", "mm.w.с", 1E-3, false),
+    FOOT_OF_WATER(PRESSURE, "pressure_water", "ft.w.с", 0.3048, false),
+    INCH_OF_WATER(PRESSURE, "pressure_water", "in.w.с", 0.0253999998, false),
+
+    CENTIMETER_OF_MERCURY(PRESSURE, "pressure_mercury", "cm.m.c", 1, true),
+    METER_OF_MERCURY(PRESSURE, "pressure_mercury", "m.m.c", 100, false),
+    MILLIMETER_OF_MERCURY(PRESSURE, "pressure_mercury", "mm.m.c", 1E-1, false),
+    INCH_OF_MERCURY(PRESSURE, "pressure_mercury", "in.m.c", 2.54, false),
+
+    PHYSICAL_ATMOSPHERE(PRESSURE, "pressure_atmosphere", "atm", 1, true),
+    TECHNICAL_ATMOSPHERE(PRESSURE, "pressure_atmosphere", null, 0.967841061, false),
+
+    SQUARE_METER_PER_SECOND(VISCOSITY, "viscosity", "m²/s", 1, true),
+    SQUARE_MILLIMETER_PER_SECOND(VISCOSITY, "viscosity", "mm²/s", 1, false),
+
 
     ;
     String fullName;

@@ -7,6 +7,7 @@ import com.schegolevalex.unit_library.entities.reference_data.pipes.Pipe;
 import com.schegolevalex.unit_library.entities.units.Unit;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -26,6 +27,7 @@ public class PipeService {
     final String FILE = "unit_library/src/main/resources/Трубы ГОСТ 10704-91.csv";
     Map<String, List<Pipe>> pipesByStandardMap = new HashMap<>();
 
+    @Autowired
     public PipeService(MeasureFactory measureFactory) {
         this.measureFactory = measureFactory;
     }

@@ -44,21 +44,19 @@ public class CalculationController {
 
     @PostMapping("/pressure-loss")
     public Measure getPressureLoss(@JsonArg("flowRateByVolume") Measure flowRateByVolume,
-                                   @JsonArg("temperature") Measure temperature,
+                                   @JsonArg("kinematicViscosity") Measure kinematicViscosity,
                                    @JsonArg("roughness") Measure roughness,
-                                   @JsonArg("pipeMaterial") PipeMaterial pipeMaterial,
                                    @JsonArg("pipeInnerDiameter") Measure pipeInnerDiameter) {
         return calculation.getPressureLoss(flowRateByVolume,
-                temperature,
+                kinematicViscosity,
                 roughness,
-                pipeMaterial,
                 pipeInnerDiameter);
     }
 
     @PostMapping("/speed")
     public Measure getSpeed(@JsonArg("flowRateByVolume") Measure flowRateByVolume,
-                            @JsonArg("pipeNominalDiameter") PipeNominalDiameter nominalDiameter) {
-        return calculation.getSpeed(flowRateByVolume, nominalDiameter);
+                            @JsonArg("pipeInnerDiameter") Measure innerDiameter) {
+        return calculation.getSpeed(flowRateByVolume, innerDiameter);
     }
 
     @GetMapping("/pipeMaterials")

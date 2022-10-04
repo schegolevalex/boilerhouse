@@ -1,6 +1,6 @@
 package com.schegolevalex.unit_library.services;
 
-import com.schegolevalex.unit_library.entities.relations_in_type.SubtypeRelationInType;
+import com.schegolevalex.unit_library.entities.units.SubtypeRelationInType;
 import com.schegolevalex.unit_library.entities.units.Unit;
 import org.springframework.stereotype.Service;
 

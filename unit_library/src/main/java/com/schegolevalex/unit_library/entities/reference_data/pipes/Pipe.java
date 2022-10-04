@@ -10,8 +10,6 @@ import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
@@ -25,11 +23,11 @@ public class Pipe implements Element {
     final String standard;
     final Measure linearWeight;
 
-    static final Map<String, Pipe> PIPE_MAP = new HashMap<>();
-
-    static {
+//    static final Map<String, Pipe> PIPE_MAP = new HashMap<>();
+//
+//    static {
 //        PIPE_MAP.put("")
-    }
+//    }
 
     public Pipe(PipeMaterial material,
                 PipeNominalDiameter nominalDiameter,
