@@ -69,23 +69,23 @@ public class CalculationController {
         return Arrays.stream(PipeNominalDiameter.values()).toList();
     }
 
-    @GetMapping("/roughness")
+    @GetMapping("/roughnesses")
     public Map<PipeMaterial, Measure> getRoughness() {
         return Roughness.getRoughnessMap();
     }
 
-    @PostMapping("/test")
-    public PipeNominalDiameter test(@JsonArg("pipeNominalDiameter") PipeNominalDiameter nominalDiameter) {
-        return nominalDiameter;
-    }
-
-    @PostMapping("/test2")
-    public Measure test(@JsonArg("flowRateByVolume") Measure flowRateByVolume) {
-        return flowRateByVolume;
-    }
-
-    @PostMapping("/test3")
-    public int test(@JsonArg("flowRateByVolume") int a) {
-        return a;
-    }
+//    @PostMapping("/test")
+//    public PipeNominalDiameter test(@JsonArg("pipeNominalDiameter") PipeNominalDiameter nominalDiameter) {
+//        return nominalDiameter;
+//    }
+//
+//    @PostMapping("/test2")
+//    public Measure test(@JsonArg("flowRateByVolume") Measure flowRateByVolume) {
+//        return flowRateByVolume;
+//    }
+//
+//    @PostMapping("/test3")
+//    public int test(@JsonArg("flowRateByVolume") int a) {
+//        return a;
+//    }
 }

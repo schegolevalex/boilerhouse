@@ -19,7 +19,7 @@ public class Roughness {
         roughnessMap.put(PipeMaterial.XLPE, new Measure(0.01, Unit.MILLIMETER));
     }
 
-    public static Measure getRoughness(PipeMaterial pipeMaterial) {
+    public static Measure byPipeMaterial(PipeMaterial pipeMaterial) {
         return roughnessMap.get(pipeMaterial);
     }
 
