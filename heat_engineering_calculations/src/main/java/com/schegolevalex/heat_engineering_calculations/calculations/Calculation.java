@@ -67,11 +67,11 @@ public class Calculation {
 
     public BigDecimal getReynoldsNumber(Measure flowRateByVolume,
                                         Measure pipeInnerDiameter,
-                                        Measure viscosity) {
+                                        Measure kinematicViscosity) {
         pipeInnerDiameter = unitConverterClient.convert(pipeInnerDiameter, Unit.METER);
         return getSpeed(flowRateByVolume, pipeInnerDiameter).getValue()
                 .multiply(pipeInnerDiameter.getValue())
-                .divide(viscosity.getValue(), 10, RoundingMode.HALF_UP);
+                .divide(kinematicViscosity.getValue(), 10, RoundingMode.HALF_UP);
     }
 
     public Measure getPressureLoss(Measure flowRateByVolume,

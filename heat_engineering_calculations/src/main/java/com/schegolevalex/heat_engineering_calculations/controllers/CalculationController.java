@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +43,7 @@ public class CalculationController {
                 request.get("temperatureHigh"));
     }
 
-    @PostMapping("/pressure-loss")
+    @PostMapping("/specific-pressure-loss")
     public Measure getPressureLoss(@JsonArg("flowRateByVolume") Measure flowRateByVolume,
                                    @JsonArg("kinematicViscosity") Measure kinematicViscosity,
                                    @JsonArg("roughness") Measure roughness,
@@ -51,6 +52,13 @@ public class CalculationController {
                 kinematicViscosity,
                 roughness,
                 pipeInnerDiameter);
+    }
+
+    @PostMapping("/reynolds-number")
+    public BigDecimal getPressureLoss(@JsonArg("flowRateByVolume") Measure flowRateByVolume,
+                                      @JsonArg("kinematicViscosity") Measure kinematicViscosity,
+                                      @JsonArg("pipeInnerDiameter") Measure pipeInnerDiameter) {
+        return calculation.getReynoldsNumber(flowRateByVolume, pipeInnerDiameter, kinematicViscosity);
     }
 
     @PostMapping("/speed")
