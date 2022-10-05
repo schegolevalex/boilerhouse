@@ -1,8 +1,8 @@
 package com.schegolevalex.unit_library.entities.reference_data.viscosity;
 
 import com.schegolevalex.unit_library.entities.measures.Measure;
-import com.schegolevalex.unit_library.entities.reference_data.pipe_materials.PipeMaterial;
 import com.schegolevalex.unit_library.entities.units.Unit;
+import com.schegolevalex.unit_library.exceptions.IllegalUnitException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,8 +32,11 @@ public class Viscosity {
         viscosityMap.put(new Measure(170, Unit.DEGREE_CELSIUS), new Measure(1.522E-6, Unit.SQUARE_METER_PER_SECOND));
     }
 
-    public static Measure getViscosity(PipeMaterial pipeMaterial) {
-        return viscosityMap.get(pipeMaterial);
+    public static Measure byTemperature(Measure temperature) {
+        if (!temperature.getUnit().getFullName().equals("DEGREE_CELSIUS")) {
+            throw new IllegalUnitException("It's need to use DEGREE_CELSIUS unit to get Viscosity");
+        }
+        return viscosityMap.get(temperature);
     }
 
     public static Map<Measure, Measure> getViscosityMap() {
