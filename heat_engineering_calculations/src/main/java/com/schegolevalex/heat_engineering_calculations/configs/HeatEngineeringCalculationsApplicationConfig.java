@@ -4,11 +4,13 @@ import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.schegolevalex.heat_engineering_calculations.controllers.JsonArgumentResolver;
 import com.schegolevalex.unit_library.entities.units.Unit;
-import com.schegolevalex.unit_library.entities.units.UnitDeserializer;
-import com.schegolevalex.unit_library.entities.units.UnitSerializer;
+import com.schegolevalex.unit_library.serdeser.PairSerializer;
+import com.schegolevalex.unit_library.serdeser.UnitDeserializer;
+import com.schegolevalex.unit_library.serdeser.UnitSerializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.util.Pair;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -37,6 +39,13 @@ public class HeatEngineeringCalculationsApplicationConfig implements WebMvcConfi
     public Module addCustomUnitSerializer() {
         SimpleModule simpleModule = new SimpleModule();
         simpleModule.addSerializer(Unit.class, new UnitSerializer());
+        return simpleModule;
+    }
+
+    @Bean
+    public Module addCustomPairSerializer() {
+        SimpleModule simpleModule = new SimpleModule();
+        simpleModule.addSerializer(Pair.class, new PairSerializer());
         return simpleModule;
     }
 

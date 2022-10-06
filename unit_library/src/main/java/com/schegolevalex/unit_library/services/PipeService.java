@@ -1,9 +1,9 @@
 package com.schegolevalex.unit_library.services;
 
 import com.schegolevalex.unit_library.entities.measures.MeasureFactory;
-import com.schegolevalex.unit_library.entities.reference_data.pipeNominalDiameters.PipeNominalDiameter;
-import com.schegolevalex.unit_library.entities.reference_data.pipe_materials.PipeMaterial;
-import com.schegolevalex.unit_library.entities.reference_data.pipes.Pipe;
+import com.schegolevalex.unit_library.entities.reference_data.PipeNominalDiameter;
+import com.schegolevalex.unit_library.entities.reference_data.PipeMaterial;
+import com.schegolevalex.unit_library.entities.reference_data.Pipe;
 import com.schegolevalex.unit_library.entities.units.Unit;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -41,7 +41,7 @@ public class PipeService {
             while ((line = reader.readLine()) != null) {
                 String[] split = line.split(";");
                 pipes.add(new Pipe(PipeMaterial.valueOf(split[0]),
-                        PipeNominalDiameter.valueOfDiameter(Double.parseDouble(split[1])),
+                        PipeNominalDiameter.valueOfDiameter(Integer.parseInt(split[1])),
                         new BigDecimal(split[2]),
                         new BigDecimal(split[3]),
                         new BigDecimal(split[4]),

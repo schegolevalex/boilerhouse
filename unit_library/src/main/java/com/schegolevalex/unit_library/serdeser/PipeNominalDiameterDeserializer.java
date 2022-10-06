@@ -1,10 +1,11 @@
-package com.schegolevalex.unit_library.entities.reference_data.pipeNominalDiameters;
+package com.schegolevalex.unit_library.serdeser;
 
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.schegolevalex.unit_library.entities.reference_data.PipeNominalDiameter;
 
 import java.io.IOException;
 

@@ -1,8 +1,9 @@
-package com.schegolevalex.unit_library.entities.units;
+package com.schegolevalex.unit_library.serdeser;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import com.schegolevalex.unit_library.entities.units.Unit;
 
 import java.io.IOException;
 

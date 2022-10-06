@@ -1,4 +1,4 @@
-package com.schegolevalex.unit_library.entities.reference_data.viscosity;
+package com.schegolevalex.unit_library.entities.reference_data;
 
 import com.schegolevalex.unit_library.entities.measures.Measure;
 import com.schegolevalex.unit_library.entities.units.Unit;
@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Viscosity {
-    private static Map<Measure, Measure> viscosityMap = new HashMap<>();
+    private static final Map<Measure, Measure> viscosityMap = new HashMap<>();
 
     static {
         viscosityMap.put(new Measure(0, Unit.DEGREE_CELSIUS), new Measure(1.787E-6, Unit.SQUARE_METER_PER_SECOND));

@@ -3,15 +3,24 @@ package com.schegolevalex.heat_engineering_calculations.calculations;
 import com.schegolevalex.heat_engineering_calculations.clients.UnitConverterClient;
 import com.schegolevalex.unit_library.entities.measures.Measure;
 import com.schegolevalex.unit_library.entities.measures.MeasureFactory;
+import com.schegolevalex.unit_library.entities.reference_data.PipeNominalDiameter;
+import com.schegolevalex.unit_library.entities.reference_data.PipeMaterial;
+import com.schegolevalex.unit_library.entities.reference_data.Roughness;
+import com.schegolevalex.unit_library.entities.reference_data.Viscosity;
 import com.schegolevalex.unit_library.entities.units.Unit;
+import com.schegolevalex.unit_library.exceptions.IllegalValueException;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -122,4 +131,28 @@ public class Calculation {
         return measureFactory.createMeasure(value, Unit.METER_OF_WATER);
     }
 
+    public Map<PipeNominalDiameter, Pair<Measure, Measure>> getPipeDiameter(Measure flowRateByVolume, PipeMaterial pipeMaterial) {
+        Measure convertedFlowRateByVolume = unitConverterClient.convert(flowRateByVolume, Unit.METER_3_PER_HOUR);
+
+        Measure constraint = unitConverterClient.convert(measureFactory.createMeasure(30000, Unit.METER_3_PER_HOUR),
+                flowRateByVolume.getUnit());
+        if (convertedFlowRateByVolume.getValue().compareTo(BigDecimal.valueOf(30000)) > 0) {
+            throw new IllegalValueException("Flow rate by volume must be less than " + constraint.getValue() + constraint.getUnit().getShortName());
+        }
+
+        Map<PipeNominalDiameter, Pair<Measure, Measure>> speedAndPressureLossMap = new HashMap<>();
+
+        for (PipeNominalDiameter diameter : PipeNominalDiameter.values()) {
+            Measure speed = getSpeed(flowRateByVolume, diameter.getDiameter());
+            Measure pressureLoss = getPressureLoss(flowRateByVolume,
+                    Viscosity.byTemperature(measureFactory.createMeasure(60, Unit.DEGREE_CELSIUS)),
+                    Roughness.byPipeMaterial(pipeMaterial),
+                    diameter.getDiameter());
+            speedAndPressureLossMap.put(diameter, Pair.of(speed, pressureLoss));
+        }
+        return speedAndPressureLossMap.entrySet().stream()
+                .filter(es -> es.getValue().getFirst().getValue().compareTo(BigDecimal.valueOf(1.5)) < 1
+                        && es.getValue().getFirst().getValue().compareTo(BigDecimal.valueOf(0.8)) > -1)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
 }

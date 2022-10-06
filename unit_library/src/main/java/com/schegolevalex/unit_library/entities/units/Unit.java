@@ -3,6 +3,7 @@ package com.schegolevalex.unit_library.entities.units;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.schegolevalex.unit_library.exceptions.IllegalUnitException;
+import com.schegolevalex.unit_library.serdeser.UnitDeserializer;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;

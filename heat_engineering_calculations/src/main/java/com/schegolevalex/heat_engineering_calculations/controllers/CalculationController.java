@@ -2,12 +2,13 @@ package com.schegolevalex.heat_engineering_calculations.controllers;
 
 import com.schegolevalex.heat_engineering_calculations.calculations.Calculation;
 import com.schegolevalex.unit_library.entities.measures.Measure;
-import com.schegolevalex.unit_library.entities.reference_data.pipeNominalDiameters.PipeNominalDiameter;
-import com.schegolevalex.unit_library.entities.reference_data.pipe_materials.PipeMaterial;
-import com.schegolevalex.unit_library.entities.reference_data.roughness.Roughness;
+import com.schegolevalex.unit_library.entities.reference_data.PipeNominalDiameter;
+import com.schegolevalex.unit_library.entities.reference_data.PipeMaterial;
+import com.schegolevalex.unit_library.entities.reference_data.Roughness;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -82,18 +83,9 @@ public class CalculationController {
         return Roughness.getRoughnessMap();
     }
 
-//    @PostMapping("/test")
-//    public PipeNominalDiameter test(@JsonArg("pipeNominalDiameter") PipeNominalDiameter nominalDiameter) {
-//        return nominalDiameter;
-//    }
-//
-//    @PostMapping("/test2")
-//    public Measure test(@JsonArg("flowRateByVolume") Measure flowRateByVolume) {
-//        return flowRateByVolume;
-//    }
-//
-//    @PostMapping("/test3")
-//    public int test(@JsonArg("flowRateByVolume") int a) {
-//        return a;
-//    }
+    @PostMapping("/pipe-diameters-by-flow-rate-by-volume")
+    public Map<PipeNominalDiameter, Pair<Measure, Measure>> getPipeNominalDiameter(@JsonArg("flowRateByVolume") Measure flowRateByVolume,
+                                                                                   @JsonArg("pipeMaterial") PipeMaterial pipeMaterial) {
+        return calculation.getPipeDiameter(flowRateByVolume, pipeMaterial);
+    }
 }

@@ -1,8 +1,9 @@
-package com.schegolevalex.unit_library.entities.reference_data.pipe_materials;
+package com.schegolevalex.unit_library.serdeser;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import com.schegolevalex.unit_library.entities.reference_data.PipeMaterial;
 
 import java.io.IOException;
 

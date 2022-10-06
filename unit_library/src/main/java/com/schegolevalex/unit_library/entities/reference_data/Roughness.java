@@ -1,7 +1,6 @@
-package com.schegolevalex.unit_library.entities.reference_data.roughness;
+package com.schegolevalex.unit_library.entities.reference_data;
 
 import com.schegolevalex.unit_library.entities.measures.Measure;
-import com.schegolevalex.unit_library.entities.reference_data.pipe_materials.PipeMaterial;
 import com.schegolevalex.unit_library.entities.units.Unit;
 
 import java.util.HashMap;
