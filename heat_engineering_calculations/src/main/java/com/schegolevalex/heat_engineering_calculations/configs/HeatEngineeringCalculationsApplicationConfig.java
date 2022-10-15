@@ -3,10 +3,11 @@ package com.schegolevalex.heat_engineering_calculations.configs;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.schegolevalex.heat_engineering_calculations.controllers.JsonArgumentResolver;
-import com.schegolevalex.unit_library.entities.units.Unit;
-import com.schegolevalex.unit_library.serdeser.PairSerializer;
-import com.schegolevalex.unit_library.serdeser.UnitDeserializer;
-import com.schegolevalex.unit_library.serdeser.UnitSerializer;
+import com.schegolevalex.unit_library.models.units.Unit;
+import com.schegolevalex.unit_library.services.serdeser.PairSerializer;
+import com.schegolevalex.unit_library.services.serdeser.UnitDeserializer;
+import com.schegolevalex.unit_library.services.serdeser.UnitSerializer;
+import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -52,5 +53,10 @@ public class HeatEngineeringCalculationsApplicationConfig implements WebMvcConfi
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
         argumentResolvers.add(new JsonArgumentResolver());
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
     }
 }

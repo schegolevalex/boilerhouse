@@ -1,10 +1,10 @@
 package com.schegolevalex.unit_library.services;
 
-import com.schegolevalex.unit_library.entities.measures.MeasureFactory;
-import com.schegolevalex.unit_library.entities.reference_data.PipeNominalDiameter;
-import com.schegolevalex.unit_library.entities.reference_data.PipeMaterial;
-import com.schegolevalex.unit_library.entities.reference_data.Pipe;
-import com.schegolevalex.unit_library.entities.units.Unit;
+import com.schegolevalex.unit_library.models.measures.MeasureFactory;
+import com.schegolevalex.unit_library.models.reference_data.Pipe;
+import com.schegolevalex.unit_library.models.reference_data.PipeMaterial;
+import com.schegolevalex.unit_library.models.reference_data.PipeNominalDiameter;
+import com.schegolevalex.unit_library.models.units.Unit;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ import java.util.Map;
 public class PipeService {
     final MeasureFactory measureFactory;
     final String FILE = "unit_library/src/main/resources/Трубы ГОСТ 10704-91.csv";
-    Map<String, List<Pipe>> pipesByStandardMap = new HashMap<>();
+    final Map<String, List<Pipe>> pipesByStandardMap = new HashMap<>();
 
     @Autowired
     public PipeService(MeasureFactory measureFactory) {
@@ -36,7 +36,7 @@ public class PipeService {
     public void init() {
         List<Pipe> pipes = new ArrayList<>();
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(FILE));) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] split = line.split(";");

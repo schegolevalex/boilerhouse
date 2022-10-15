@@ -1,9 +1,9 @@
 package com.schegolevalex.unit_converter.controllers;
 
-import com.schegolevalex.unit_converter.controllers.converters.UnitModelAssembler;
-import com.schegolevalex.unit_converter.measure_converters.ConverterProcessor;
-import com.schegolevalex.unit_library.entities.measures.Measure;
-import com.schegolevalex.unit_library.entities.units.Unit;
+import com.schegolevalex.unit_converter.services.controller_converters.UnitModelAssembler;
+import com.schegolevalex.unit_converter.services.ConverterProcessor;
+import com.schegolevalex.unit_library.models.measures.Measure;
+import com.schegolevalex.unit_library.models.units.Unit;
 import com.schegolevalex.unit_library.services.UnitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
