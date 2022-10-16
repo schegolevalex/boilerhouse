@@ -1,4 +1,4 @@
-package com.schegolevalex.security;
+package com.schegolevalex.heat_engineering_calculations.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;

@@ -3,6 +3,7 @@ package com.schegolevalex.heat_engineering_calculations.models;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.util.List;
@@ -11,10 +12,15 @@ import java.util.List;
 @Table(name = "roles")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Data
-public class Role extends BaseEntity {
+public class Role extends BaseEntity implements GrantedAuthority {
     @Column(name = "name")
     String name;
 
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     private List<User> users;
+
+    @Override
+    public String getAuthority() {
+        return name;
+    }
 }

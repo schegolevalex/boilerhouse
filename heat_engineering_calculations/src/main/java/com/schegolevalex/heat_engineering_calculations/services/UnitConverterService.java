@@ -1,4 +1,4 @@
-package com.schegolevalex.heat_engineering_calculations.services.clients;
+package com.schegolevalex.heat_engineering_calculations.services;
 
 import com.schegolevalex.unit_library.models.measures.Measure;
 import com.schegolevalex.unit_library.models.units.Unit;
@@ -7,16 +7,16 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-@Component
+@Service
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UnitConverterClient {
+public class UnitConverterService {
     @Value("${unit_converter.URL}")
     String unitConverterURL;
 
@@ -32,7 +32,7 @@ public class UnitConverterClient {
     final RestTemplate restTemplate;
 
     @Autowired
-    public UnitConverterClient(RestTemplate restTemplate) {
+    public UnitConverterService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 

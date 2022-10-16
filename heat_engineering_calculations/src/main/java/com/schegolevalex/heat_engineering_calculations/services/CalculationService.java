@@ -1,6 +1,5 @@
-package com.schegolevalex.heat_engineering_calculations.services.calculations;
+package com.schegolevalex.heat_engineering_calculations.services;
 
-import com.schegolevalex.heat_engineering_calculations.services.clients.UnitConverterClient;
 import com.schegolevalex.unit_library.exceptions.IllegalValueException;
 import com.schegolevalex.unit_library.models.measures.Measure;
 import com.schegolevalex.unit_library.models.measures.MeasureFactory;
@@ -28,15 +27,15 @@ public class CalculationService {
 
     final BigDecimal HEAT_CAPACITY = BigDecimal.valueOf(1.0);
     final BigDecimal WATER_DENSITY = BigDecimal.valueOf(1.0);
-    final UnitConverterClient unitConverterClient;
+    final UnitConverterService unitConverterService;
     final MeasureFactory measureFactory;
     static MathContext mc = new MathContext(10, RoundingMode.HALF_UP);
 
 
     @Autowired
-    public CalculationService(UnitConverterClient unitConverterClient,
+    public CalculationService(UnitConverterService unitConverterService,
                               MeasureFactory measureFactory) {
-        this.unitConverterClient = unitConverterClient;
+        this.unitConverterService = unitConverterService;
         this.measureFactory = measureFactory;
     }
 
@@ -44,9 +43,9 @@ public class CalculationService {
                                      Measure temperatureLow,
                                      Measure temperatureHigh) {
 
-        BigDecimal fPowerValue = unitConverterClient.convert(power, Unit.MEGACALORIES_PER_HOUR).getValue();
-        BigDecimal fTemperatureLowValue = unitConverterClient.convert(temperatureLow, Unit.DEGREE_CELSIUS).getValue();
-        BigDecimal fTemperatureHighValue = unitConverterClient.convert(temperatureHigh, Unit.DEGREE_CELSIUS).getValue();
+        BigDecimal fPowerValue = unitConverterService.convert(power, Unit.MEGACALORIES_PER_HOUR).getValue();
+        BigDecimal fTemperatureLowValue = unitConverterService.convert(temperatureLow, Unit.DEGREE_CELSIUS).getValue();
+        BigDecimal fTemperatureHighValue = unitConverterService.convert(temperatureHigh, Unit.DEGREE_CELSIUS).getValue();
 
         BigDecimal delta = fTemperatureHighValue.subtract(fTemperatureLowValue);
         BigDecimal resultValue = fPowerValue.divide(delta, RoundingMode.HALF_UP).divide(HEAT_CAPACITY, RoundingMode.HALF_UP);
@@ -64,8 +63,8 @@ public class CalculationService {
 
     public Measure getSpeed(Measure flowRateByVolume,
                             Measure pipeInnerDiameter) {
-        flowRateByVolume = unitConverterClient.convert(flowRateByVolume, Unit.METER_3_PER_HOUR);
-        pipeInnerDiameter = unitConverterClient.convert(pipeInnerDiameter, Unit.MILLIMETER);
+        flowRateByVolume = unitConverterService.convert(flowRateByVolume, Unit.METER_3_PER_HOUR);
+        pipeInnerDiameter = unitConverterService.convert(pipeInnerDiameter, Unit.MILLIMETER);
         return measureFactory.createMeasure(flowRateByVolume.getValue()
                         .multiply(BigDecimal.valueOf(1E6))
                         .divide(pipeInnerDiameter.getValue().pow(2), 10, RoundingMode.HALF_UP)
@@ -77,7 +76,7 @@ public class CalculationService {
     public BigDecimal getReynoldsNumber(Measure flowRateByVolume,
                                         Measure pipeInnerDiameter,
                                         Measure kinematicViscosity) {
-        pipeInnerDiameter = unitConverterClient.convert(pipeInnerDiameter, Unit.METER);
+        pipeInnerDiameter = unitConverterService.convert(pipeInnerDiameter, Unit.METER);
         return getSpeed(flowRateByVolume, pipeInnerDiameter).getValue()
                 .multiply(pipeInnerDiameter.getValue())
                 .divide(kinematicViscosity.getValue(), 10, RoundingMode.HALF_UP);
@@ -87,9 +86,9 @@ public class CalculationService {
                                    Measure kinematicViscosity,
                                    Measure roughness,
                                    Measure pipeInnerDiameter) {
-        pipeInnerDiameter = unitConverterClient.convert(pipeInnerDiameter, Unit.METER);
-        roughness = unitConverterClient.convert(roughness, Unit.METER);
-        kinematicViscosity = unitConverterClient.convert(kinematicViscosity, Unit.SQUARE_METER_PER_SECOND);
+        pipeInnerDiameter = unitConverterService.convert(pipeInnerDiameter, Unit.METER);
+        roughness = unitConverterService.convert(roughness, Unit.METER);
+        kinematicViscosity = unitConverterService.convert(kinematicViscosity, Unit.SQUARE_METER_PER_SECOND);
 
         BigDecimal reynoldsNumber = getReynoldsNumber(flowRateByVolume, pipeInnerDiameter, kinematicViscosity);
 
@@ -132,9 +131,9 @@ public class CalculationService {
     }
 
     public Map<PipeNominalDiameter, Pair<Measure, Measure>> getPipeDiameter(Measure flowRateByVolume, PipeMaterial pipeMaterial) {
-        Measure convertedFlowRateByVolume = unitConverterClient.convert(flowRateByVolume, Unit.METER_3_PER_HOUR);
+        Measure convertedFlowRateByVolume = unitConverterService.convert(flowRateByVolume, Unit.METER_3_PER_HOUR);
 
-        Measure constraint = unitConverterClient.convert(measureFactory.createMeasure(30000, Unit.METER_3_PER_HOUR),
+        Measure constraint = unitConverterService.convert(measureFactory.createMeasure(30000, Unit.METER_3_PER_HOUR),
                 flowRateByVolume.getUnit());
         if (convertedFlowRateByVolume.getValue().compareTo(BigDecimal.valueOf(30000)) > 0) {
             throw new IllegalValueException("Flow rate by volume must be less than " + constraint.getValue() + constraint.getUnit().getShortName());
