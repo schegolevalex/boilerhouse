@@ -24,15 +24,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
-    public Optional<User> findByUserName() {
-        return userRepository.findByUserName();
+    public Optional<User> findByUserName(String userName) {
+        return userRepository.findByUserName(userName);
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findByUserName();
+    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+        Optional<User> user = userRepository.findByUserName(userName);
         if (user.isEmpty())
-            throw new UsernameNotFoundException("User with username " + username + " not found in database");
+            throw new UsernameNotFoundException("User with username " + userName + " not found in database");
         return new UserDetailsImpl(user.get());
     }
 }
