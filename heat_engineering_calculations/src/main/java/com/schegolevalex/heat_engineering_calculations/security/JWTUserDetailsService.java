@@ -16,22 +16,25 @@ import java.util.Optional;
 @Service
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class JwtUserDetailsService implements UserDetailsService {
+public class JWTUserDetailsService implements UserDetailsService {
     final UserRepository userRepository;
 
     @Autowired
-    public JwtUserDetailsService(UserRepository userRepository) {
+    public JWTUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         Optional<User> user = userRepository.findByUserName(userName);
+
         if (user.isEmpty()) {
             log.warn("UserService.loadByUsername: user with name \"{}\" not found in database", userName);
             throw new UsernameNotFoundException("User with username " + userName + " not found in database");
         }
-        log.info("UserService.loadByUsername: user {} load from database", user);
+
+        log.info("UserService.loadByUsername: user {} successfully load from database", user);
+
         return new UserDetailsImpl(user.get());
     }
 }

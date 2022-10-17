@@ -1,6 +1,7 @@
 package com.schegolevalex.heat_engineering_calculations.configs;
 
-import com.schegolevalex.heat_engineering_calculations.security.JwtUserDetailsService;
+import com.schegolevalex.heat_engineering_calculations.security.JWTFilter;
+import com.schegolevalex.heat_engineering_calculations.security.JWTUserDetailsService;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +22,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    final JwtUserDetailsService jwtUserDetailsService;
+    final JWTUserDetailsService jwtUserDetailsService;
     final JWTFilter jwtFilter;
 
     @Autowired
-    public SecurityConfig(JwtUserDetailsService jwtUserDetailsService,
+    public SecurityConfig(JWTUserDetailsService jwtUserDetailsService,
                           JWTFilter jwtFilter) {
         this.jwtUserDetailsService = jwtUserDetailsService;
         this.jwtFilter = jwtFilter;

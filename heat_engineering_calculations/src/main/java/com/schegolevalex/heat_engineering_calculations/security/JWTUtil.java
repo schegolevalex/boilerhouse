@@ -4,6 +4,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +16,7 @@ import java.time.Instant;
 import java.util.Base64;
 
 @Component
+@Slf4j
 public class JWTUtil {
     @Value("${jwt.token.secret}")
     private String secret;
@@ -42,8 +45,10 @@ public class JWTUtil {
                 .withSubject("User details")
                 .withIssuer("www.dezone.com")
                 .build();
+        DecodedJWT decodedJWT = verifier.verify(token);
+        log.info("Token {} successfully verified", token);
 
-        return verifier.verify(token).getClaim("userName").asString();
+        return decodedJWT.getClaim("userName").asString();
     }
 
     public String resolveToken(HttpServletRequest request) {

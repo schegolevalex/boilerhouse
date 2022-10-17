@@ -8,6 +8,7 @@ import com.schegolevalex.heat_engineering_calculations.services.UserService;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.Map;
 
 @Controller
@@ -40,8 +42,8 @@ public class AuthController {
     }
 
     @PostMapping("/registration")
-    public Map<String, String> performRegistration(@RequestBody @Valid UserDTO userDTO,
-                                                   BindingResult bindingResult) throws Exception {
+    public Map<String, String> registration(@RequestBody @Valid UserDTO userDTO,
+                                            BindingResult bindingResult) throws Exception {
         User user = modelMapper.map(userDTO, User.class);
         userService.validate(user, bindingResult);
         if (bindingResult.hasErrors())
@@ -51,16 +53,28 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public Map<String, String> performLogin(AuthenticationDTO authDTO) {
+    public ResponseEntity<Map<String, String>> login(AuthenticationDTO authDTO) {
         UsernamePasswordAuthenticationToken authInputToken
                 = new UsernamePasswordAuthenticationToken(authDTO.getUserName(), authDTO.getPassword());
         authManager.authenticate(authInputToken);
-        return Map.of("jwt-token", jwtUtil.generateToken(authDTO.getUserName()));
+
+        Map<String, String> response = new HashMap<>();
+        response.put("user", authDTO.getUserName());
+        response.put("jwt-token", jwtUtil.generateToken(authDTO.getUserName()));
+
+        return ResponseEntity.ok(response);
     }
 
-//    @PostMapping("/logout")
-//    public String logout(AuthenticationDTO authDTO) {
-//
-//    }
+    //todo сделать logout
+    @PostMapping("/logout")
+    public String logout(AuthenticationDTO authDTO) {
+        return null;
+    }
+
+    //todo сделать обновление токена (лучше сразу имеющийся сделать accessToken и создать второй - refreshToken),
+    // но сначала узнать насчет мест хранения токенов. AccessToken сейчас я передаю в обычном JSON, видимо он будет
+    // храниться в local storage. Но вроде как refreshToken должен храниться в local storage, а accessToken надо
+    // отдавать в cookies... Но тогда при наличии сессий (cookies) как будет решаться вопрос с микросервисной
+    // архитектурой?
 
 }
