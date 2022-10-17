@@ -42,14 +42,19 @@ public class AuthController {
     }
 
     @PostMapping("/registration")
-    public Map<String, String> registration(@RequestBody @Valid UserDTO userDTO,
-                                            BindingResult bindingResult) throws Exception {
+    public ResponseEntity<Map<String, String>> registration(@RequestBody @Valid UserDTO userDTO,
+                                                            BindingResult bindingResult) throws Exception {
         User user = modelMapper.map(userDTO, User.class);
+
         userService.validate(user, bindingResult);
         if (bindingResult.hasErrors())
             throw new Exception();
         userService.register(user);
-        return Map.of("jwt-token", jwtUtil.generateToken(user.getUserName()));
+
+        Map<String, String> response = new HashMap<>();
+        response.put("user", userDTO.getUserName());
+        response.put("jwt-token", jwtUtil.generateToken(userDTO.getUserName()));
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/login")
