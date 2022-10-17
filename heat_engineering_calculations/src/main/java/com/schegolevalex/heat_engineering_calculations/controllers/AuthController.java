@@ -1,10 +1,10 @@
 package com.schegolevalex.heat_engineering_calculations.controllers;
 
 import com.schegolevalex.heat_engineering_calculations.DTO.AuthenticationDTO;
+import com.schegolevalex.heat_engineering_calculations.DTO.UserDTO;
 import com.schegolevalex.heat_engineering_calculations.models.User;
 import com.schegolevalex.heat_engineering_calculations.security.JWTUtil;
-import com.schegolevalex.heat_engineering_calculations.services.UserRegistrationService;
-import com.schegolevalex.heat_engineering_calculations.services.UserValidatorService;
+import com.schegolevalex.heat_engineering_calculations.services.UserService;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.modelmapper.ModelMapper;
@@ -24,34 +24,30 @@ import java.util.Map;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AuthController {
 
-    final UserRegistrationService userRegistrationService;
-    final UserValidatorService userValidatorService;
+    final UserService userService;
     final JWTUtil jwtUtil;
     final ModelMapper modelMapper;
     final AuthenticationManager authManager;
 
     public AuthController(ModelMapper modelMapper,
                           JWTUtil jwtUtil,
-                          UserValidatorService userValidatorService,
-                          UserRegistrationService userRegistrationService,
+                          UserService userService,
                           AuthenticationManager authManager) {
         this.modelMapper = modelMapper;
         this.jwtUtil = jwtUtil;
-        this.userValidatorService = userValidatorService;
-        this.userRegistrationService = userRegistrationService;
+        this.userService = userService;
         this.authManager = authManager;
     }
 
     @PostMapping("/registration")
-    public String performRegistration(@RequestBody @Valid User user,
-                                      BindingResult bindingResult) {
-        userValidatorService.validate(user, bindingResult);
-        if (bindingResult.hasErrors()) {
-            //todo
-        }
-        userRegistrationService.register(user);
-        //todo
-        return null;
+    public Map<String, String> performRegistration(@RequestBody @Valid UserDTO userDTO,
+                                                   BindingResult bindingResult) throws Exception {
+        User user = modelMapper.map(userDTO, User.class);
+        userService.validate(user, bindingResult);
+        if (bindingResult.hasErrors())
+            throw new Exception();
+        userService.register(user);
+        return Map.of("jwt-token", jwtUtil.generateToken(user.getUserName()));
     }
 
     @PostMapping("/login")

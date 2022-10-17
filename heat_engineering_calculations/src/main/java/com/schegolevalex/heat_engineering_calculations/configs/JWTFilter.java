@@ -2,14 +2,13 @@ package com.schegolevalex.heat_engineering_calculations.configs;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.schegolevalex.heat_engineering_calculations.security.JWTUtil;
-import com.schegolevalex.heat_engineering_calculations.services.UserDetailsServiceImpl;
+import com.schegolevalex.heat_engineering_calculations.security.JwtUserDetailsService;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -24,40 +23,38 @@ import java.io.IOException;
 public class JWTFilter extends OncePerRequestFilter {
 
     final JWTUtil jwtUtil;
-    final UserDetailsService userDetailsService;
+    final JwtUserDetailsService jwtUserDetailsService;
 
     @Autowired
-    public JWTFilter(JWTUtil jwtUtil, UserDetailsServiceImpl userDetailsService) {
+    public JWTFilter(JWTUtil jwtUtil, JwtUserDetailsService jwtUserDetailsService) {
         this.jwtUtil = jwtUtil;
-        this.userDetailsService = userDetailsService;
+        this.jwtUserDetailsService = jwtUserDetailsService;
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String authHeader = request.getHeader("Authorization");
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain) throws ServletException, IOException {
 
-        if (authHeader != null && !authHeader.isBlank() && authHeader.startsWith("Beaver ")) {
-            String jwt = authHeader.substring(7);
+        String jwtToken = jwtUtil.resolveToken(request);
 
-            if (jwt.isBlank()) {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid JWT token in Bearer Header");
-            } else {
-                try {
-                    String username = jwtUtil.validateTokenAndRetrieveClaim(jwt);
-                    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        if (jwtToken == null || jwtToken.isBlank())
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid JWT token in Bearer Header");
 
-                    UsernamePasswordAuthenticationToken authToken
-                            = new UsernamePasswordAuthenticationToken(userDetails,
-                            userDetails.getUsername(),
-                            userDetails.getAuthorities());
+        try {
+            String username = jwtUtil.validateTokenAndRetrieveClaim(jwtToken);
+            UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(username);
 
-                    if (SecurityContextHolder.getContext().getAuthentication() == null) {
-                        SecurityContextHolder.getContext().setAuthentication(authToken);
-                    }
-                } catch (JWTVerificationException e) {
-                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid JWT token");
-                }
-            }
+            UsernamePasswordAuthenticationToken authToken
+                    = new UsernamePasswordAuthenticationToken(userDetails,
+                    userDetails.getUsername(),
+                    userDetails.getAuthorities());
+
+            if (SecurityContextHolder.getContext().getAuthentication() == null)
+                SecurityContextHolder.getContext().setAuthentication(authToken);
+
+        } catch (JWTVerificationException e) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid JWT token");
         }
 
         filterChain.doFilter(request, response);

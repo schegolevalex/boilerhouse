@@ -18,7 +18,7 @@ public enum SubtypeRelationInType {
     FLOW_RATE_BY_MASS_METRIC_TO_IMPERIAL(FLOW_RATE_BY_MASS, "flow_rate_by_mass_metric", "flow_rate_by_mass_imperial", 2204.62262),
     MASS_METRIC_TO_IMPERIAL(MASS, "mass_metric", "mass_imperial", 2204.62262),
 
-    // TODO
+    // TODO заполнить все отношения
 
     PRESSURE_METRIC_TO_IMPERIAL(PRESSURE, "pressure_metric", "pressure_imperial", 232.06038),
     PRESSURE_METRIC_TO_MERCURY(PRESSURE, "pressure_metric", "pressure_mercury", 75.006158),

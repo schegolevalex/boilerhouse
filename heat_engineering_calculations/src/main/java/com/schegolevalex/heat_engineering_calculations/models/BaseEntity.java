@@ -3,9 +3,11 @@ package com.schegolevalex.heat_engineering_calculations.models;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @MappedSuperclass
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -17,10 +19,12 @@ public class BaseEntity {
     Long id;
 
     @Column(name = "created")
-    LocalDateTime createdAt;
+    @CreatedDate
+    OffsetDateTime createdAt;
 
     @Column(name = "updated")
-    LocalDateTime updatedAt;
+    @LastModifiedDate
+    OffsetDateTime updatedAt;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)

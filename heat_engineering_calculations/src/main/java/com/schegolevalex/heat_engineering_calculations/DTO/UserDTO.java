@@ -4,12 +4,12 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
@@ -27,8 +27,9 @@ public class UserDTO {
     @NotEmpty(message = "Last name shouldn't be empty")
     String lastName;
 
-    @Min(value = 1930, message = "Year of birth should be greater than 1930")
-    LocalDateTime birthday;
+    //    @Min(value = 1930, message = "Year of birth should be greater than 1930")
+    @CreatedDate
+    LocalDate birthday;
 
     @Email(message = "Invalid email")
     String email;

@@ -1,7 +1,10 @@
 package com.schegolevalex.heat_engineering_calculations.configs;
 
 import com.fasterxml.jackson.databind.Module;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.schegolevalex.heat_engineering_calculations.controllers.JsonArgumentResolver;
 import com.schegolevalex.unit_library.models.units.Unit;
 import com.schegolevalex.unit_library.services.serdeser.PairSerializer;
@@ -58,5 +61,12 @@ public class HeatEngineeringCalculationsApplicationConfig implements WebMvcConfi
     @Bean
     public ModelMapper modelMapper() {
         return new ModelMapper();
+    }
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        return objectMapper.registerModule(new JavaTimeModule());
     }
 }
