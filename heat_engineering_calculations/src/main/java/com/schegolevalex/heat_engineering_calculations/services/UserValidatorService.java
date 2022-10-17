@@ -26,6 +26,7 @@ public class UserValidatorService implements Validator {
         Optional<User> userFromDB = userDetailsService.findByUserName(incomeUser.getUserName());
 
         if (userFromDB.isPresent())
-            errors.rejectValue("username", "User with username " + incomeUser.getUserName() + " already exist");
+            errors.rejectValue("username", "User with username " +
+                    incomeUser.getUserName() + " already exist");
     }
 }
