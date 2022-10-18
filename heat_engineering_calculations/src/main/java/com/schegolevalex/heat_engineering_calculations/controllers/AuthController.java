@@ -1,7 +1,8 @@
 package com.schegolevalex.heat_engineering_calculations.controllers;
 
-import com.schegolevalex.heat_engineering_calculations.DTO.AuthenticationDTO;
-import com.schegolevalex.heat_engineering_calculations.DTO.UserDTO;
+import com.schegolevalex.heat_engineering_calculations.DTO.AuthRequestDTO;
+import com.schegolevalex.heat_engineering_calculations.DTO.AuthResponseDTO;
+import com.schegolevalex.heat_engineering_calculations.DTO.UserRequestDTO;
 import com.schegolevalex.heat_engineering_calculations.models.User;
 import com.schegolevalex.heat_engineering_calculations.security.JWTUtil;
 import com.schegolevalex.heat_engineering_calculations.services.UserService;
@@ -18,8 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/auth")
@@ -42,37 +41,36 @@ public class AuthController {
     }
 
     @PostMapping("/registration")
-    public ResponseEntity<Map<String, String>> registration(@RequestBody @Valid UserDTO userDTO,
+    public ResponseEntity<AuthResponseDTO> registration(@RequestBody @Valid UserRequestDTO userRequestDTO,
                                                             BindingResult bindingResult) throws Exception {
-        User user = modelMapper.map(userDTO, User.class);
+        User user = modelMapper.map(userRequestDTO, User.class);
 
         userService.validate(user, bindingResult);
         if (bindingResult.hasErrors())
             throw new Exception();
         userService.register(user);
 
-        Map<String, String> response = new HashMap<>();
-        response.put("user", userDTO.getUserName());
-        response.put("jwt-token", jwtUtil.generateToken(userDTO.getUserName()));
-        return ResponseEntity.ok(response);
+        AuthResponseDTO authResponseDTO
+                = new AuthResponseDTO(userRequestDTO.getUserName(), jwtUtil.generateToken(userRequestDTO.getUserName()));
+
+        return ResponseEntity.ok(authResponseDTO);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> login(AuthenticationDTO authDTO) {
+    public ResponseEntity<AuthResponseDTO> login(AuthRequestDTO authDTO) {
         UsernamePasswordAuthenticationToken authInputToken
                 = new UsernamePasswordAuthenticationToken(authDTO.getUserName(), authDTO.getPassword());
         authManager.authenticate(authInputToken);
 
-        Map<String, String> response = new HashMap<>();
-        response.put("user", authDTO.getUserName());
-        response.put("jwt-token", jwtUtil.generateToken(authDTO.getUserName()));
+        AuthResponseDTO authResponseDTO
+                = new AuthResponseDTO(authDTO.getUserName(), jwtUtil.generateToken(authDTO.getUserName()));
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(authResponseDTO);
     }
 
     //todo сделать logout
     @PostMapping("/logout")
-    public String logout(AuthenticationDTO authDTO) {
+    public String logout(AuthRequestDTO authDTO) {
         return null;
     }
 

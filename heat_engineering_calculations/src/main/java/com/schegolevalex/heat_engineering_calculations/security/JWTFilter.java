@@ -41,21 +41,21 @@ public class JWTFilter extends OncePerRequestFilter {
 
         String jwtToken = jwtUtil.resolveToken(request);
 
-        if (jwtToken == null || jwtToken.isBlank()) {
-            log.warn("Invalid JWT token in Bearer Header");
-            throw new JWTVerificationException("Invalid JWT token in Bearer Header");
+        if (jwtToken != null && !jwtToken.isBlank()) {
+            String username = jwtUtil.validateTokenAndRetrieveClaim(jwtToken);
+            UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(username);
+
+            UsernamePasswordAuthenticationToken authToken
+                    = new UsernamePasswordAuthenticationToken(userDetails,
+                    userDetails.getUsername(),
+                    userDetails.getAuthorities());
+
+            if (SecurityContextHolder.getContext().getAuthentication() == null)
+                SecurityContextHolder.getContext().setAuthentication(authToken);
+
+//            log.warn("Invalid JWT token in Bearer Header");
+//            throw new JWTVerificationException("Invalid JWT token in Bearer Header");
         }
-
-        String username = jwtUtil.validateTokenAndRetrieveClaim(jwtToken);
-        UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(username);
-
-        UsernamePasswordAuthenticationToken authToken
-                = new UsernamePasswordAuthenticationToken(userDetails,
-                userDetails.getUsername(),
-                userDetails.getAuthorities());
-
-        if (SecurityContextHolder.getContext().getAuthentication() == null)
-            SecurityContextHolder.getContext().setAuthentication(authToken);
 
         filterChain.doFilter(request, response);
     }

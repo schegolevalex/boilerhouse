@@ -3,8 +3,6 @@ package com.schegolevalex.heat_engineering_calculations.models;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
@@ -19,11 +17,11 @@ public class BaseEntity {
     Long id;
 
     @Column(name = "created")
-    @CreatedDate
+//    @CreatedDate
     OffsetDateTime createdAt;
 
     @Column(name = "updated")
-    @LastModifiedDate
+//    @LastModifiedDate
     OffsetDateTime updatedAt;
 
     @Column(name = "status")

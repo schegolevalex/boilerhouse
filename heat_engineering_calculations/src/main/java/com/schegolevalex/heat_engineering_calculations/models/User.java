@@ -3,7 +3,6 @@ package com.schegolevalex.heat_engineering_calculations.models;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -34,8 +33,6 @@ public class User extends BaseEntity {
     String lastName;
 
     @Column(name = "birthday")
-//    @Min(value = 1930, message = "Year of birth should be greater than 1930")
-    @CreatedDate
     LocalDate birthday;
 
     @Column(name = "email")
