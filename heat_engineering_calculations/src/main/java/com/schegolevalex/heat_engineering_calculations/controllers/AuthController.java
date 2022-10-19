@@ -42,7 +42,7 @@ public class AuthController {
 
     @PostMapping("/registration")
     public ResponseEntity<AuthResponseDTO> registration(@RequestBody @Valid UserRequestDTO userRequestDTO,
-                                                            BindingResult bindingResult) throws Exception {
+                                                        BindingResult bindingResult) throws Exception {
         User user = modelMapper.map(userRequestDTO, User.class);
 
         userService.validate(user, bindingResult);
@@ -57,7 +57,10 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponseDTO> login(AuthRequestDTO authDTO) {
+    public ResponseEntity<AuthResponseDTO> login(@RequestBody AuthRequestDTO authDTO) {
+        System.out.println("#######################");
+        System.out.println(authDTO);
+        System.out.println("#######################");
         UsernamePasswordAuthenticationToken authInputToken
                 = new UsernamePasswordAuthenticationToken(authDTO.getUserName(), authDTO.getPassword());
         authManager.authenticate(authInputToken);
@@ -68,7 +71,7 @@ public class AuthController {
         return ResponseEntity.ok(authResponseDTO);
     }
 
-    //todo сделать logout
+    //todo сделать logout?
     @PostMapping("/logout")
     public String logout(AuthRequestDTO authDTO) {
         return null;

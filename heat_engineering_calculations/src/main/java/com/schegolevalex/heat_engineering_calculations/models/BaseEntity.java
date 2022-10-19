@@ -17,11 +17,9 @@ public class BaseEntity {
     Long id;
 
     @Column(name = "created")
-//    @CreatedDate
     OffsetDateTime createdAt;
 
     @Column(name = "updated")
-//    @LastModifiedDate
     OffsetDateTime updatedAt;
 
     @Column(name = "status")

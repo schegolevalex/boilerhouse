@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> userFromDB = findByUserName(incomeUser.getUserName());
 
         if (userFromDB.isPresent())
-            errors.rejectValue("username", "User with username " +
+            errors.rejectValue("userName", "", "User with username " +
                     incomeUser.getUserName() + " already exist");
     }
 }

@@ -28,13 +28,16 @@ public class JWTUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         Optional<User> user = userRepository.findByUserName(userName);
 
+        System.out.println("********************");
+        System.out.println(user);
+        System.out.println("********************");
+
         if (user.isEmpty()) {
-            log.warn("UserService.loadByUsername: user with name \"{}\" not found in database", userName);
+            log.warn("JWTUserDetailsService.loadByUsername: user with name \"{}\" not found in database", userName);
             throw new UsernameNotFoundException("User with username " + userName + " not found in database");
         }
 
-        log.info("UserService.loadByUsername: user {} successfully load from database", user);
-
+        log.info("JWTUserDetailsService.loadByUsername: user {} successfully load from database", userName);
         return new UserDetailsImpl(user.get());
     }
 }
