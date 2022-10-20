@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.schegolevalex.unit_library.models.measures.Measure;
 import com.schegolevalex.unit_library.models.units.Unit;
 import com.schegolevalex.unit_library.exceptions.IllegalValueException;
-import com.schegolevalex.unit_library.services.serdeser.PipeNominalDiameterDeserializer;
-import com.schegolevalex.unit_library.services.serdeser.PipeNominalDiameterSerializer;
+import com.schegolevalex.unit_library.config.serdeser.PipeNominalDiameterDeserializer;
+import com.schegolevalex.unit_library.config.serdeser.PipeNominalDiameterSerializer;
 
 import java.math.BigDecimal;
 

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.schegolevalex.unit_converter.services.controller_converters.StringToUnitConverter;
 import com.schegolevalex.unit_library.models.units.Unit;
-import com.schegolevalex.unit_library.services.serdeser.UnitSerializer;
+import com.schegolevalex.unit_library.config.serdeser.UnitSerializer;
 import com.schegolevalex.unit_library.services.UnitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

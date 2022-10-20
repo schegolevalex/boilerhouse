@@ -10,7 +10,6 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -32,7 +31,7 @@ public class PipeService {
         this.measureFactory = measureFactory;
     }
 
-    @PostConstruct
+//    @PostConstruct
     public void init() {
         List<Pipe> pipes = new ArrayList<>();
 

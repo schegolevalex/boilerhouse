@@ -25,6 +25,7 @@ public class JWTUserDetailsService implements UserDetailsService {
     }
 
     @Override
+//    @Transactional
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         Optional<User> user = userRepository.findByUserName(userName);
 

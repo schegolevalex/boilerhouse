@@ -57,7 +57,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponseDTO> login(@RequestBody AuthRequestDTO authDTO) {
+    public ResponseEntity<AuthResponseDTO> loginProcessing(@RequestBody AuthRequestDTO authDTO) {
         System.out.println("#######################");
         System.out.println(authDTO);
         System.out.println("#######################");
@@ -69,12 +69,6 @@ public class AuthController {
                 = new AuthResponseDTO(authDTO.getUserName(), jwtUtil.generateToken(authDTO.getUserName()));
 
         return ResponseEntity.ok(authResponseDTO);
-    }
-
-    //todo сделать logout?
-    @PostMapping("/logout")
-    public String logout(AuthRequestDTO authDTO) {
-        return null;
     }
 
     //todo сделать обновление токена (лучше сразу имеющийся сделать accessToken и создать второй - refreshToken),

@@ -1,4 +1,4 @@
-package com.schegolevalex.unit_library.services.serdeser;
+package com.schegolevalex.unit_library.config.serdeser;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
