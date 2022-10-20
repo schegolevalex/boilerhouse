@@ -29,10 +29,6 @@ public class JWTUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         Optional<User> user = userRepository.findByUserName(userName);
 
-        System.out.println("********************");
-        System.out.println(user);
-        System.out.println("********************");
-
         if (user.isEmpty()) {
             log.warn("JWTUserDetailsService.loadByUsername: user with name \"{}\" not found in database", userName);
             throw new UsernameNotFoundException("User with username " + userName + " not found in database");

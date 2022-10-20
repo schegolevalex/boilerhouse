@@ -5,6 +5,7 @@ import com.schegolevalex.heat_engineering_calculations.DTO.AuthResponseDTO;
 import com.schegolevalex.heat_engineering_calculations.DTO.UserRequestDTO;
 import com.schegolevalex.heat_engineering_calculations.models.User;
 import com.schegolevalex.heat_engineering_calculations.security.JWTUtil;
+import com.schegolevalex.heat_engineering_calculations.security.exceptions.UserRegistrationException;
 import com.schegolevalex.heat_engineering_calculations.services.UserService;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -47,7 +48,7 @@ public class AuthController {
 
         userService.validate(user, bindingResult);
         if (bindingResult.hasErrors())
-            throw new Exception();
+            throw new UserRegistrationException("There is registration exception");
         userService.register(user);
 
         AuthResponseDTO authResponseDTO
@@ -58,9 +59,6 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponseDTO> loginProcessing(@RequestBody AuthRequestDTO authDTO) {
-        System.out.println("#######################");
-        System.out.println(authDTO);
-        System.out.println("#######################");
         UsernamePasswordAuthenticationToken authInputToken
                 = new UsernamePasswordAuthenticationToken(authDTO.getUserName(), authDTO.getPassword());
         authManager.authenticate(authInputToken);
