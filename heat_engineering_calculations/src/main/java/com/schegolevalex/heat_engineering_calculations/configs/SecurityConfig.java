@@ -15,7 +15,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 
 @EnableWebSecurity
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -51,8 +50,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/login", "/auth/registration").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .logout().logoutUrl("/auth/logout").clearAuthentication(true).logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
-                .and()
+//                .logout().logoutUrl("/auth/logout").clearAuthentication(true).logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
+//                .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
