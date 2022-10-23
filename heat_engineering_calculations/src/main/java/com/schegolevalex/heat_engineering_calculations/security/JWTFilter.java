@@ -45,6 +45,7 @@ public class JWTFilter extends OncePerRequestFilter {
             jwtUtil.validateAccessToken(jwtToken);
 
             String username = jwtUtil.getClaimsFromAccessToken(jwtToken).get("userName");
+            if (SecurityContextHolder.getContext().getAuthentication() == null) {
 
             // Тут происходит обращение к БД
             UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(username);
@@ -55,7 +56,6 @@ public class JWTFilter extends OncePerRequestFilter {
                     userDetails.getAuthorities());
 
             // Может вот эту проверку вытащить наверх?
-            if (SecurityContextHolder.getContext().getAuthentication() == null) {
                 log.warn("Были тут*****************************");
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
