@@ -1,7 +1,6 @@
 package com.schegolevalex.heat_engineering_calculations.configs;
 
 import com.fasterxml.jackson.databind.Module;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -11,6 +10,7 @@ import com.schegolevalex.unit_library.config.serdeser.UnitDeserializer;
 import com.schegolevalex.unit_library.config.serdeser.UnitSerializer;
 import com.schegolevalex.unit_library.models.units.Unit;
 import org.modelmapper.ModelMapper;
+import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +22,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.util.List;
 
 @Configuration
-//@EnableScheduling
 @ComponentScan({"com.schegolevalex.unit_library"})
 public class HeatEngineeringCalculationsApplicationConfig implements WebMvcConfigurer {
 
@@ -52,6 +51,11 @@ public class HeatEngineeringCalculationsApplicationConfig implements WebMvcConfi
         return simpleModule;
     }
 
+    @Bean
+    public Module javaTimeModule() {
+        return new JavaTimeModule();
+    }
+
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
         argumentResolvers.add(new JsonArgumentResolver());
@@ -63,9 +67,7 @@ public class HeatEngineeringCalculationsApplicationConfig implements WebMvcConfi
     }
 
     @Bean
-    public ObjectMapper objectMapper() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        return objectMapper.registerModule(new JavaTimeModule());
+    public Jackson2ObjectMapperBuilderCustomizer jsonCustomizer() {
+        return builder -> builder.featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
 }
