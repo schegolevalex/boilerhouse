@@ -15,6 +15,6 @@ public class AuthResponseDTO {
     @JsonProperty(value = "username")
     String userName;
 
-    @JsonProperty(value = "jwt-token")
-    String jwtToken;
+    @JsonProperty(value = "jwt_access_token")
+    String jwtAccessToken;
 }

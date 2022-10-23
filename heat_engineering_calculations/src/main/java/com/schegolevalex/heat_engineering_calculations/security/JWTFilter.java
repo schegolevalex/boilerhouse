@@ -39,10 +39,14 @@ public class JWTFilter extends OncePerRequestFilter {
             throws ServletException, IOException,
             UsernameNotFoundException, JWTVerificationException {
 
-        String jwtToken = jwtUtil.resolveToken(request);
+        String jwtToken = jwtUtil.extractAccessTokenFromRequest(request);
 
         if (jwtToken != null && !jwtToken.isBlank()) {
-            String username = jwtUtil.validateTokenAndRetrieveClaim(jwtToken);
+            jwtUtil.validateAccessToken(jwtToken);
+
+            String username = jwtUtil.getClaimsFromAccessToken(jwtToken).get("userName");
+
+            // Тут происходит обращение к БД
             UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(username);
 
             UsernamePasswordAuthenticationToken authToken
@@ -50,8 +54,11 @@ public class JWTFilter extends OncePerRequestFilter {
                     userDetails.getUsername(),
                     userDetails.getAuthorities());
 
-            if (SecurityContextHolder.getContext().getAuthentication() == null)
+            // Может вот эту проверку вытащить наверх?
+            if (SecurityContextHolder.getContext().getAuthentication() == null) {
+                log.warn("Были тут*****************************");
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+            }
         }
 
         filterChain.doFilter(request, response);

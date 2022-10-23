@@ -2,7 +2,7 @@ package com.schegolevalex.heat_engineering_calculations.controllers;
 
 import com.schegolevalex.heat_engineering_calculations.DTO.AuthRequestDTO;
 import com.schegolevalex.heat_engineering_calculations.DTO.AuthResponseDTO;
-import com.schegolevalex.heat_engineering_calculations.DTO.UserRequestDTO;
+import com.schegolevalex.heat_engineering_calculations.DTO.ReqistrationRequestDTO;
 import com.schegolevalex.heat_engineering_calculations.models.User;
 import com.schegolevalex.heat_engineering_calculations.security.JWTUtil;
 import com.schegolevalex.heat_engineering_calculations.security.exceptions.UserRegistrationException;
@@ -42,17 +42,17 @@ public class AuthController {
     }
 
     @PostMapping("/registration")
-    public ResponseEntity<AuthResponseDTO> registration(@RequestBody @Valid UserRequestDTO userRequestDTO,
-                                                        BindingResult bindingResult) throws Exception {
-        User user = modelMapper.map(userRequestDTO, User.class);
+    public ResponseEntity<AuthResponseDTO> registration(@RequestBody @Valid ReqistrationRequestDTO reqistrationRequestDTO,
+                                                        BindingResult bindingResult) throws UserRegistrationException {
+        User user = modelMapper.map(reqistrationRequestDTO, User.class);
 
         userService.validate(user, bindingResult);
         if (bindingResult.hasErrors())
-            throw new UserRegistrationException("There is registration exception");
+            throw new UserRegistrationException("Registration exception");
         userService.register(user);
 
         AuthResponseDTO authResponseDTO
-                = new AuthResponseDTO(userRequestDTO.getUserName(), jwtUtil.generateToken(userRequestDTO.getUserName()));
+                = new AuthResponseDTO(reqistrationRequestDTO.getUserName(), jwtUtil.generateAccessToken(reqistrationRequestDTO.getUserName()));
 
         return ResponseEntity.ok(authResponseDTO);
     }
@@ -64,7 +64,7 @@ public class AuthController {
         authManager.authenticate(authInputToken);
 
         AuthResponseDTO authResponseDTO
-                = new AuthResponseDTO(authDTO.getUserName(), jwtUtil.generateToken(authDTO.getUserName()));
+                = new AuthResponseDTO(authDTO.getUserName(), jwtUtil.generateAccessToken(authDTO.getUserName()));
 
         return ResponseEntity.ok(authResponseDTO);
     }

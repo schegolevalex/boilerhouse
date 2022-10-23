@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
 @Setter
-public class UserRequestDTO {
+public class ReqistrationRequestDTO {
     @Size(min = 2, max = 30, message = "Username must contain between 2 and 30 letters")
     @NotEmpty(message = "Username name shouldn't be empty")
     String userName;

@@ -50,8 +50,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/login", "/auth/registration").permitAll()
                 .anyRequest().authenticated()
                 .and()
-//                .logout().logoutUrl("/auth/logout").clearAuthentication(true).logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
-//                .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
