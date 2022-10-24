@@ -5,6 +5,7 @@ import com.schegolevalex.heat_engineering_calculations.DTO.AuthResponseDTO;
 import com.schegolevalex.heat_engineering_calculations.DTO.ReqistrationRequestDTO;
 import com.schegolevalex.heat_engineering_calculations.models.User;
 import com.schegolevalex.heat_engineering_calculations.security.JWTUtil;
+import com.schegolevalex.heat_engineering_calculations.security.UserDetailsImpl;
 import com.schegolevalex.heat_engineering_calculations.security.exceptions.UserRegistrationException;
 import com.schegolevalex.heat_engineering_calculations.services.UserService;
 import lombok.AccessLevel;
@@ -13,6 +14,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,14 +48,18 @@ public class AuthController {
     public ResponseEntity<AuthResponseDTO> registration(@RequestBody @Valid ReqistrationRequestDTO reqistrationRequestDTO,
                                                         BindingResult bindingResult) throws UserRegistrationException {
         User user = modelMapper.map(reqistrationRequestDTO, User.class);
-
         userService.validate(user, bindingResult);
         if (bindingResult.hasErrors())
             throw new UserRegistrationException("Registration exception");
-        userService.register(user);
 
-        AuthResponseDTO authResponseDTO
-                = new AuthResponseDTO(reqistrationRequestDTO.getUserName(), jwtUtil.generateAccessToken(reqistrationRequestDTO.getUserName()));
+        User registeredUser = userService.register(user);
+
+        UserDetails registeredUserDetails = new UserDetailsImpl(registeredUser);
+
+        String accessToken = jwtUtil.generateAccessToken(registeredUserDetails.getUsername(),
+                registeredUserDetails.getAuthorities());
+
+        AuthResponseDTO authResponseDTO = new AuthResponseDTO(reqistrationRequestDTO.getUserName(), accessToken);
 
         return ResponseEntity.ok(authResponseDTO);
     }
@@ -61,10 +68,13 @@ public class AuthController {
     public ResponseEntity<AuthResponseDTO> loginProcessing(@RequestBody AuthRequestDTO authDTO) {
         UsernamePasswordAuthenticationToken authInputToken
                 = new UsernamePasswordAuthenticationToken(authDTO.getUserName(), authDTO.getPassword());
-        authManager.authenticate(authInputToken);
+        Authentication authentication = authManager.authenticate(authInputToken);
+
+        String accessToken = jwtUtil.generateAccessToken(((UserDetailsImpl)authentication.getPrincipal()).getUsername(),
+                authentication.getAuthorities());
 
         AuthResponseDTO authResponseDTO
-                = new AuthResponseDTO(authDTO.getUserName(), jwtUtil.generateAccessToken(authDTO.getUserName()));
+                = new AuthResponseDTO(((UserDetailsImpl)authentication.getPrincipal()).getUsername(), accessToken);
 
         return ResponseEntity.ok(authResponseDTO);
     }

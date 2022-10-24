@@ -5,9 +5,8 @@ import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -44,18 +43,24 @@ public class JWTFilter extends OncePerRequestFilter {
         if (jwtToken != null && !jwtToken.isBlank()) {
             jwtUtil.validateAccessToken(jwtToken);
 
-            String username = jwtUtil.getClaimsFromAccessToken(jwtToken).get("userName");
-            if (SecurityContextHolder.getContext().getAuthentication() == null) {
+//            String username = jwtUtil.getClaimsFromAccessToken(jwtToken).get("userName");
 
             // Тут происходит обращение к БД
-            UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(username);
+//            UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(username);
+//
+//            UsernamePasswordAuthenticationToken authToken
+//                    = new UsernamePasswordAuthenticationToken(userDetails,
+//                    userDetails.getUsername(),
+//                    userDetails.getAuthorities());
 
-            UsernamePasswordAuthenticationToken authToken
-                    = new UsernamePasswordAuthenticationToken(userDetails,
-                    userDetails.getUsername(),
-                    userDetails.getAuthorities());
+            if (SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            // Может вот эту проверку вытащить наверх?
+                Authentication authToken = jwtUtil.getAuthentication(jwtToken);
+
+                System.out.println("####################");
+                System.out.println(SecurityContextHolder.getContext().getAuthentication());
+                System.out.println("####################");
+
                 log.warn("Были тут*****************************");
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }

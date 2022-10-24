@@ -7,6 +7,11 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -14,8 +19,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.Base64;
-import java.util.HashMap;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 @Slf4j
@@ -34,11 +41,13 @@ public class JWTUtil {
         secret = Base64.getEncoder().encodeToString(secret.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String generateAccessToken(String userName) {
+    public String generateAccessToken(String userName, Collection<? extends GrantedAuthority> grantedAuthorities) {
+        List<String> roles = grantedAuthorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
+
         return JWT.create()
                 .withSubject("User details")
                 .withClaim("userName", userName)
-                .withClaim("Expired", accessTokenExpirationTime)
+                .withClaim("authorities", roles)
                 .withIssuer("www.dezone.com")
                 .withIssuedAt(Instant.now())
                 .withExpiresAt(Instant.now().plusMillis(accessTokenExpirationTime))
@@ -53,15 +62,6 @@ public class JWTUtil {
                 .build();
         verifier.verify(token);
         log.info("Token {} successfully verified", token);
-    }
-
-    public Map<String, String> getClaimsFromAccessToken(String token) {
-        Map<String, String> returnedMap = new HashMap<>();
-        Map<String, Claim> claims = JWT.decode(token).getClaims();
-
-        claims.forEach((key, value) -> returnedMap.put(key, value.asString()));
-
-        return returnedMap;
     }
 
     public String extractAccessTokenFromRequest(HttpServletRequest request) {
@@ -81,5 +81,19 @@ public class JWTUtil {
                 .withIssuedAt(Instant.now())
                 .withExpiresAt(Instant.now().plusMillis(refreshTokenExpirationTime))
                 .sign(Algorithm.HMAC256(secret));
+    }
+
+    public Authentication getAuthentication(String token) {
+        Map<String, Claim> claimsFromAccessToken = getClaimsFromAccessToken(token);
+        String username = claimsFromAccessToken.get("userName").asString();
+        List<SimpleGrantedAuthority> authorities = claimsFromAccessToken.get("authorities").asList(SimpleGrantedAuthority.class);
+
+        User principal = new User(username, "", authorities);
+
+        return new UsernamePasswordAuthenticationToken(principal, token, authorities);
+    }
+
+    public Map<String, Claim> getClaimsFromAccessToken(String token) {
+        return JWT.decode(token).getClaims();
     }
 }
