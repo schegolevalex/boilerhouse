@@ -49,4 +49,9 @@ public class User extends BaseEntity {
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
     List<Role> roles;
+
+    @OneToOne
+    @JoinColumn(name = "id")
+//    @Column(name = "refresh_token")
+    RefreshToken refreshToken;
 }

@@ -23,12 +23,10 @@ import java.io.IOException;
 public class JWTFilter extends OncePerRequestFilter {
 
     final JWTUtil jwtUtil;
-    final JWTUserDetailsService jwtUserDetailsService;
 
     @Autowired
-    public JWTFilter(JWTUtil jwtUtil, JWTUserDetailsService jwtUserDetailsService) {
+    public JWTFilter(JWTUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
-        this.jwtUserDetailsService = jwtUserDetailsService;
     }
 
     @Override
@@ -43,25 +41,8 @@ public class JWTFilter extends OncePerRequestFilter {
         if (jwtToken != null && !jwtToken.isBlank()) {
             jwtUtil.validateAccessToken(jwtToken);
 
-//            String username = jwtUtil.getClaimsFromAccessToken(jwtToken).get("userName");
-
-            // Тут происходит обращение к БД
-//            UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(username);
-//
-//            UsernamePasswordAuthenticationToken authToken
-//                    = new UsernamePasswordAuthenticationToken(userDetails,
-//                    userDetails.getUsername(),
-//                    userDetails.getAuthorities());
-
             if (SecurityContextHolder.getContext().getAuthentication() == null) {
-
                 Authentication authToken = jwtUtil.getAuthentication(jwtToken);
-
-                System.out.println("####################");
-                System.out.println(SecurityContextHolder.getContext().getAuthentication());
-                System.out.println("####################");
-
-                log.warn("Были тут*****************************");
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }

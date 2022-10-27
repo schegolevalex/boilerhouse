@@ -18,10 +18,7 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
-import java.util.Base64;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -43,7 +40,6 @@ public class JWTUtil {
 
     public String generateAccessToken(String userName, Collection<? extends GrantedAuthority> grantedAuthorities) {
         List<String> roles = grantedAuthorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
-
         return JWT.create()
                 .withSubject("User details")
                 .withClaim("userName", userName)
@@ -84,16 +80,12 @@ public class JWTUtil {
     }
 
     public Authentication getAuthentication(String token) {
-        Map<String, Claim> claimsFromAccessToken = getClaimsFromAccessToken(token);
+        Map<String, Claim> claimsFromAccessToken = JWT.decode(token).getClaims();
         String username = claimsFromAccessToken.get("userName").asString();
         List<SimpleGrantedAuthority> authorities = claimsFromAccessToken.get("authorities").asList(SimpleGrantedAuthority.class);
 
         User principal = new User(username, "", authorities);
 
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
-    }
-
-    public Map<String, Claim> getClaimsFromAccessToken(String token) {
-        return JWT.decode(token).getClaims();
     }
 }
