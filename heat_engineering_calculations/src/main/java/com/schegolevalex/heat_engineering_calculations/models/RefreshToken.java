@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RefreshToken extends BaseEntity {
-    @Column(name = "token")
+    @Column(name = "refresh_token")
     String refreshToken;
 
     @OneToOne(mappedBy = "refreshToken")

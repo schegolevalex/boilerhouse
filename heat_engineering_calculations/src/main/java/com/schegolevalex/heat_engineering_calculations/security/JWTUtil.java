@@ -5,6 +5,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
+import com.schegolevalex.heat_engineering_calculations.models.RefreshToken;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -69,21 +70,16 @@ public class JWTUtil {
         return null;
     }
 
-    public String generateRefreshToken(String userName) {
-        return JWT.create()
-                .withSubject("User details")
-                .withClaim("userName", userName)
-                .withIssuer("www.dezone.com")
-                .withIssuedAt(Instant.now())
-                .withExpiresAt(Instant.now().plusMillis(refreshTokenExpirationTime))
-                .sign(Algorithm.HMAC256(secret));
+    public RefreshToken generateRefreshToken(com.schegolevalex.heat_engineering_calculations.models.User user) {
+        RefreshToken refreshToken = new RefreshToken(UUID.randomUUID().toString(), user);
+        user.setRefreshToken(refreshToken);
+        return refreshToken;
     }
 
     public Authentication getAuthentication(String token) {
         Map<String, Claim> claimsFromAccessToken = JWT.decode(token).getClaims();
         String username = claimsFromAccessToken.get("userName").asString();
         List<SimpleGrantedAuthority> authorities = claimsFromAccessToken.get("authorities").asList(SimpleGrantedAuthority.class);
-
         User principal = new User(username, "", authorities);
 
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);

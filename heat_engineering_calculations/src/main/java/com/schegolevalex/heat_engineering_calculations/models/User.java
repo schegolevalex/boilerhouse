@@ -52,6 +52,5 @@ public class User extends BaseEntity {
 
     @OneToOne
     @JoinColumn(name = "id")
-//    @Column(name = "refresh_token")
     RefreshToken refreshToken;
 }
