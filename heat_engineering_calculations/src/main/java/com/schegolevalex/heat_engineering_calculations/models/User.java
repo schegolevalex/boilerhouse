@@ -22,7 +22,7 @@ public class User extends BaseEntity {
     @Column(name = "username")
     @Size(min = 2, max = 30, message = "Username must contain between 2 and 30 letters")
     @NotEmpty(message = "Username name shouldn't be empty")
-    String userName;
+    String username;
 
     @Column(name = "first_name")
     @Size(min = 2, max = 30, message = "First name must contain between 2 and 30 letters")
@@ -53,4 +53,10 @@ public class User extends BaseEntity {
     @OneToOne
     @JoinColumn(name = "id")
     RefreshToken refreshToken;
+
+    public User(@Size(min = 2, max = 30, message = "Username must contain between 2 and 30 letters") @NotEmpty(message = "Username name shouldn't be empty") String username,
+                List<Role> roles) {
+        this.username = username;
+        this.roles = roles;
+    }
 }

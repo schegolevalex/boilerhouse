@@ -5,34 +5,36 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
-import com.schegolevalex.heat_engineering_calculations.models.RefreshToken;
+import com.schegolevalex.heat_engineering_calculations.models.Role;
+import com.schegolevalex.heat_engineering_calculations.models.User;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
-import java.util.*;
+import java.util.Base64;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
 @Slf4j
-public class JWTUtil {
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class AccessTokenUtil {
     @Value("${jwt.access_token.secret}")
-    private String secret;
+    String secret;
 
     @Value("${jwt.access_token.expiration_time}")
-    private Long accessTokenExpirationTime;
-
-    @Value("${jwt.refresh_token.expiration_time}")
-    private Long refreshTokenExpirationTime;
+    Long accessTokenExpirationTime;
 
     @PostConstruct
     protected void init() {
@@ -70,18 +72,12 @@ public class JWTUtil {
         return null;
     }
 
-    public RefreshToken generateRefreshToken(com.schegolevalex.heat_engineering_calculations.models.User user) {
-        RefreshToken refreshToken = new RefreshToken(UUID.randomUUID().toString(), user);
-        user.setRefreshToken(refreshToken);
-        return refreshToken;
-    }
-
     public Authentication getAuthentication(String token) {
         Map<String, Claim> claimsFromAccessToken = JWT.decode(token).getClaims();
         String username = claimsFromAccessToken.get("userName").asString();
-        List<SimpleGrantedAuthority> authorities = claimsFromAccessToken.get("authorities").asList(SimpleGrantedAuthority.class);
-        User principal = new User(username, "", authorities);
 
+        List<Role> authorities = claimsFromAccessToken.get("authorities").asList(Role.class);
+        User principal = new User(username, authorities);
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }
 }

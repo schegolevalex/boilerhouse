@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "refresh_tokens")
@@ -17,7 +18,10 @@ import javax.persistence.Table;
 @AllArgsConstructor
 public class RefreshToken extends BaseEntity {
     @Column(name = "refresh_token")
-    String refreshToken;
+    String value;
+
+    @Column(name = "expired")
+    OffsetDateTime expiredAt;
 
     @OneToOne(mappedBy = "refreshToken")
     User user;

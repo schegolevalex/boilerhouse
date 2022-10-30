@@ -26,15 +26,15 @@ public class JWTUserDetailsService implements UserDetailsService {
 
     @Override
 //    @Transactional
-    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findByUserName(userName);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<User> user = userRepository.findByUsername(username);
 
         if (user.isEmpty()) {
-            log.warn("JWTUserDetailsService.loadByUsername: user with name \"{}\" not found in database", userName);
-            throw new UsernameNotFoundException("User with username " + userName + " not found in database");
+            log.warn("JWTUserDetailsService.loadByUsername: user with name \"{}\" not found in database", username);
+            throw new UsernameNotFoundException("User with username " + username + " not found in database");
         }
 
-        log.info("JWTUserDetailsService.loadByUsername: user {} successfully load from database", userName);
+        log.info("JWTUserDetailsService.loadByUsername: user {} successfully load from database", username);
         return new UserDetailsImpl(user.get());
     }
 }

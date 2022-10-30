@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface UserService extends Validator {
     User register(User user);
 
-    Optional<User> findByUserName(String userName);
+    Optional<User> findByUsername(String userName);
 
     void deleteById (Long id);
 }

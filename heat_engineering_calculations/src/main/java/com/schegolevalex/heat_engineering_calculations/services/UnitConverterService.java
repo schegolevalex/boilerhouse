@@ -60,9 +60,8 @@ public class UnitConverterService {
         ResponseEntity<Measure> responseEntity = restTemplate
                 .exchange(unitConverterURL + convertPathSegment,
                         HttpMethod.GET, httpEntity, Measure.class, parameters);
-        Measure body = responseEntity.getBody();
 
-        return body;
+        return responseEntity.getBody();
     }
 
     public Unit getUnit(String id) {
