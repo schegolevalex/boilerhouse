@@ -16,16 +16,15 @@ import java.util.Optional;
 @Service
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class JWTUserDetailsService implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
     final UserRepository userRepository;
 
     @Autowired
-    public JWTUserDetailsService(UserRepository userRepository) {
+    public UserDetailsServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Override
-//    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> user = userRepository.findByUsername(username);
 

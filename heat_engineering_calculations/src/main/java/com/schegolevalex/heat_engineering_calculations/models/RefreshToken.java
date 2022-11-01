@@ -5,7 +5,6 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.time.OffsetDateTime;
 
@@ -22,7 +21,4 @@ public class RefreshToken extends BaseEntity {
 
     @Column(name = "expired")
     OffsetDateTime expiredAt;
-
-    @OneToOne(mappedBy = "refreshToken")
-    User user;
 }

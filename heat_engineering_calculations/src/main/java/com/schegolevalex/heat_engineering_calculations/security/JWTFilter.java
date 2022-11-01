@@ -45,8 +45,9 @@ public class JWTFilter extends OncePerRequestFilter {
 
         if (request.getRequestURI().equals("/auth/refresh")) {
             if (request.getCookies() == null) {
-                response.sendRedirect("/auth/login");
-                return;
+                throw new RefreshTokenVerificationException("There is no refresh token in your request. Please, log in.");
+//                response.sendRedirect("/auth/login");
+//                return;
             }
             Cookie cookie = Arrays.stream(request.getCookies())
                     .filter(c -> c.getName().equals("refresh-token"))
@@ -54,10 +55,13 @@ public class JWTFilter extends OncePerRequestFilter {
                     .orElseThrow(() -> new RefreshTokenVerificationException("There is no refresh token in your request. Please, log in."));
 
             User userFromRefreshToken = refreshTokenUtil.getUserFromRefreshToken(cookie.getValue());
+
             if (userFromRefreshToken.getRefreshToken().getExpiredAt().isBefore(OffsetDateTime.now())) {
                 response.sendRedirect("/auth/login");
-                return;
+                // если refresh токен истек, то отправляется на логин, фильтр снова перехватывает,
+                // и catch блок проверки валидации jwt токена поймает ошибку и снова кинет на refresh
             }
+            return;
         }
 
         String jwtToken = accessTokenUtil.extractAccessTokenFromRequest(request);
@@ -66,7 +70,9 @@ public class JWTFilter extends OncePerRequestFilter {
             try {
                 accessTokenUtil.validateAccessToken(jwtToken);
             } catch (JWTVerificationException ex) {
+                // вот тут бесконечный редирект
                 response.sendRedirect("/auth/refresh");
+                return;
             }
 
             if (SecurityContextHolder.getContext().getAuthentication() == null) {

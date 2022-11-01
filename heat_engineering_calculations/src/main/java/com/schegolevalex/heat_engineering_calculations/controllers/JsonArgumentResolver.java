@@ -30,33 +30,6 @@ public class JsonArgumentResolver implements HandlerMethodArgumentResolver {
         return parameter.hasParameterAnnotation(JsonArg.class);
     }
 
-    // todo проверить наконец работоспособность, если парсить один раз
-
-//        @Override
-//    public Object resolveArgument(MethodParameter parameter,
-//                                  ModelAndViewContainer mavContainer,
-//                                  NativeWebRequest webRequest,
-//                                  WebDataBinderFactory binderFactory)
-//            throws Exception {
-//        DocumentContext requestParsedBody = getRequestParsedBody(webRequest);
-//        String jsonPath = Objects.requireNonNull(Objects.requireNonNull(parameter.getParameterAnnotation(JsonArg.class)).value());
-//        Class<?> parameterType = parameter.getParameterType();
-//        return requestParsedBody.read(jsonPath, parameterType);
-//    }
-//
-//    private DocumentContext getRequestParsedBody(NativeWebRequest webRequest) {
-//        HttpServletRequest servletRequest = Objects.requireNonNull(webRequest.getNativeRequest(HttpServletRequest.class));
-//        String jsonBody = String.valueOf(servletRequest.getAttribute(JSON_BODY_ATTRIBUTE));
-//        if (jsonBody == "null") {
-//            try {
-//                jsonBody = IOUtils.toString(servletRequest.getInputStream());
-//                servletRequest.setAttribute(JSON_BODY_ATTRIBUTE, JsonPath.parse(jsonBody));
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
-//        }
-//        return JsonPath.parse(jsonBody);
-//    }
     @Override
     public Object resolveArgument(
             MethodParameter parameter,

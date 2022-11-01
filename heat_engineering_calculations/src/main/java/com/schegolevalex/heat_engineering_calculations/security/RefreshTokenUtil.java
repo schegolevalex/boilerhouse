@@ -4,6 +4,7 @@ import com.schegolevalex.heat_engineering_calculations.models.RefreshToken;
 import com.schegolevalex.heat_engineering_calculations.models.Status;
 import com.schegolevalex.heat_engineering_calculations.models.User;
 import com.schegolevalex.heat_engineering_calculations.repositories.RefreshTokenRepository;
+import com.schegolevalex.heat_engineering_calculations.repositories.UserRepository;
 import com.schegolevalex.heat_engineering_calculations.security.exceptions.RefreshTokenVerificationException;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -26,30 +27,32 @@ public class RefreshTokenUtil {
     Long refreshTokenExpirationTime;
 
     final RefreshTokenRepository refreshTokenRepository;
+    final UserRepository userRepository;
 
     @Autowired
-    public RefreshTokenUtil(RefreshTokenRepository refreshTokenRepository) {
+    public RefreshTokenUtil(RefreshTokenRepository refreshTokenRepository, UserRepository userRepository) {
         this.refreshTokenRepository = refreshTokenRepository;
+        this.userRepository = userRepository;
     }
 
     @Transactional
     public RefreshToken generateRefreshToken(User user) {
         RefreshToken refreshToken = new RefreshToken(UUID.randomUUID().toString(),
-                OffsetDateTime.now().plusSeconds(refreshTokenExpirationTime / 100),
-                user);
+                OffsetDateTime.now().plusSeconds(refreshTokenExpirationTime / 100));
         refreshToken.setCreatedAt(OffsetDateTime.now());
         refreshToken.setUpdatedAt(OffsetDateTime.now());
         refreshToken.setStatus(Status.ACTIVE);
 
         user.setRefreshToken(refreshToken);
+        userRepository.save(user);
 
-        return refreshTokenRepository.save(refreshToken);
+        return refreshToken;
     }
 
     public User getUserFromRefreshToken(String refreshToken) {
-        Optional<RefreshToken> byValue = refreshTokenRepository.findByValue(refreshToken);
-        if (byValue.isPresent()) {
-            return byValue.get().getUser();
+        Optional<User> user = userRepository.findByRefreshTokenValue(refreshToken);
+        if (user.isPresent()) {
+            return user.get();
         } else {
             throw new RefreshTokenVerificationException("There is no such refresh token");
         }

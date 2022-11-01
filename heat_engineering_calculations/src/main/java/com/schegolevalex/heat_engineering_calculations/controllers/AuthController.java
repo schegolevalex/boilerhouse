@@ -17,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -64,10 +63,8 @@ public class AuthController {
 
         User registeredUser = userService.register(user);
 
-        UserDetails registeredUserDetails = new UserDetailsImpl(registeredUser);
-
-        String accessToken = accessTokenUtil.generateAccessToken(registeredUserDetails.getUsername(),
-                registeredUserDetails.getAuthorities());
+        String accessToken = accessTokenUtil.generateAccessToken(registeredUser.getUsername(),
+                registeredUser.getRoles());
 
         setRefreshTokenCookie(response, registeredUser);
 
@@ -100,6 +97,9 @@ public class AuthController {
         String accessToken = accessTokenUtil.generateAccessToken(user.getUsername(), user.getRoles());
         setRefreshTokenCookie(response, user);
 
+        System.out.println("**************************");
+        System.out.println("были тут");
+        System.out.println("**************************");
         return ResponseEntity.ok(new AuthResponseDTO(user.getUsername(), accessToken));
     }
 

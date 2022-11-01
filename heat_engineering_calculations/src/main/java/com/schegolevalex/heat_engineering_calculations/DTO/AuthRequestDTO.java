@@ -18,5 +18,4 @@ public class AuthRequestDTO {
 
     @NotEmpty(message = "Password shouldn't be empty")
     String password;
-
 }

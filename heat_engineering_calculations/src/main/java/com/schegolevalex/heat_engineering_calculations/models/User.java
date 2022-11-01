@@ -50,8 +50,8 @@ public class User extends BaseEntity {
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
     List<Role> roles;
 
-    @OneToOne
-    @JoinColumn(name = "id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "refresh_token", referencedColumnName = "id")
     RefreshToken refreshToken;
 
     public User(@Size(min = 2, max = 30, message = "Username must contain between 2 and 30 letters") @NotEmpty(message = "Username name shouldn't be empty") String username,

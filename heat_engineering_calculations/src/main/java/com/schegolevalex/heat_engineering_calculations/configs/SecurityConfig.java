@@ -1,7 +1,7 @@
 package com.schegolevalex.heat_engineering_calculations.configs;
 
 import com.schegolevalex.heat_engineering_calculations.security.JWTFilter;
-import com.schegolevalex.heat_engineering_calculations.security.JWTUserDetailsService;
+import com.schegolevalex.heat_engineering_calculations.security.UserDetailsServiceImpl;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +20,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    final JWTUserDetailsService jwtUserDetailsService;
+    final UserDetailsServiceImpl userDetailsServiceImpl;
     final JWTFilter jwtFilter;
 
     @Autowired
-    public SecurityConfig(JWTUserDetailsService jwtUserDetailsService,
+    public SecurityConfig(UserDetailsServiceImpl userDetailsServiceImpl,
                           JWTFilter jwtFilter) {
-        this.jwtUserDetailsService = jwtUserDetailsService;
+        this.userDetailsServiceImpl = userDetailsServiceImpl;
         this.jwtFilter = jwtFilter;
     }
 
@@ -41,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(userDetailsServiceImpl).passwordEncoder(passwordEncoder());
     }
 
     protected void configure(HttpSecurity http) throws Exception {
