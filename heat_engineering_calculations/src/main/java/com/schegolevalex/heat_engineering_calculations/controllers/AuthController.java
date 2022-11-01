@@ -19,6 +19,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -86,7 +87,7 @@ public class AuthController {
         return ResponseEntity.ok(new AuthResponseDTO(user.getUsername(), accessToken));
     }
 
-    @PostMapping("/refresh")
+    @GetMapping("/refresh")
     public ResponseEntity<AuthResponseDTO> refresh(HttpServletRequest request, HttpServletResponse response) {
         Cookie cookie = Arrays.stream(request.getCookies())
                 .filter(c -> c.getName().equals("refresh-token"))
@@ -97,9 +98,6 @@ public class AuthController {
         String accessToken = accessTokenUtil.generateAccessToken(user.getUsername(), user.getRoles());
         setRefreshTokenCookie(response, user);
 
-        System.out.println("**************************");
-        System.out.println("были тут");
-        System.out.println("**************************");
         return ResponseEntity.ok(new AuthResponseDTO(user.getUsername(), accessToken));
     }
 

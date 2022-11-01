@@ -7,8 +7,6 @@ import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -25,14 +23,12 @@ import java.util.Arrays;
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Slf4j
-public class JWTFilter extends OncePerRequestFilter {
+public class JWTRefreshFilter extends OncePerRequestFilter {
 
-    final AccessTokenUtil accessTokenUtil;
     final RefreshTokenUtil refreshTokenUtil;
 
     @Autowired
-    public JWTFilter(AccessTokenUtil accessTokenUtil, RefreshTokenUtil refreshTokenUtil) {
-        this.accessTokenUtil = accessTokenUtil;
+    public JWTRefreshFilter(RefreshTokenUtil refreshTokenUtil) {
         this.refreshTokenUtil = refreshTokenUtil;
     }
 
@@ -44,11 +40,9 @@ public class JWTFilter extends OncePerRequestFilter {
             UsernameNotFoundException, JWTVerificationException {
 
         if (request.getRequestURI().equals("/auth/refresh")) {
-            if (request.getCookies() == null) {
+            if (request.getCookies() == null)
                 throw new RefreshTokenVerificationException("There is no refresh token in your request. Please, log in.");
-//                response.sendRedirect("/auth/login");
-//                return;
-            }
+
             Cookie cookie = Arrays.stream(request.getCookies())
                     .filter(c -> c.getName().equals("refresh-token"))
                     .findFirst()
@@ -56,29 +50,8 @@ public class JWTFilter extends OncePerRequestFilter {
 
             User userFromRefreshToken = refreshTokenUtil.getUserFromRefreshToken(cookie.getValue());
 
-            if (userFromRefreshToken.getRefreshToken().getExpiredAt().isBefore(OffsetDateTime.now())) {
+            if (userFromRefreshToken.getRefreshToken().getExpiredAt().isBefore(OffsetDateTime.now()))
                 response.sendRedirect("/auth/login");
-                // если refresh токен истек, то отправляется на логин, фильтр снова перехватывает,
-                // и catch блок проверки валидации jwt токена поймает ошибку и снова кинет на refresh
-            }
-            return;
-        }
-
-        String jwtToken = accessTokenUtil.extractAccessTokenFromRequest(request);
-
-        if (jwtToken != null && !jwtToken.isBlank()) {
-            try {
-                accessTokenUtil.validateAccessToken(jwtToken);
-            } catch (JWTVerificationException ex) {
-                // вот тут бесконечный редирект
-                response.sendRedirect("/auth/refresh");
-                return;
-            }
-
-            if (SecurityContextHolder.getContext().getAuthentication() == null) {
-                Authentication authToken = accessTokenUtil.getAuthentication(jwtToken);
-                SecurityContextHolder.getContext().setAuthentication(authToken);
-            }
         }
 
         filterChain.doFilter(request, response);

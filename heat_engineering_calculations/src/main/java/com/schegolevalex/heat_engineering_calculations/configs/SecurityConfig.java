@@ -1,6 +1,7 @@
 package com.schegolevalex.heat_engineering_calculations.configs;
 
-import com.schegolevalex.heat_engineering_calculations.security.JWTFilter;
+import com.schegolevalex.heat_engineering_calculations.security.JWTAccessFilter;
+import com.schegolevalex.heat_engineering_calculations.security.JWTRefreshFilter;
 import com.schegolevalex.heat_engineering_calculations.security.UserDetailsServiceImpl;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -21,13 +22,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     final UserDetailsServiceImpl userDetailsServiceImpl;
-    final JWTFilter jwtFilter;
+    final JWTAccessFilter jwtAccessFilter;
+    final JWTRefreshFilter jwtRefreshFilter;
 
     @Autowired
     public SecurityConfig(UserDetailsServiceImpl userDetailsServiceImpl,
-                          JWTFilter jwtFilter) {
+                          JWTAccessFilter jwtAccessFilter,
+                          JWTRefreshFilter jwtRefreshFilter) {
         this.userDetailsServiceImpl = userDetailsServiceImpl;
-        this.jwtFilter = jwtFilter;
+        this.jwtAccessFilter = jwtAccessFilter;
+        this.jwtRefreshFilter = jwtRefreshFilter;
     }
 
     //todo переписать под не-deprecated
@@ -52,7 +56,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtRefreshFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAccessFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean
