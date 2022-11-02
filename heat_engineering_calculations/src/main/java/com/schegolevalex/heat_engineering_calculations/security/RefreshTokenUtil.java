@@ -37,9 +37,13 @@ public class RefreshTokenUtil {
 
     @Transactional
     public RefreshToken generateRefreshToken(User user) {
-        RefreshToken refreshToken = new RefreshToken(UUID.randomUUID().toString(),
-                OffsetDateTime.now().plusSeconds(refreshTokenExpirationTime / 100));
-        refreshToken.setCreatedAt(OffsetDateTime.now());
+        RefreshToken refreshToken = user.getRefreshToken();
+        if (refreshToken == null) {
+            refreshToken = new RefreshToken();
+            refreshToken.setCreatedAt(OffsetDateTime.now());
+        }
+        refreshToken.setValue(UUID.randomUUID().toString());
+        refreshToken.setExpiredAt(OffsetDateTime.now().plusSeconds(refreshTokenExpirationTime / 100));
         refreshToken.setUpdatedAt(OffsetDateTime.now());
         refreshToken.setStatus(Status.ACTIVE);
 
