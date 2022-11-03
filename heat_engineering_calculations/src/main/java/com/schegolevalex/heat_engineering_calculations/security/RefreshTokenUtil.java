@@ -3,7 +3,6 @@ package com.schegolevalex.heat_engineering_calculations.security;
 import com.schegolevalex.heat_engineering_calculations.models.RefreshToken;
 import com.schegolevalex.heat_engineering_calculations.models.Status;
 import com.schegolevalex.heat_engineering_calculations.models.User;
-import com.schegolevalex.heat_engineering_calculations.repositories.RefreshTokenRepository;
 import com.schegolevalex.heat_engineering_calculations.repositories.UserRepository;
 import com.schegolevalex.heat_engineering_calculations.security.exceptions.RefreshTokenVerificationException;
 import lombok.AccessLevel;
@@ -26,12 +25,10 @@ public class RefreshTokenUtil {
     @Value("${jwt.refresh_token.expiration_time}")
     Long refreshTokenExpirationTime;
 
-    final RefreshTokenRepository refreshTokenRepository;
     final UserRepository userRepository;
 
     @Autowired
-    public RefreshTokenUtil(RefreshTokenRepository refreshTokenRepository, UserRepository userRepository) {
-        this.refreshTokenRepository = refreshTokenRepository;
+    public RefreshTokenUtil(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

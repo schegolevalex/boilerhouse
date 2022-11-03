@@ -8,6 +8,7 @@ import com.schegolevalex.heat_engineering_calculations.repositories.UserReposito
 import com.schegolevalex.heat_engineering_calculations.security.AccessTokenUtil;
 import com.schegolevalex.heat_engineering_calculations.security.RefreshTokenUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -78,7 +79,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void validate(Object target, Errors errors) {
+    public void validate(@NotNull Object target, @NotNull Errors errors) {
         User incomeUser = (User) target;
         Optional<User> userFromDB = findByUsername(incomeUser.getUsername());
 

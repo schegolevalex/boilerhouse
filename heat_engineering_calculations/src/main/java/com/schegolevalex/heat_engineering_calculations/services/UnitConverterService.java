@@ -10,7 +10,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,9 +53,9 @@ public class UnitConverterService {
         parameters.put("unitTo", String.valueOf(unitTo.getFullName()));
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 
-        HttpEntity<String> httpEntity = new HttpEntity<String>("body", headers);
+        HttpEntity<String> httpEntity = new HttpEntity<>("body", headers);
 
         ResponseEntity<Measure> responseEntity = restTemplate
                 .exchange(unitConverterURL + convertPathSegment,
@@ -65,6 +65,6 @@ public class UnitConverterService {
     }
 
     public Unit getUnit(String id) {
-        return restTemplate.getForObject(unitConverterURL + unitPathSegment, Unit.class);
+        return restTemplate.getForObject(unitConverterURL + unitPathSegment + "/" + id, Unit.class);
     }
 }

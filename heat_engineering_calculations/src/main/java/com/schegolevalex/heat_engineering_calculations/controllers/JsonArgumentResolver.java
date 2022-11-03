@@ -8,6 +8,7 @@ import com.jayway.jsonpath.spi.json.JsonProvider;
 import com.jayway.jsonpath.spi.mapper.JacksonMappingProvider;
 import com.jayway.jsonpath.spi.mapper.MappingProvider;
 import io.micrometer.core.instrument.util.IOUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -34,9 +35,8 @@ public class JsonArgumentResolver implements HandlerMethodArgumentResolver {
     public Object resolveArgument(
             MethodParameter parameter,
             ModelAndViewContainer mavContainer,
-            NativeWebRequest webRequest,
-            WebDataBinderFactory binderFactory)
-            throws Exception {
+            @NotNull NativeWebRequest webRequest,
+            WebDataBinderFactory binderFactory) {
         String body = getRequestBody(webRequest);
         String jsonPath = Objects.requireNonNull(Objects.requireNonNull(parameter.getParameterAnnotation(JsonArg.class)).value());
         Class<?> parameterType = parameter.getParameterType();
