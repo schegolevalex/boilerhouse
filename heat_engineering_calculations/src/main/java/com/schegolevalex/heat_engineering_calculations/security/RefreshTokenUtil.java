@@ -45,7 +45,9 @@ public class RefreshTokenUtil {
         refreshToken.setStatus(Status.ACTIVE);
 
         user.setRefreshToken(refreshToken);
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
+
+        log.info("Refresh token {} for user {} was successfully created", savedUser.getRefreshToken(), savedUser.getUsername());
 
         return refreshToken;
     }

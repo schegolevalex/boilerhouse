@@ -41,26 +41,28 @@ public class AccessTokenUtil {
         secret = Base64.getEncoder().encodeToString(secret.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String generateAccessToken(String userName, Collection<? extends GrantedAuthority> grantedAuthorities) {
+    public String generateAccessToken(String username, Collection<? extends GrantedAuthority> grantedAuthorities) {
         List<String> roles = grantedAuthorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
-        return JWT.create()
+        String token = JWT.create()
                 .withSubject("User details")
-                .withClaim("userName", userName)
+                .withClaim("username", username)
                 .withClaim("authorities", roles)
                 .withIssuer("www.dezone.com")
                 .withIssuedAt(Instant.now())
                 .withExpiresAt(Instant.now().plusMillis(accessTokenExpirationTime))
                 .sign(Algorithm.HMAC256(secret));
+        log.info("Access token {} for user {} was successfully created", token, username);
+        return token;
     }
 
-    public void validateAccessToken(String token) throws JWTVerificationException {
+    public void validateAccessToken(String accessToken) throws JWTVerificationException {
         JWTVerifier verifier = JWT
                 .require(Algorithm.HMAC256(secret))
                 .withSubject("User details")
                 .withIssuer("www.dezone.com")
                 .build();
-        verifier.verify(token);
-        log.info("Token {} successfully verified", token);
+        verifier.verify(accessToken);
+        log.info("Token {} successfully verified", accessToken);
     }
 
     public String extractAccessTokenFromRequest(HttpServletRequest request) {
@@ -74,7 +76,7 @@ public class AccessTokenUtil {
 
     public Authentication getAuthentication(String token) {
         Map<String, Claim> claimsFromAccessToken = JWT.decode(token).getClaims();
-        String username = claimsFromAccessToken.get("userName").asString();
+        String username = claimsFromAccessToken.get("username").asString();
 
         List<Role> authorities = claimsFromAccessToken.get("authorities").asList(Role.class);
         User principal = new User(username, authorities);
