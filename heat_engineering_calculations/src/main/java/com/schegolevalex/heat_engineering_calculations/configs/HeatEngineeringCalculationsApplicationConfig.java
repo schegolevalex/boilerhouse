@@ -1,17 +1,20 @@
 package com.schegolevalex.heat_engineering_calculations.configs;
 
 import com.fasterxml.jackson.databind.Module;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.schegolevalex.heat_engineering_calculations.controllers.JsonArgumentResolver;
-import com.schegolevalex.unit_library.entities.units.Unit;
-import com.schegolevalex.unit_library.serdeser.PairSerializer;
-import com.schegolevalex.unit_library.serdeser.UnitDeserializer;
-import com.schegolevalex.unit_library.serdeser.UnitSerializer;
+import com.schegolevalex.unit_library.config.serdeser.PairSerializer;
+import com.schegolevalex.unit_library.config.serdeser.UnitDeserializer;
+import com.schegolevalex.unit_library.config.serdeser.UnitSerializer;
+import com.schegolevalex.unit_library.models.units.Unit;
+import org.modelmapper.ModelMapper;
+import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.util.Pair;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -19,7 +22,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.util.List;
 
 @Configuration
-@EnableScheduling
 @ComponentScan({"com.schegolevalex.unit_library"})
 public class HeatEngineeringCalculationsApplicationConfig implements WebMvcConfigurer {
 
@@ -49,8 +51,23 @@ public class HeatEngineeringCalculationsApplicationConfig implements WebMvcConfi
         return simpleModule;
     }
 
+    @Bean
+    public Module javaTimeModule() {
+        return new JavaTimeModule();
+    }
+
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
         argumentResolvers.add(new JsonArgumentResolver());
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
+
+    @Bean
+    public Jackson2ObjectMapperBuilderCustomizer jsonCustomizer() {
+        return builder -> builder.featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
 }

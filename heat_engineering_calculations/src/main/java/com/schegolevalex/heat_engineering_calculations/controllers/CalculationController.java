@@ -1,18 +1,15 @@
 package com.schegolevalex.heat_engineering_calculations.controllers;
 
-import com.schegolevalex.heat_engineering_calculations.calculations.Calculation;
-import com.schegolevalex.unit_library.entities.measures.Measure;
-import com.schegolevalex.unit_library.entities.reference_data.PipeNominalDiameter;
-import com.schegolevalex.unit_library.entities.reference_data.PipeMaterial;
-import com.schegolevalex.unit_library.entities.reference_data.Roughness;
+import com.schegolevalex.heat_engineering_calculations.services.CalculationService;
+import com.schegolevalex.unit_library.models.measures.Measure;
+import com.schegolevalex.unit_library.models.reference_data.PipeMaterial;
+import com.schegolevalex.unit_library.models.reference_data.PipeNominalDiameter;
+import com.schegolevalex.unit_library.models.reference_data.Roughness;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -20,26 +17,27 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/calculations")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CalculationController {
 
-    final Calculation calculation;
+    final CalculationService calculationService;
 
     @Autowired
-    public CalculationController(Calculation calculation) {
-        this.calculation = calculation;
+    public CalculationController(CalculationService calculationService) {
+        this.calculationService = calculationService;
     }
 
     @PostMapping("/flow-rate-by-mass")
     public Measure getFlowRateByMass(@RequestBody Map<String, Measure> request) {
-        return calculation.getFlowRateByMass(request.get("power"),
+        return calculationService.getFlowRateByMass(request.get("power"),
                 request.get("temperatureLow"),
                 request.get("temperatureHigh"));
     }
 
     @PostMapping("/flow-rate-by-volume")
     public Measure getFlowRateByVolume(@RequestBody Map<String, Measure> request) {
-        return calculation.getFlowRateByVolume(request.get("power"),
+        return calculationService.getFlowRateByVolume(request.get("power"),
                 request.get("temperatureLow"),
                 request.get("temperatureHigh"));
     }
@@ -49,7 +47,7 @@ public class CalculationController {
                                    @JsonArg("kinematicViscosity") Measure kinematicViscosity,
                                    @JsonArg("roughness") Measure roughness,
                                    @JsonArg("pipeInnerDiameter") Measure pipeInnerDiameter) {
-        return calculation.getPressureLoss(flowRateByVolume,
+        return calculationService.getPressureLoss(flowRateByVolume,
                 kinematicViscosity,
                 roughness,
                 pipeInnerDiameter);
@@ -59,13 +57,13 @@ public class CalculationController {
     public BigDecimal getPressureLoss(@JsonArg("flowRateByVolume") Measure flowRateByVolume,
                                       @JsonArg("kinematicViscosity") Measure kinematicViscosity,
                                       @JsonArg("pipeInnerDiameter") Measure pipeInnerDiameter) {
-        return calculation.getReynoldsNumber(flowRateByVolume, pipeInnerDiameter, kinematicViscosity);
+        return calculationService.getReynoldsNumber(flowRateByVolume, pipeInnerDiameter, kinematicViscosity);
     }
 
     @PostMapping("/speed")
     public Measure getSpeed(@JsonArg("flowRateByVolume") Measure flowRateByVolume,
                             @JsonArg("pipeInnerDiameter") Measure innerDiameter) {
-        return calculation.getSpeed(flowRateByVolume, innerDiameter);
+        return calculationService.getSpeed(flowRateByVolume, innerDiameter);
     }
 
     @GetMapping("/pipeMaterials")
@@ -86,6 +84,6 @@ public class CalculationController {
     @PostMapping("/pipe-diameters-by-flow-rate-by-volume")
     public Map<PipeNominalDiameter, Pair<Measure, Measure>> getPipeNominalDiameter(@JsonArg("flowRateByVolume") Measure flowRateByVolume,
                                                                                    @JsonArg("pipeMaterial") PipeMaterial pipeMaterial) {
-        return calculation.getPipeDiameter(flowRateByVolume, pipeMaterial);
+        return calculationService.getPipeDiameter(flowRateByVolume, pipeMaterial);
     }
 }

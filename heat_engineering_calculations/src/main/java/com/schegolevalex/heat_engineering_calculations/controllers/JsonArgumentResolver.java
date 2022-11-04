@@ -8,6 +8,7 @@ import com.jayway.jsonpath.spi.json.JsonProvider;
 import com.jayway.jsonpath.spi.mapper.JacksonMappingProvider;
 import com.jayway.jsonpath.spi.mapper.MappingProvider;
 import io.micrometer.core.instrument.util.IOUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -30,38 +31,12 @@ public class JsonArgumentResolver implements HandlerMethodArgumentResolver {
         return parameter.hasParameterAnnotation(JsonArg.class);
     }
 
-    //    @Override
-//    public Object resolveArgument(MethodParameter parameter,
-//                                  ModelAndViewContainer mavContainer,
-//                                  NativeWebRequest webRequest,
-//                                  WebDataBinderFactory binderFactory)
-//            throws Exception {
-//        DocumentContext requestParsedBody = getRequestParsedBody(webRequest);
-//        String jsonPath = Objects.requireNonNull(Objects.requireNonNull(parameter.getParameterAnnotation(JsonArg.class)).value());
-//        Class<?> parameterType = parameter.getParameterType();
-//        return requestParsedBody.read(jsonPath, parameterType);
-//    }
-//
-//    private DocumentContext getRequestParsedBody(NativeWebRequest webRequest) {
-//        HttpServletRequest servletRequest = Objects.requireNonNull(webRequest.getNativeRequest(HttpServletRequest.class));
-//        String jsonBody = String.valueOf(servletRequest.getAttribute(JSON_BODY_ATTRIBUTE));
-//        if (jsonBody == "null") {
-//            try {
-//                jsonBody = IOUtils.toString(servletRequest.getInputStream());
-//                servletRequest.setAttribute(JSON_BODY_ATTRIBUTE, JsonPath.parse(jsonBody));
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
-//        }
-//        return JsonPath.parse(jsonBody);
-//    }
     @Override
     public Object resolveArgument(
             MethodParameter parameter,
             ModelAndViewContainer mavContainer,
-            NativeWebRequest webRequest,
-            WebDataBinderFactory binderFactory)
-            throws Exception {
+            @NotNull NativeWebRequest webRequest,
+            WebDataBinderFactory binderFactory) {
         String body = getRequestBody(webRequest);
         String jsonPath = Objects.requireNonNull(Objects.requireNonNull(parameter.getParameterAnnotation(JsonArg.class)).value());
         Class<?> parameterType = parameter.getParameterType();

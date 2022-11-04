@@ -1,7 +1,7 @@
 package com.schegolevalex.unit_library.services;
 
-import com.schegolevalex.unit_library.entities.units.Unit;
-import com.schegolevalex.unit_library.entities.units.UnitType;
+import com.schegolevalex.unit_library.models.units.Unit;
+import com.schegolevalex.unit_library.models.units.UnitType;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
