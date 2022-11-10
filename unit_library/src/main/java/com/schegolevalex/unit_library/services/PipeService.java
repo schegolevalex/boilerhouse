@@ -3,7 +3,7 @@ package com.schegolevalex.unit_library.services;
 import com.schegolevalex.unit_library.models.measures.MeasureFactory;
 import com.schegolevalex.unit_library.models.reference_data.Pipe;
 import com.schegolevalex.unit_library.models.reference_data.PipeMaterial;
-import com.schegolevalex.unit_library.models.reference_data.PipeNominalDiameter;
+import com.schegolevalex.unit_library.models.reference_data.NominalDiameter;
 import com.schegolevalex.unit_library.models.units.Unit;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -40,7 +40,7 @@ public class PipeService {
             while ((line = reader.readLine()) != null) {
                 String[] split = line.split(";");
                 pipes.add(new Pipe(PipeMaterial.valueOf(split[0]),
-                        PipeNominalDiameter.valueOfDiameter(Integer.parseInt(split[1])),
+                        NominalDiameter.valueOfDiameter(Integer.parseInt(split[1])),
                         new BigDecimal(split[2]),
                         new BigDecimal(split[3]),
                         new BigDecimal(split[4]),

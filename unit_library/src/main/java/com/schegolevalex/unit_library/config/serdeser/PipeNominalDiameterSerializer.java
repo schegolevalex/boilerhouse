@@ -3,17 +3,17 @@ package com.schegolevalex.unit_library.config.serdeser;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import com.schegolevalex.unit_library.models.reference_data.PipeNominalDiameter;
+import com.schegolevalex.unit_library.models.reference_data.NominalDiameter;
 
 import java.io.IOException;
 
-public class PipeNominalDiameterSerializer extends JsonSerializer<PipeNominalDiameter> {
+public class PipeNominalDiameterSerializer extends JsonSerializer<NominalDiameter> {
 
     @Override
-    public void serialize(PipeNominalDiameter pipeNominalDiameter, JsonGenerator gen, SerializerProvider provider) throws IOException {
+    public void serialize(NominalDiameter nominalDiameter, JsonGenerator gen, SerializerProvider provider) throws IOException {
         gen.writeStartObject();
-        gen.writeStringField("name", pipeNominalDiameter.name());
-        provider.defaultSerializeField("diameter", pipeNominalDiameter.getDiameter(), gen);
+        gen.writeStringField("name", nominalDiameter.name());
+        provider.defaultSerializeField("diameter", nominalDiameter.getDiameter(), gen);
         gen.writeEndObject();
     }
 }

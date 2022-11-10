@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class Pipe implements Element {
     final PipeMaterial material;
-    final PipeNominalDiameter nominalDiameter;
+    final NominalDiameter nominalDiameter;
     final BigDecimal outerDiameter;
     final BigDecimal wallThickness;
     final BigDecimal innerDiameter;

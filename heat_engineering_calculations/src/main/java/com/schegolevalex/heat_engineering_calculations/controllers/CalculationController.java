@@ -3,7 +3,7 @@ package com.schegolevalex.heat_engineering_calculations.controllers;
 import com.schegolevalex.heat_engineering_calculations.services.CalculationService;
 import com.schegolevalex.unit_library.models.measures.Measure;
 import com.schegolevalex.unit_library.models.reference_data.PipeMaterial;
-import com.schegolevalex.unit_library.models.reference_data.PipeNominalDiameter;
+import com.schegolevalex.unit_library.models.reference_data.NominalDiameter;
 import com.schegolevalex.unit_library.models.reference_data.Roughness;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -72,8 +72,8 @@ public class CalculationController {
     }
 
     @GetMapping("/pipeNominalDiameters")
-    public List<PipeNominalDiameter> getPipeNominalDiameters() {
-        return Arrays.stream(PipeNominalDiameter.values()).toList();
+    public List<NominalDiameter> getPipeNominalDiameters() {
+        return Arrays.stream(NominalDiameter.values()).toList();
     }
 
     @GetMapping("/roughnesses")
@@ -82,8 +82,8 @@ public class CalculationController {
     }
 
     @PostMapping("/pipe-diameters-by-flow-rate-by-volume")
-    public Map<PipeNominalDiameter, Pair<Measure, Measure>> getPipeNominalDiameter(@JsonArg("flowRateByVolume") Measure flowRateByVolume,
-                                                                                   @JsonArg("pipeMaterial") PipeMaterial pipeMaterial) {
+    public Map<NominalDiameter, Pair<Measure, Measure>> getPipeNominalDiameter(@JsonArg("flowRateByVolume") Measure flowRateByVolume,
+                                                                               @JsonArg("pipeMaterial") PipeMaterial pipeMaterial) {
         return calculationService.getPipeDiameter(flowRateByVolume, pipeMaterial);
     }
 }

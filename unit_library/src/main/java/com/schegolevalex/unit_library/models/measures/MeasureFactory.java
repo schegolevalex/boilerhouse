@@ -23,7 +23,6 @@ public class MeasureFactory {
     }
 
     public Measure createMeasure (double value, Unit unit) {
-        constraintsList.stream().filter(c -> c.getUnitType() == unit.getUnitType()).forEach(c -> c.check(BigDecimal.valueOf(value), unit));
-        return new Measure(BigDecimal.valueOf(value), unit);
+        return createMeasure(BigDecimal.valueOf(value), unit);
     }
 }

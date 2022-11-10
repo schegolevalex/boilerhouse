@@ -57,6 +57,7 @@
         <module>unit_library</module>
         <module>unit_converter</module>
         <module>heat_engineering_calculations</module>
+        <module>PipingAndInstrumentationDiagram</module>
     </modules>
 
 </project>

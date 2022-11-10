@@ -4,7 +4,7 @@ import com.schegolevalex.unit_library.exceptions.IllegalValueException;
 import com.schegolevalex.unit_library.models.measures.Measure;
 import com.schegolevalex.unit_library.models.measures.MeasureFactory;
 import com.schegolevalex.unit_library.models.reference_data.PipeMaterial;
-import com.schegolevalex.unit_library.models.reference_data.PipeNominalDiameter;
+import com.schegolevalex.unit_library.models.reference_data.NominalDiameter;
 import com.schegolevalex.unit_library.models.reference_data.Roughness;
 import com.schegolevalex.unit_library.models.reference_data.Viscosity;
 import com.schegolevalex.unit_library.models.units.Unit;
@@ -130,7 +130,7 @@ public class CalculationService {
         return measureFactory.createMeasure(value, Unit.METER_OF_WATER);
     }
 
-    public Map<PipeNominalDiameter, Pair<Measure, Measure>> getPipeDiameter(Measure flowRateByVolume, PipeMaterial pipeMaterial) {
+    public Map<NominalDiameter, Pair<Measure, Measure>> getPipeDiameter(Measure flowRateByVolume, PipeMaterial pipeMaterial) {
         Measure convertedFlowRateByVolume = unitConverterService.convert(flowRateByVolume, Unit.METER_3_PER_HOUR);
 
         Measure constraint = unitConverterService.convert(measureFactory.createMeasure(30000, Unit.METER_3_PER_HOUR),
@@ -139,9 +139,9 @@ public class CalculationService {
             throw new IllegalValueException("Flow rate by volume must be less than " + constraint.getValue() + constraint.getUnit().getShortName());
         }
 
-        Map<PipeNominalDiameter, Pair<Measure, Measure>> speedAndPressureLossMap = new HashMap<>();
+        Map<NominalDiameter, Pair<Measure, Measure>> speedAndPressureLossMap = new HashMap<>();
 
-        for (PipeNominalDiameter diameter : PipeNominalDiameter.values()) {
+        for (NominalDiameter diameter : NominalDiameter.values()) {
             Measure speed = getSpeed(flowRateByVolume, diameter.getDiameter());
             Measure pressureLoss = getPressureLoss(flowRateByVolume,
                     Viscosity.byTemperature(measureFactory.createMeasure(60, Unit.DEGREE_CELSIUS)),

@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 
 @JsonSerialize(using = PipeNominalDiameterSerializer.class)
 @JsonDeserialize(using = PipeNominalDiameterDeserializer.class)
-public enum PipeNominalDiameter {
+public enum NominalDiameter {
     DN8(new Measure(8, Unit.MILLIMETER)),
     DN10(new Measure(10, Unit.MILLIMETER)),
     DN12(new Measure(12, Unit.MILLIMETER)),
@@ -48,7 +48,7 @@ public enum PipeNominalDiameter {
 
     private Measure diameter;
 
-    PipeNominalDiameter(Measure diameter) {
+    NominalDiameter(Measure diameter) {
         this.diameter = diameter;
     }
 
@@ -56,10 +56,10 @@ public enum PipeNominalDiameter {
         return diameter;
     }
 
-    public static PipeNominalDiameter valueOfDiameter(int diameter) {
-        for (PipeNominalDiameter pipeNominalDiameter : PipeNominalDiameter.values()) {
-            if (pipeNominalDiameter.getDiameter().getValue().compareTo(BigDecimal.valueOf(diameter)) == 0)
-                return pipeNominalDiameter;
+    public static NominalDiameter valueOfDiameter(int diameter) {
+        for (NominalDiameter nominalDiameter : NominalDiameter.values()) {
+            if (nominalDiameter.getDiameter().getValue().compareTo(BigDecimal.valueOf(diameter)) == 0)
+                return nominalDiameter;
         }
         throw new IllegalValueException("No such pipe nominal diameter");
     }

@@ -5,19 +5,19 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.schegolevalex.unit_library.models.reference_data.PipeNominalDiameter;
+import com.schegolevalex.unit_library.models.reference_data.NominalDiameter;
 
 import java.io.IOException;
 
-public class PipeNominalDiameterDeserializer extends JsonDeserializer<PipeNominalDiameter> {
+public class PipeNominalDiameterDeserializer extends JsonDeserializer<NominalDiameter> {
 
     @Override
-    public PipeNominalDiameter deserialize(JsonParser jsonParser, DeserializationContext ctxt)
+    public NominalDiameter deserialize(JsonParser jsonParser, DeserializationContext ctxt)
             throws IOException, JacksonException {
         JsonNode node = jsonParser.getCodec().readTree(jsonParser);
         String name = node.get("name").asText();
 
-        for (PipeNominalDiameter diameter : PipeNominalDiameter.values()) {
+        for (NominalDiameter diameter : NominalDiameter.values()) {
             if (diameter.name().equalsIgnoreCase(name)) {
                 return diameter;
             }
