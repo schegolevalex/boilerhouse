@@ -9,13 +9,14 @@ import lombok.experimental.FieldDefaults;
 import javax.persistence.*;
 import java.util.List;
 
-@MappedSuperclass
+@Entity
+@Table(name = "elements")
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public abstract class Element {
+public class Element {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column("id")
+    @Column(name = "id")
     Long id;
 
     @Column(name = "element_type", nullable = false)
@@ -28,15 +29,21 @@ public abstract class Element {
 
     //    BOMDetails bomDetails;
 
-    @Column("nominal_temperature")
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name="value", column=@Column(name = "nominal_temperature_value")),
+            @AttributeOverride(name="unit", column=@Column(name = "nominal_temperature_unit"))
+    })
     Measure nominalTemperature;
 
-    @Column("nominal_diameter")
+    @Column(name = "nominal_diameter")
     @Enumerated(value = EnumType.STRING)
     NominalDiameter nominalDiameter;
+
+    public Element() {
+    }
 
     public Element(ElementType elementType) {
         this.type = elementType;
     }
-
 }

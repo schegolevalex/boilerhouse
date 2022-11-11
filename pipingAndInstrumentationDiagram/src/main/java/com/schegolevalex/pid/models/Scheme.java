@@ -14,12 +14,12 @@ public class Scheme {
 //    Context context;
 
     public void addElement(ElementType type, int position) {
-        types.addVertex();
+        types.addVertex(type);
 
     }
 
     public void deleteElement(int position) {
-        elements.remove(position);
+//        elements.removeVertex(position);
     }
 
 

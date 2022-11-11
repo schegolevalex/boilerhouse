@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Component
@@ -14,10 +15,14 @@ import java.math.BigDecimal;
 @EqualsAndHashCode
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@Embeddable
+@Access(AccessType.PROPERTY)
 public class Measure {
-
+    @Column(name = "value")
     BigDecimal value;
 
+    @Column(name = "unit")
+    @Enumerated(EnumType.STRING)
     Unit unit;
 
     public Measure(BigDecimal value, Unit unit) {

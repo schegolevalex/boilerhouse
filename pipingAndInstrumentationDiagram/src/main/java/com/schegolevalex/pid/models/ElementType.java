@@ -6,5 +6,6 @@ public enum ElementType {
     CHECK_VALVE,
     BOILER,
     PUMP,
+    HEAT_EXCHANGER,
 
 }
