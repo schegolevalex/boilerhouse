@@ -55,9 +55,10 @@
  
     <modules>
         <module>unit_library</module>
-        <module>unit_converter</module>
-        <module>heat_engineering_calculations</module>
+        <module>com.schegolevalex.unit_converter</module>
+        <module>com.schegolevalex.heat_engineering_calculations</module>
         <module>pipingAndInstrumentationDiagram</module>
+        <module>security</module>
     </modules>
 
 </project>
