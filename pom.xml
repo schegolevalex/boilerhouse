@@ -33,13 +33,6 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-devtools</artifactId>-->
-<!--            <scope>runtime</scope>-->
-<!--            <optional>true</optional>-->
-<!--        </dependency>-->
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -55,8 +48,6 @@
  
     <modules>
         <module>unit_library</module>
-        <module>com.schegolevalex.unit_converter</module>
-        <module>com.schegolevalex.heat_engineering_calculations</module>
         <module>pipingAndInstrumentationDiagram</module>
         <module>security</module>
     </modules>
