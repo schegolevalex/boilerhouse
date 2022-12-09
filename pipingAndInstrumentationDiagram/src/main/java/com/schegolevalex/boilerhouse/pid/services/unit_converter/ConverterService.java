@@ -10,20 +10,23 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Component
-public class ConverterProcessor {
+public class ConverterService {
     private final MeasureFactory measureFactory;
     private final ConverterFactory factory;
 
     @Autowired
-    public ConverterProcessor(MeasureFactory measureFactory, ConverterFactory factory) {
+    public ConverterService(MeasureFactory measureFactory, ConverterFactory factory) {
         this.measureFactory = measureFactory;
         this.factory = factory;
     }
 
+    public Measure getConvertedResult(Measure measureFrom, Unit unitTo) {
+        return factory.getConverter(unitTo.getUnitType()).convert(measureFrom, unitTo);
+    }
+
     public Measure getConvertedResult(BigDecimal valueFrom, Unit unitFrom, Unit unitTo) {
         Measure measure = measureFactory.createMeasure(valueFrom, unitFrom);
-        MeasureConverter converter = factory.getConverter(unitFrom.getUnitType());
-        return converter.convert(measure, unitTo);
+        return getConvertedResult(measure, unitTo);
     }
 
     public Measure getConvertedToPrimaryResult(BigDecimal valueFrom, Unit unitFrom) {

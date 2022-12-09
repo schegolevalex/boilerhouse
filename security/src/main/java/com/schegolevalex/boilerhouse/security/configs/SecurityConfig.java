@@ -48,7 +48,7 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/auth/login", "/auth/registration", "/auth/refresh").permitAll()
+                .antMatchers("/auth/login", "/auth/registration", "/auth/refresh", "/converters/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

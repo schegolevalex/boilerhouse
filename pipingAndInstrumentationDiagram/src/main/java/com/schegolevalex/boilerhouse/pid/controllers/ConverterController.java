@@ -1,16 +1,13 @@
 package com.schegolevalex.boilerhouse.pid.controllers;
 
 import com.schegolevalex.boilerhouse.pid.controllers.utils.UnitModelAssembler;
-import com.schegolevalex.boilerhouse.pid.services.unit_converter.ConverterProcessor;
+import com.schegolevalex.boilerhouse.pid.services.unit_converter.ConverterService;
 import com.schegolevalex.boilerhouse.unit_library.models.measures.Measure;
 import com.schegolevalex.boilerhouse.unit_library.models.units.Unit;
 import com.schegolevalex.boilerhouse.unit_library.services.UnitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.Comparator;
@@ -18,17 +15,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@RequestMapping("/converters")
 public class ConverterController {
 
-    private final ConverterProcessor converterProcessor;
+    private final ConverterService converterService;
     private final UnitService unitService;
     private final UnitModelAssembler assembler;
 
     @Autowired
-    public ConverterController(ConverterProcessor converterProcessor,
+    public ConverterController(ConverterService converterService,
                                UnitService unitService,
                                UnitModelAssembler assembler) {
-        this.converterProcessor = converterProcessor;
+        this.converterService = converterService;
         this.unitService = unitService;
         this.assembler = assembler;
     }
@@ -37,19 +35,19 @@ public class ConverterController {
     public Measure convert(@RequestParam("value") BigDecimal value,
                            @RequestParam("from") Unit unitFrom,
                            @RequestParam("to") Unit unitTo) {
-        return converterProcessor.getConvertedResult(value, unitFrom, unitTo);
+        return converterService.getConvertedResult(value, unitFrom, unitTo);
     }
 
     @GetMapping(value = "/convert-all")
     public List<Measure> convert(@RequestParam("value") BigDecimal value,
                                  @RequestParam("from") Unit unitFrom) {
-        return converterProcessor.getConvertedResultList(value, unitFrom);
+        return converterService.getConvertedResultList(value, unitFrom);
     }
 
     @GetMapping("/convert-to-primary")
     public Measure convertToPrimary(@RequestParam("value") BigDecimal value,
                                     @RequestParam("from") Unit unitFrom) {
-        return converterProcessor.getConvertedToPrimaryResult(value, unitFrom);
+        return converterService.getConvertedToPrimaryResult(value, unitFrom);
     }
 
     @GetMapping("/units/{fullName}")
