@@ -3,9 +3,10 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
     <changeSet id="1.0.0"
-               author="schegolev">
+               author="schegolevalex">
         <createTable tableName="elements">
-            <column name="id" type="BIGINT"
+            <column name="id"
+                    type="BIGINT"
                     autoIncrement="true">
                 <constraints primaryKey="true"
                              nullable="false"/>
@@ -27,9 +28,10 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
     </changeSet>
 
     <changeSet id="1.0.1"
-               author="schegolev">
+               author="schegolevalex">
         <createTable tableName="ports">
-            <column name="id" type="BIGINT"
+            <column name="id"
+                    type="BIGINT"
                     autoIncrement="true">
                 <constraints primaryKey="true"
                              nullable="false"/>
@@ -65,7 +67,7 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
     </changeSet>
 
     <changeSet id="1.0.2"
-               author="schegolev">
+               author="schegolevalex">
         <addForeignKeyConstraint baseTableName="ports"
                                  baseColumnNames="element_id"
                                  constraintName="fk_ports_elements"
@@ -73,6 +75,37 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
                                  referencedColumnNames="id"
                                  onDelete="CASCADE"
                                  onUpdate="RESTRICT"/>
+    </changeSet>
+
+    <changeSet id="1.0.3" author="schegolevalex">
+        <createTable tableName="projects">
+            <column name="id"
+                    type="BIGINT"
+                    autoIncrement="true">
+                <constraints primaryKey="true"
+                             nullable="false"/>
+            </column>
+            <column name="name"
+                    type="VARCHAR(500)">
+            </column>
+            <column name="owner_id"
+                    type="BIGINT">
+            </column>
+            <column name="types"
+                    type="JSON">
+            </column>
+            <column name="elements"
+                    type="JSON">
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.4" author="schegolevalex">
+        <addForeignKeyConstraint baseTableName="projects"
+                                 baseColumnNames="owner_id"
+                                 constraintName="fk_projects_users"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"/>
     </changeSet>
 
 </databaseChangeLog>

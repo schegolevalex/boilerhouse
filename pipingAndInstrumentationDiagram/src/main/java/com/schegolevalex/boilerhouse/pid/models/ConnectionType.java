@@ -1,4 +1,4 @@
-package com.schegolevalex.boilerhouse.pid.models.pid;
+package com.schegolevalex.boilerhouse.pid.models;
 
 public enum ConnectionType {
     FL1,

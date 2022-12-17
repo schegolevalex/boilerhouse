@@ -1,6 +1,7 @@
 package com.schegolevalex.boilerhouse.pid.configs;
 
 import com.fasterxml.jackson.databind.Module;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.schegolevalex.boilerhouse.pid.controllers.utils.JsonArgumentResolver;
 import com.schegolevalex.boilerhouse.pid.controllers.utils.StringToUnitConverter;
@@ -57,23 +58,18 @@ public class AppConfig implements WebMvcConfigurer {
         return simpleModule;
     }
 
-//    @Bean
-//    public Module javaTimeModule() {
-//        return new JavaTimeModule();
-//    }
-
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
         argumentResolvers.add(new JsonArgumentResolver());
     }
 
-//    @Bean
-//    public Jackson2ObjectMapperBuilderCustomizer jsonCustomizer() {
-//        return builder -> builder.featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-//    }
-
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(stringToUnitConverter);
+    }
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        return new ObjectMapper();
     }
 }

@@ -3,7 +3,7 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
     <changeSet id="1.0.0"
-               author="schegolev">
+               author="schegolevalex">
         <createTable tableName="users">
             <column name="id" type="BIGINT"
                     autoIncrement="true">
@@ -53,7 +53,7 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
     </changeSet>
 
     <changeSet id="1.0.1"
-               author="schegolev">
+               author="schegolevalex">
         <createTable tableName="roles">
             <column name="id"
                     type="BIGINT"
@@ -84,7 +84,7 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
     </changeSet>
 
     <changeSet id="1.0.2"
-               author="schegolev">
+               author="schegolevalex">
         <createTable tableName="users_roles">
             <column name="user_id"
                     type="BIGINT"/>
@@ -105,7 +105,7 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
     </changeSet>
 
     <changeSet id="1.0.4"
-               author="schegolev">
+               author="schegolevalex">
         <addForeignKeyConstraint baseTableName="users_roles"
                                  baseColumnNames="role_id"
                                  constraintName="fk_users_roles_roles"
@@ -116,7 +116,7 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
     </changeSet>
 
     <changeSet id="1.0.5"
-               author="schegolev">
+               author="schegolevalex">
         <insert tableName="roles">
             <column name="name"
                     value="ROLE_USER"/>
@@ -128,7 +128,7 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
     </changeSet>
 
     <changeSet id="1.0.6"
-               author="schegolev">
+               author="schegolevalex">
         <createTable tableName="refresh_tokens">
             <column name="id"
                     type="BIGINT"
@@ -163,7 +163,7 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
     </changeSet>
 
     <changeSet id="1.0.7"
-               author="schegolev">
+               author="schegolevalex">
         <addColumn tableName="users">
             <column name="refresh_token"
                     type="BIGINT">
@@ -173,7 +173,7 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
     </changeSet>
 
     <changeSet id="1.0.8"
-               author="schegolev">
+               author="schegolevalex">
         <addForeignKeyConstraint baseTableName="users"
                                  baseColumnNames="refresh_token"
                                  constraintName="fk_user_to_refresh_token"

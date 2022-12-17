@@ -1,4 +1,4 @@
-package com.schegolevalex.boilerhouse.pid.models.pid;
+package com.schegolevalex.boilerhouse.pid.models;
 
 import com.schegolevalex.boilerhouse.unit_library.models.reference_data.NominalDiameter;
 import com.schegolevalex.boilerhouse.unit_library.models.measures.Measure;
