@@ -92,10 +92,10 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
                     type="BIGINT">
             </column>
             <column name="types"
-                    type="JSON">
+                    type="VARCHAR">
             </column>
             <column name="elements"
-                    type="JSON">
+                    type="VARCHAR">
             </column>
         </createTable>
     </changeSet>

@@ -32,19 +32,19 @@ public class Project {
     @Convert(converter = GraphConverter.class)
     Graph<ElementType, DefaultEdge> types;
 
-    @Column(name = "elements")
-    @Convert(converter = GraphConverter.class)
-    Graph<Element, DefaultEdge> elements;
+//    @Column(name = "elements")
+//    @Convert(converter = GraphConverter.class)
+//    Graph<Element, DefaultEdge> elements;
 
 //    List<Port> ports;
 //    ElementService elementService;
 //    Context context;
 
-    public void addElement(ElementType type, int position) {
+//    public void addElement(ElementType type, int position) {
 //        types.addVertex(type);
-    }
+//    }
 
-    public void deleteElement(int position) {
+//    public void deleteElement(int position) {
 //        elements.removeVertex(position);
-    }
+//    }
 }

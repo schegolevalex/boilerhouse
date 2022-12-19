@@ -58,38 +58,6 @@ public class SecurityConfig {
         return http.build();
     }
 
-//    @Bean
-//    public RestTemplate restTemplate() {
-//        return new RestTemplate();
-//    }
-//
-//    @Bean
-//    public Module addCustomUnitDeserializer() {
-//        SimpleModule simpleModule = new SimpleModule();
-//        simpleModule.addDeserializer(Unit.class, new UnitDeserializer());
-//        return simpleModule;
-//    }
-//
-//    @Bean
-//    public Module addCustomUnitSerializer() {
-//        SimpleModule simpleModule = new SimpleModule();
-//        simpleModule.addSerializer(Unit.class, new UnitSerializer());
-//        return simpleModule;
-//    }
-//
-//    @Bean
-//    public Module addCustomPairSerializer() {
-//        SimpleModule simpleModule = new SimpleModule();
-//        simpleModule.addSerializer(Pair.class, new PairSerializer());
-//        return simpleModule;
-//    }
-//
-//    @Bean
-//    public Module javaTimeModule() {
-//        return new JavaTimeModule();
-//    }
-//
-//
     @Bean
     public ModelMapper modelMapper() {
         return new ModelMapper();
