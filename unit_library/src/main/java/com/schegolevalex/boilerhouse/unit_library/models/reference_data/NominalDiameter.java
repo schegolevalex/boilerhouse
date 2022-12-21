@@ -1,17 +1,17 @@
 package com.schegolevalex.boilerhouse.unit_library.models.reference_data;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.schegolevalex.boilerhouse.unit_library.exceptions.IllegalUnitException;
+import com.schegolevalex.boilerhouse.unit_library.exceptions.IllegalValueException;
 import com.schegolevalex.boilerhouse.unit_library.models.measures.Measure;
 import com.schegolevalex.boilerhouse.unit_library.models.units.Unit;
-import com.schegolevalex.boilerhouse.unit_library.exceptions.IllegalValueException;
-import com.schegolevalex.boilerhouse.unit_library.config.serdeser.PipeNominalDiameterDeserializer;
-import com.schegolevalex.boilerhouse.unit_library.config.serdeser.PipeNominalDiameterSerializer;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 
-@JsonSerialize(using = PipeNominalDiameterSerializer.class)
-@JsonDeserialize(using = PipeNominalDiameterDeserializer.class)
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum NominalDiameter {
     DN8(new Measure(8, Unit.MILLIMETER)),
     DN10(new Measure(10, Unit.MILLIMETER)),
@@ -46,16 +46,29 @@ public enum NominalDiameter {
 
     ;
 
-    private Measure diameter;
+    private final Measure diameter;
 
     NominalDiameter(Measure diameter) {
         this.diameter = diameter;
+    }
+
+    public String getName() {
+        return name();
     }
 
     public Measure getDiameter() {
         return diameter;
     }
 
+    @JsonCreator
+    public static NominalDiameter valueOfFullName(@JsonProperty("name") String fullName) {
+        return Arrays.stream(values())
+                .filter(u -> u.name().equals(fullName))
+                .findFirst()
+                .orElseThrow(() -> new IllegalUnitException("No such nominal diameter"));
+    }
+
+    // todo используется в недоработанном коде, посмотреть позже, нужно ли оставлять этот метод
     public static NominalDiameter valueOfDiameter(int diameter) {
         for (NominalDiameter nominalDiameter : NominalDiameter.values()) {
             if (nominalDiameter.getDiameter().getValue().compareTo(BigDecimal.valueOf(diameter)) == 0)
@@ -63,4 +76,5 @@ public enum NominalDiameter {
         }
         throw new IllegalValueException("No such pipe nominal diameter");
     }
+
 }

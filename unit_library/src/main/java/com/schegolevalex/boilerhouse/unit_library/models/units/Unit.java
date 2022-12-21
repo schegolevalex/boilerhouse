@@ -1,18 +1,20 @@
 package com.schegolevalex.boilerhouse.unit_library.models.units;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.schegolevalex.boilerhouse.unit_library.config.serdeser.UnitDeserializer;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.schegolevalex.boilerhouse.unit_library.exceptions.IllegalUnitException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
-@JsonDeserialize(using = UnitDeserializer.class)
+@JsonIgnoreProperties({"coefficient", "isPrimary", "term", "coefficientFromPrimary", "termFromPrimary"})
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Getter
@@ -171,11 +173,11 @@ public enum Unit {
     TONNE_PER_SQUARE_CENTIMETER(UnitType.PRESSURE, "pressure_metric", "tf/cm²", 980.665012, false),
     KILOGRAM_PER_SQUARE_METER(UnitType.PRESSURE, "pressure_metric", "kgf/m²", 0.0000980665012, false),
     TONNE_PER_SQUARE_METER(UnitType.PRESSURE, "pressure_metric", "tf/m²", 0.0980665012, false),
-    NEWTON_PER_SQUARE_METER(UnitType.PRESSURE, "pressure_metric", "N/m²",1E-5, false),
-    KILONEWTON_PER_SQUARE_METER(UnitType.PRESSURE, "pressure_metric", "kN/m²",1E-2, false),
-    MEGANEWTON_PER_SQUARE_METER(UnitType.PRESSURE, "pressure_metric", "MN/m²",1E1, false),
-    NEWTON_PER_SQUARE_CENTIMETER(UnitType.PRESSURE, "pressure_metric", "N/cm²",1E-1, false),
-    NEWTON_PER_SQUARE_MILLIMETER(UnitType.PRESSURE, "pressure_metric", "N/mm²",1E1, false),
+    NEWTON_PER_SQUARE_METER(UnitType.PRESSURE, "pressure_metric", "N/m²", 1E-5, false),
+    KILONEWTON_PER_SQUARE_METER(UnitType.PRESSURE, "pressure_metric", "kN/m²", 1E-2, false),
+    MEGANEWTON_PER_SQUARE_METER(UnitType.PRESSURE, "pressure_metric", "MN/m²", 1E1, false),
+    NEWTON_PER_SQUARE_CENTIMETER(UnitType.PRESSURE, "pressure_metric", "N/cm²", 1E-1, false),
+    NEWTON_PER_SQUARE_MILLIMETER(UnitType.PRESSURE, "pressure_metric", "N/mm²", 1E1, false),
 
     OUNCE_PER_SQUARE_INCH(UnitType.PRESSURE, "pressure_imperial", "oz/in²", 1, true),
     OUNCE_PER_SQUARE_FOOT(UnitType.PRESSURE, "pressure_imperial", "oz/ft²", 0.00694444444, false),
@@ -211,16 +213,6 @@ public enum Unit {
     BigDecimal term;
     BigDecimal coefficientFromPrimary;
     BigDecimal termFromPrimary;
-
-    static List<Unit> UNIT_LIST = new ArrayList<>();
-    static Map<String, Unit> BY_FULL_NAME = new HashMap<>();
-
-    static {
-        for (Unit u : values()) {
-            UNIT_LIST.add(u);
-            BY_FULL_NAME.put(u.getFullName(), u);
-        }
-    }
 
     Unit(UnitType unitType,
          String subtype,
@@ -289,26 +281,25 @@ public enum Unit {
                 isPrimary);
     }
 
-    public static Unit valueOfFullName(String fullName) {
-        Unit unit = BY_FULL_NAME.get(fullName.toUpperCase(Locale.ROOT));
-        if (unit != null) return unit;
-        else throw new IllegalUnitException("No such unit");
-
+    @JsonCreator
+    public static Unit valueOfFullName(@JsonProperty("fullName") String fullName) {
+        return Arrays.stream(values())
+                .filter(u -> u.name().equals(fullName))
+                .findFirst()
+                .orElseThrow(() -> new IllegalUnitException("No such unit"));
     }
 
     public static Unit valueOfSubtypeAndIsPrimaryIsTrue(String subType) {
-        return UNIT_LIST.stream()
+        return Arrays.stream(values())
                 .filter(u -> u.getIsPrimary() && u.getSubtype().equals(subType))
                 .findFirst()
                 .orElseThrow(() -> new IllegalUnitException("No such unit"));
     }
 
     public static List<Unit> valueOfType(UnitType unitType) {
-        return UNIT_LIST.stream().filter(unit -> unit.getUnitType() == unitType).collect(Collectors.toList());
-    }
-
-    public static List<Unit> findAll() {
-        return UNIT_LIST;
+        return Arrays.stream(values())
+                .filter(unit -> unit.getUnitType() == unitType)
+                .collect(Collectors.toList());
     }
 
     @Override

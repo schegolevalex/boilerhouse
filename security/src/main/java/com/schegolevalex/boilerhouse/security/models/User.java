@@ -54,7 +54,8 @@ public class User extends BaseEntity {
     @JoinColumn(name = "refresh_token", referencedColumnName = "id")
     RefreshToken refreshToken;
 
-    public User(@Size(min = 2, max = 30, message = "Username must contain between 2 and 30 letters") @NotEmpty(message = "Username name shouldn't be empty") String username,
+    public User(@Size(min = 2, max = 30, message = "Username must contain between 2 and 30 letters")
+                @NotEmpty(message = "Username name shouldn't be empty") String username,
                 List<Role> roles) {
         this.username = username;
         this.roles = roles;

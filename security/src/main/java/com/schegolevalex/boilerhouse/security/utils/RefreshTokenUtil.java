@@ -4,7 +4,6 @@ import com.schegolevalex.boilerhouse.security.models.RefreshToken;
 import com.schegolevalex.boilerhouse.security.models.Status;
 import com.schegolevalex.boilerhouse.security.models.User;
 import com.schegolevalex.boilerhouse.security.repositories.UserRepository;
-import com.schegolevalex.boilerhouse.security.exceptions.RefreshTokenVerificationException;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.OffsetDateTime;
-import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -53,11 +51,11 @@ public class RefreshTokenUtil {
     }
 
     public User getUserFromRefreshToken(String refreshToken) {
-        Optional<User> user = userRepository.findByRefreshTokenValue(refreshToken);
-        if (user.isPresent()) {
-            return user.get();
-        } else {
-            throw new RefreshTokenVerificationException("There is no such refresh token");
-        }
+        return userRepository.findByRefreshTokenValue(refreshToken);
+//        if (user.isPresent()) {
+//            return user.get();
+//        } else {
+//            throw new RefreshTokenVerificationException("There is no such refresh token");
+//        }
     }
 }

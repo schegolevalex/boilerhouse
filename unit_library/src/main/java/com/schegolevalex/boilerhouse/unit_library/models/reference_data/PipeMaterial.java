@@ -1,12 +1,13 @@
 package com.schegolevalex.boilerhouse.unit_library.models.reference_data;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.schegolevalex.boilerhouse.unit_library.config.serdeser.PipeMaterialDeserializer;
-import com.schegolevalex.boilerhouse.unit_library.config.serdeser.PipeMaterialSerializer;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.schegolevalex.boilerhouse.unit_library.exceptions.IllegalUnitException;
 
-@JsonSerialize(using = PipeMaterialSerializer.class)
-@JsonDeserialize(using = PipeMaterialDeserializer.class)
+import java.util.Arrays;
+
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum PipeMaterial {
     STEEL,
     METAL_PLASTIC,
@@ -14,5 +15,18 @@ public enum PipeMaterial {
     CAST_IRON,
     POLYPROPYLENE,
     XLPE;
+
+    @JsonProperty("name")
+    public String getPipeMaterial() {
+        return name();
+    }
+
+    @JsonCreator
+    public static PipeMaterial valueOfName(@JsonProperty("name") String name) {
+        return Arrays.stream(values())
+                .filter(pipeMaterial -> pipeMaterial.name().equals(name))
+                .findFirst()
+                .orElseThrow(() -> new IllegalUnitException("No such unit"));
+    }
 }
 

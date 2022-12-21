@@ -33,7 +33,6 @@ public class GraphConverter implements AttributeConverter<Graph<ElementType, Def
             jsonElementTypeGraphExporter.exportGraph(graph, writer);
             json = writer.toString();
         } catch (IOException e) {
-            e.printStackTrace();
             log.error("GraphConverter.convertToDatabaseColumn: Couldn't writing JSON from graph");
         }
         return json;

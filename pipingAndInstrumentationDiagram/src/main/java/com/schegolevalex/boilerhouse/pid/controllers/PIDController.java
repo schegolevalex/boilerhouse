@@ -1,16 +1,41 @@
 package com.schegolevalex.boilerhouse.pid.controllers;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.schegolevalex.boilerhouse.pid.models.Project;
+import com.schegolevalex.boilerhouse.pid.services.pid.ProjectService;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 @RestController
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @RequestMapping("/pid")
 public class PIDController {
 
-    @PostMapping("/")
-    public void createNewProject(String name) {
+    final ProjectService projectService;
 
+    public PIDController(ProjectService projectService) {
+        this.projectService = projectService;
+    }
+
+    @GetMapping("/projects")
+    public List<Project> getAllUserProjects() {
+        return projectService.getAllUserProjects();
+    }
+
+    @GetMapping("/projects/{projectId}")
+    public Project getUserProject(@PathVariable Long projectId) {
+        return projectService.getUserProject(projectId);
+    }
+
+    @PostMapping("/projects")
+    public Project createNewProject(@RequestBody String name) {
+        return projectService.createNewProject(name);
+    }
+
+    @DeleteMapping("/projects/{projectId}")
+    public void deleteUserProject(@PathVariable Long projectId) {
+        projectService.deleteById(projectId);
     }
 }

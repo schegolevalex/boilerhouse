@@ -2,13 +2,11 @@ package com.schegolevalex.boilerhouse.pid.configs;
 
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.schegolevalex.boilerhouse.pid.controllers.utils.JsonArgumentResolver;
 import com.schegolevalex.boilerhouse.pid.controllers.utils.StringToUnitConverter;
 import com.schegolevalex.boilerhouse.pid.models.ElementType;
 import com.schegolevalex.boilerhouse.unit_library.config.serdeser.PairSerializer;
-import com.schegolevalex.boilerhouse.unit_library.config.serdeser.UnitDeserializer;
-import com.schegolevalex.boilerhouse.unit_library.config.serdeser.UnitSerializer;
-import com.schegolevalex.boilerhouse.unit_library.models.units.Unit;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.nio.GraphExporter;
 import org.jgrapht.nio.json.JSONExporter;
@@ -19,7 +17,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.util.Pair;
 import org.springframework.format.FormatterRegistry;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -36,30 +33,28 @@ public class AppConfig implements WebMvcConfigurer {
         this.stringToUnitConverter = stringToUnitConverter;
     }
 
-    @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
+//    @Bean
+//    public RestTemplate restTemplate() {
+//        return new RestTemplate();
+//    }
+
+    //    @Bean
+//    public ObjectMapper objectMapper() {
+//        return new ObjectMapper();
+//    }
 
     @Bean
-    public Module addCustomUnitDeserializer() {
+    public Module addCustomSerializersAndDeserializers() {
         SimpleModule simpleModule = new SimpleModule();
-        simpleModule.addDeserializer(Unit.class, new UnitDeserializer());
-        return simpleModule;
-    }
 
-    @Bean
-    public Module addCustomUnitSerializer() {
-        SimpleModule simpleModule = new SimpleModule();
-        simpleModule.addSerializer(Unit.class, new UnitSerializer());
-        return simpleModule;
-    }
-
-    @Bean
-    public Module addCustomPairSerializer() {
-        SimpleModule simpleModule = new SimpleModule();
         simpleModule.addSerializer(Pair.class, new PairSerializer());
+
         return simpleModule;
+    }
+
+    @Bean
+    public Module javaTimeModule() {
+        return new JavaTimeModule();
     }
 
     @Override
@@ -71,11 +66,6 @@ public class AppConfig implements WebMvcConfigurer {
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(stringToUnitConverter);
     }
-
-//    @Bean
-//    public ObjectMapper objectMapper() {
-//        return new ObjectMapper();
-//    }
 
     @Bean
     public GraphExporter<ElementType, DefaultEdge> jsonElementTypeGraphExporter() {
@@ -90,4 +80,5 @@ public class AppConfig implements WebMvcConfigurer {
         importer.setVertexFactory(ElementType::valueOf);
         return importer;
     }
+
 }

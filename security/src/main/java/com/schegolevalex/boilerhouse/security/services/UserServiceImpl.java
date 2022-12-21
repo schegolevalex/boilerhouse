@@ -5,8 +5,8 @@ import com.schegolevalex.boilerhouse.security.models.Status;
 import com.schegolevalex.boilerhouse.security.models.User;
 import com.schegolevalex.boilerhouse.security.repositories.RoleRepository;
 import com.schegolevalex.boilerhouse.security.repositories.UserRepository;
-import com.schegolevalex.boilerhouse.security.utils.RefreshTokenUtil;
 import com.schegolevalex.boilerhouse.security.utils.AccessTokenUtil;
+import com.schegolevalex.boilerhouse.security.utils.RefreshTokenUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,6 @@ import org.springframework.validation.Errors;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -63,8 +62,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findByUsername(String username) {
-        return userRepository.findByUsername(username);
+    public User findByUsername(String username) {
+        User user = userRepository.findByUsername(username);
+        log.info("UserServiceImpl.findByUsername: user {} successfully load from database", username);
+        return user;
+//        if (optionalUser != null) {
+//            User user = optionalUser.get();
+//            log.info("UserService.findByUsername(): user with username = {} load from database", username);
+//            return user;
+//        } else {
+//            log.info("UserService.findByUsername(): user with username = {} not found in database", username);
+//            return null;
+//        }
     }
 
     @Override
@@ -81,9 +90,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public void validate(@NotNull Object target, @NotNull Errors errors) {
         User incomeUser = (User) target;
-        Optional<User> userFromDB = findByUsername(incomeUser.getUsername());
+        User userFromDB = findByUsername(incomeUser.getUsername());
 
-        if (userFromDB.isPresent())
+        if (userFromDB != null)
             errors.rejectValue("userName", "", "User with username " +
                     incomeUser.getUsername() + " already exist");
     }
