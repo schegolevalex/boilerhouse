@@ -17,7 +17,7 @@ public enum PipeMaterial {
     XLPE;
 
     @JsonProperty("name")
-    public String getPipeMaterial() {
+    private String getPipeMaterial() {
         return name();
     }
 

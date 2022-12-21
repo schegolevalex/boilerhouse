@@ -6,7 +6,9 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.schegolevalex.boilerhouse.pid.controllers.utils.JsonArgumentResolver;
 import com.schegolevalex.boilerhouse.pid.controllers.utils.StringToUnitConverter;
 import com.schegolevalex.boilerhouse.pid.models.ElementType;
-import com.schegolevalex.boilerhouse.unit_library.config.serdeser.PairSerializer;
+import com.schegolevalex.boilerhouse.serdeser.ElementTypeGraphSerializer;
+import com.schegolevalex.boilerhouse.unit_library.serdeser.PairSerializer;
+import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.nio.GraphExporter;
 import org.jgrapht.nio.json.JSONExporter;
@@ -46,9 +48,8 @@ public class AppConfig implements WebMvcConfigurer {
     @Bean
     public Module addCustomSerializersAndDeserializers() {
         SimpleModule simpleModule = new SimpleModule();
-
         simpleModule.addSerializer(Pair.class, new PairSerializer());
-
+        simpleModule.addSerializer(Graph.class, new ElementTypeGraphSerializer());
         return simpleModule;
     }
 

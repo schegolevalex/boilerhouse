@@ -1,5 +1,6 @@
 package com.schegolevalex.boilerhouse.pid.controllers;
 
+import com.schegolevalex.boilerhouse.pid.controllers.utils.JsonArg;
 import com.schegolevalex.boilerhouse.pid.models.Project;
 import com.schegolevalex.boilerhouse.pid.services.pid.ProjectService;
 import lombok.AccessLevel;
@@ -24,14 +25,14 @@ public class PIDController {
         return projectService.getAllUserProjects();
     }
 
+    @PostMapping("/projects")
+    public Project createNewProject(@JsonArg("name") String name) {
+        return projectService.createNewProject(name);
+    }
+
     @GetMapping("/projects/{projectId}")
     public Project getUserProject(@PathVariable Long projectId) {
         return projectService.getUserProject(projectId);
-    }
-
-    @PostMapping("/projects")
-    public Project createNewProject(@RequestBody String name) {
-        return projectService.createNewProject(name);
     }
 
     @DeleteMapping("/projects/{projectId}")

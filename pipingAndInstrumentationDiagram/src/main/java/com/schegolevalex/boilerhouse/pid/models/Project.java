@@ -19,8 +19,6 @@ import java.util.Objects;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-//@JsonSerialize(using = ProjectSerializer.class)
-//@JsonDeserialize(using = ProjectDeserializer.class, builder = Project.ProjectBuilder.class)
 public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,6 +36,9 @@ public class Project {
     @Column(name = "types")
     @Convert(converter = GraphConverter.class)
     Graph<ElementType, DefaultEdge> types;
+
+    private Project() {
+    }
 
     private Project(String name, User owner, Graph<ElementType, DefaultEdge> types) {
         this.name = name;
@@ -86,7 +87,7 @@ public class Project {
 
         public Project build() {
             if (types == null) {
-                types = new Multigraph<ElementType, DefaultEdge>(DefaultEdge.class);
+                types = new Multigraph<>(DefaultEdge.class);
             }
             return new Project(name, owner, types);
         }

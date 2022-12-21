@@ -18,6 +18,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.EnumSet;
 import java.util.Objects;
 import java.util.Set;
@@ -69,7 +70,7 @@ public class JsonArgumentResolver implements HandlerMethodArgumentResolver {
         String jsonBody = (String) servletRequest.getAttribute(JSON_BODY_ATTRIBUTE);
         if (jsonBody == null) {
             try {
-                jsonBody = IOUtils.toString(servletRequest.getInputStream());
+                jsonBody = IOUtils.toString(servletRequest.getInputStream(), StandardCharsets.UTF_8);
                 servletRequest.setAttribute(JSON_BODY_ATTRIBUTE, jsonBody);
             } catch (IOException e) {
                 throw new RuntimeException(e);
