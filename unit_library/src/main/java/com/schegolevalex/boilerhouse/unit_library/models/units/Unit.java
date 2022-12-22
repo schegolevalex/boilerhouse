@@ -12,6 +12,7 @@ import lombok.experimental.FieldDefaults;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @JsonIgnoreProperties({"coefficient", "isPrimary", "term", "coefficientFromPrimary", "termFromPrimary"})
@@ -284,14 +285,14 @@ public enum Unit {
     @JsonCreator
     public static Unit valueOfFullName(@JsonProperty("fullName") String fullName) {
         return Arrays.stream(values())
-                .filter(u -> u.name().equals(fullName))
+                .filter(u -> u.name().equals(fullName.toUpperCase(Locale.ROOT)))
                 .findFirst()
                 .orElseThrow(() -> new IllegalUnitException("No such unit"));
     }
 
     public static Unit valueOfSubtypeAndIsPrimaryIsTrue(String subType) {
         return Arrays.stream(values())
-                .filter(u -> u.getIsPrimary() && u.getSubtype().equals(subType))
+                .filter(u -> u.getIsPrimary() && u.getSubtype().equals(subType.toLowerCase(Locale.ROOT)))
                 .findFirst()
                 .orElseThrow(() -> new IllegalUnitException("No such unit"));
     }
