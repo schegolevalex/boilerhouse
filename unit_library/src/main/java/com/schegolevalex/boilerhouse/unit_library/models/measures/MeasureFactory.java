@@ -18,7 +18,9 @@ public class MeasureFactory {
     }
 
     public Measure createMeasure (BigDecimal value, Unit unit) {
-        constraintsList.stream().filter(c -> c.getUnitType() == unit.getUnitType()).forEach(c -> c.check(value, unit));
+        constraintsList.stream()
+                .filter(c -> c.getUnitType() == unit.getUnitType())
+                .forEach(c -> c.check(value, unit));
         return new Measure(value, unit);
     }
 

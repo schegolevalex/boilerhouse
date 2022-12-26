@@ -18,10 +18,10 @@ import java.math.BigDecimal;
 @Embeddable
 @Access(AccessType.PROPERTY)
 public class Measure {
-    @Column(name = "value")
+    @Column(name = "value") //todo
     BigDecimal value;
 
-    @Column(name = "unit")
+    @Column(name = "unit") //todo
     @Enumerated(EnumType.STRING)
     Unit unit;
 

@@ -13,7 +13,6 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @RequestMapping("/pid")
 public class PIDController {
-
     final ProjectService projectService;
 
     public PIDController(ProjectService projectService) {

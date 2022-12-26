@@ -6,7 +6,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.schegolevalex.boilerhouse.pid.controllers.utils.JsonArgumentResolver;
 import com.schegolevalex.boilerhouse.pid.controllers.utils.StringToUnitConverter;
 import com.schegolevalex.boilerhouse.pid.models.ElementType;
-import com.schegolevalex.boilerhouse.serdeser.ElementTypeGraphSerializer;
+import com.schegolevalex.boilerhouse.pid.serdeser.ElementTypeGraphSerializer;
 import com.schegolevalex.boilerhouse.unit_library.serdeser.PairSerializer;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultEdge;

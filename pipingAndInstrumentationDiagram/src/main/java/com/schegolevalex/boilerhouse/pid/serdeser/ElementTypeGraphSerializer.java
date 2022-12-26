@@ -1,4 +1,4 @@
-package com.schegolevalex.boilerhouse.serdeser;
+package com.schegolevalex.boilerhouse.pid.serdeser;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
