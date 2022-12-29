@@ -37,7 +37,7 @@ public class Project {
     @Convert(converter = GraphConverter.class)
     Graph<ElementType, DefaultEdge> types;
 
-    private Project() {
+    public Project() {
     }
 
     private Project(String name, User owner, Graph<ElementType, DefaultEdge> types) {

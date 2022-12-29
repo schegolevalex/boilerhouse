@@ -46,6 +46,8 @@ public class JWTAccessFilter extends OncePerRequestFilter {
                     accessTokenUtil.validateAccessToken(jwtToken);
                 } catch (JWTVerificationException ex) {
                     response.sendRedirect("/auth/refresh");
+                    //todo плохо так как, когда приходит пост-запрос с
+                    // тухлым токеном, то редирект ведет на адрес, на который доступен только GET-запрос
                     return;
                 }
 

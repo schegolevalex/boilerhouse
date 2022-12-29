@@ -19,17 +19,11 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class MeasureFactoryTest {
+    @Mock
+    TemperatureConstraint constraint1;
 
     @Mock
-    TemperatureConstraint constraint1; // будет выбрасывать исключение
-
-    @Mock
-    TemperatureConstraint constraint2; // НЕ БУДЕТ выбрасывать исключение
-
-
-    // 1. подменяем measureConstraint1 и measureConstraint2, делаем, чтобы measureConstraint2 выбрасывал исключение
-    // и проверяем выброс исключения на второй вызов метода check()
-    // 2. подменяем measureConstraint и проверяем создание ЛЮБОГО Measure (c любыми параметрами)
+    TemperatureConstraint constraint2;
 
     @Test
     void createMeasure_throwsIllegalMeasureException_whenCreateTemperatureMeasure() {

@@ -54,6 +54,8 @@ public class JWTRefreshFilter extends OncePerRequestFilter {
 
             if (userFromRefreshToken.getRefreshToken().getExpiredAt().isBefore(OffsetDateTime.now()))
                 response.sendRedirect("/auth/login");
+            //todo плохо так как, когда приходит пост-запрос с
+            // тухлым токеном, то редирект ведет на адрес, на который доступен только GET-запрос
         }
 
         filterChain.doFilter(request, response);
