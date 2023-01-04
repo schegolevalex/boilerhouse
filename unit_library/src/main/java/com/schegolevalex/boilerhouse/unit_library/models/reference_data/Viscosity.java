@@ -2,7 +2,7 @@ package com.schegolevalex.boilerhouse.unit_library.models.reference_data;
 
 import com.schegolevalex.boilerhouse.unit_library.models.measures.Measure;
 import com.schegolevalex.boilerhouse.unit_library.models.units.Unit;
-import com.schegolevalex.boilerhouse.unit_library.exceptions.IllegalUnitException;
+import com.schegolevalex.boilerhouse.unit_library.models.measures.exceptions.IllegalUnitException;
 
 import java.util.HashMap;
 import java.util.Map;

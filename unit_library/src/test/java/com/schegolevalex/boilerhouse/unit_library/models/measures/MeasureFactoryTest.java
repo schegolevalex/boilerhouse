@@ -1,6 +1,6 @@
 package com.schegolevalex.boilerhouse.unit_library.models.measures;
 
-import com.schegolevalex.boilerhouse.unit_library.exceptions.IllegalMeasureException;
+import com.schegolevalex.boilerhouse.unit_library.models.measures.exceptions.IllegalMeasureException;
 import com.schegolevalex.boilerhouse.unit_library.models.measures.constraints.TemperatureConstraint;
 import com.schegolevalex.boilerhouse.unit_library.models.units.Unit;
 import com.schegolevalex.boilerhouse.unit_library.models.units.UnitType;

@@ -1,7 +1,7 @@
 package com.schegolevalex.boilerhouse.pid.services.heat_engineering_calculations;
 
 import com.schegolevalex.boilerhouse.pid.services.unit_converter.ConverterService;
-import com.schegolevalex.boilerhouse.unit_library.exceptions.IllegalValueException;
+import com.schegolevalex.boilerhouse.unit_library.models.measures.exceptions.IllegalValueException;
 import com.schegolevalex.boilerhouse.unit_library.models.measures.Measure;
 import com.schegolevalex.boilerhouse.unit_library.models.measures.MeasureFactory;
 import com.schegolevalex.boilerhouse.unit_library.models.reference_data.NominalDiameter;

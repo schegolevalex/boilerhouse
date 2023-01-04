@@ -3,8 +3,8 @@ package com.schegolevalex.boilerhouse.unit_library.models.reference_data;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.schegolevalex.boilerhouse.unit_library.exceptions.IllegalUnitException;
-import com.schegolevalex.boilerhouse.unit_library.exceptions.IllegalValueException;
+import com.schegolevalex.boilerhouse.unit_library.models.measures.exceptions.IllegalUnitException;
+import com.schegolevalex.boilerhouse.unit_library.models.measures.exceptions.IllegalValueException;
 import com.schegolevalex.boilerhouse.unit_library.models.measures.Measure;
 import com.schegolevalex.boilerhouse.unit_library.models.units.Unit;
 

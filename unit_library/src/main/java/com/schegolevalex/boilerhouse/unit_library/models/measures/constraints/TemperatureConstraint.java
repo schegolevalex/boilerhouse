@@ -1,6 +1,6 @@
 package com.schegolevalex.boilerhouse.unit_library.models.measures.constraints;
 
-import com.schegolevalex.boilerhouse.unit_library.exceptions.IllegalMeasureException;
+import com.schegolevalex.boilerhouse.unit_library.models.measures.exceptions.IllegalMeasureException;
 import com.schegolevalex.boilerhouse.unit_library.models.units.Unit;
 import com.schegolevalex.boilerhouse.unit_library.models.units.UnitType;
 import org.springframework.stereotype.Component;

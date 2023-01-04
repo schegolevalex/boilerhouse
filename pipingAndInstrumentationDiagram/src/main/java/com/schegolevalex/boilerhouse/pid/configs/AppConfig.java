@@ -35,16 +35,6 @@ public class AppConfig implements WebMvcConfigurer {
         this.stringToUnitConverter = stringToUnitConverter;
     }
 
-//    @Bean
-//    public RestTemplate restTemplate() {
-//        return new RestTemplate();
-//    }
-
-    //    @Bean
-//    public ObjectMapper objectMapper() {
-//        return new ObjectMapper();
-//    }
-
     @Bean
     public Module addCustomSerializersAndDeserializers() {
         SimpleModule simpleModule = new SimpleModule();

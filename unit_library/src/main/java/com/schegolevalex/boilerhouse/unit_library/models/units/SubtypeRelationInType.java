@@ -1,6 +1,6 @@
 package com.schegolevalex.boilerhouse.unit_library.models.units;
 
-import com.schegolevalex.boilerhouse.unit_library.exceptions.IllegalUnitException;
+import com.schegolevalex.boilerhouse.unit_library.models.measures.exceptions.IllegalUnitException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;

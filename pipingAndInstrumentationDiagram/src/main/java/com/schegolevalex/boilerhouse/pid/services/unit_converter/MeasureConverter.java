@@ -2,11 +2,10 @@ package com.schegolevalex.boilerhouse.pid.services.unit_converter;
 
 import com.schegolevalex.boilerhouse.unit_library.models.measures.Measure;
 import com.schegolevalex.boilerhouse.unit_library.models.measures.MeasureFactory;
+import com.schegolevalex.boilerhouse.unit_library.models.measures.exceptions.IllegalUnitException;
 import com.schegolevalex.boilerhouse.unit_library.models.units.Unit;
 import com.schegolevalex.boilerhouse.unit_library.models.units.UnitType;
-import com.schegolevalex.boilerhouse.unit_library.exceptions.IllegalUnitException;
 import com.schegolevalex.boilerhouse.unit_library.services.SubtypeRelationInTypeService;
-import com.schegolevalex.boilerhouse.unit_library.services.UnitService;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,15 +19,12 @@ import java.util.List;
 public class MeasureConverter {
     @Getter
     UnitType converterType = UnitType.DEFAULT;
-    final UnitService unitService;
     final SubtypeRelationInTypeService subtypeRelationInTypeService;
     final MeasureFactory measureFactory;
 
     @Autowired
-    public MeasureConverter(UnitService unitService,
-                            SubtypeRelationInTypeService subtypeRelationInTypeService,
+    public MeasureConverter(SubtypeRelationInTypeService subtypeRelationInTypeService,
                             MeasureFactory measureFactory) {
-        this.unitService = unitService;
         this.subtypeRelationInTypeService = subtypeRelationInTypeService;
         this.measureFactory = measureFactory;
     }
@@ -46,7 +42,7 @@ public class MeasureConverter {
         //и умножили его на коэффициент из отношения подтипов, полученный выше.
         //Тем самым мы перевели исходное значение valueFrom в primary другого типа.
         Measure primaryMeasureTo = measureFactory.createMeasure(primaryMeasureFrom.getValue().multiply(subtypeCoefficient),
-                unitService.findBySubtypeAndIsPrimaryIsTrue(unitTo.getSubtype()));
+                Unit.valueOfSubtypeAndIsPrimaryIsTrue(unitTo.getSubtype()));
 
         //Получили primary Unit другого типа и сконвертировали valueTo с прошлого шага в целевой Unit.
         return convertFromPrimary(primaryMeasureTo, unitTo);
@@ -69,7 +65,7 @@ public class MeasureConverter {
     public Measure convertToPrimary(BigDecimal valueFrom, Unit unitFrom) {
         return convertToPrimary(valueFrom,
                 unitFrom,
-                unitService.findBySubtypeAndIsPrimaryIsTrue(unitFrom.getSubtype()));
+                Unit.valueOfSubtypeAndIsPrimaryIsTrue(unitFrom.getSubtype()));
     }
 
     Measure convertToPrimary(Measure measureFrom, Unit unitTo) {
@@ -89,7 +85,7 @@ public class MeasureConverter {
     }
 
     List<Measure> convertAll(Measure measureFrom) {
-        List<Unit> unitsOfType = unitService.findByType(measureFrom.getUnit().getUnitType());
+        List<Unit> unitsOfType = Unit.valueOfType(measureFrom.getUnit().getUnitType());
         List<Measure> measureList = new ArrayList<>();
         for (Unit unit : unitsOfType) {
             measureList.add(convert(measureFrom, unit));

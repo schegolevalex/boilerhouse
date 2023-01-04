@@ -1,7 +1,7 @@
 package com.schegolevalex.boilerhouse.pid.services.unit_converter;
 
 import com.schegolevalex.boilerhouse.unit_library.models.units.UnitType;
-import com.schegolevalex.boilerhouse.unit_library.exceptions.IllegalMeasureException;
+import com.schegolevalex.boilerhouse.unit_library.models.measures.exceptions.IllegalMeasureException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

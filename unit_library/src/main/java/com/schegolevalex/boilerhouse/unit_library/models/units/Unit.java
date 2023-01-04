@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.schegolevalex.boilerhouse.unit_library.exceptions.IllegalUnitException;
+import com.schegolevalex.boilerhouse.unit_library.models.measures.exceptions.IllegalUnitException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
@@ -287,7 +287,8 @@ public enum Unit {
         return Arrays.stream(values())
                 .filter(u -> u.name().equals(fullName.toUpperCase(Locale.ROOT)))
                 .findFirst()
-                .orElseThrow(() -> new IllegalUnitException("No such unit"));
+                .orElseThrow(() -> new IllegalUnitException("No such unit \"" + fullName + "\". " +
+                        "Follow to \"/converters/units\" to check available units"));
     }
 
     public static Unit valueOfSubtypeAndIsPrimaryIsTrue(String subType) {

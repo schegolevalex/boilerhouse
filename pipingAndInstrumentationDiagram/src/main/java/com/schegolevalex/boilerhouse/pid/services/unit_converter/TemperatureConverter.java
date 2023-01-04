@@ -5,7 +5,6 @@ import com.schegolevalex.boilerhouse.unit_library.models.measures.MeasureFactory
 import com.schegolevalex.boilerhouse.unit_library.models.units.Unit;
 import com.schegolevalex.boilerhouse.unit_library.models.units.UnitType;
 import com.schegolevalex.boilerhouse.unit_library.services.SubtypeRelationInTypeService;
-import com.schegolevalex.boilerhouse.unit_library.services.UnitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,10 +15,9 @@ import java.math.RoundingMode;
 public class TemperatureConverter extends MeasureConverter {
 
     @Autowired
-    public TemperatureConverter(UnitService unitService,
-                                SubtypeRelationInTypeService subtypeRelationInTypeService,
+    public TemperatureConverter(SubtypeRelationInTypeService subtypeRelationInTypeService,
                                 MeasureFactory measureFactory) {
-        super(unitService, subtypeRelationInTypeService, measureFactory);
+        super(subtypeRelationInTypeService, measureFactory);
         this.converterType = UnitType.TEMPERATURE;
     }
 

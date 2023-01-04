@@ -1,7 +1,7 @@
 package com.schegolevalex.boilerhouse.unit_library.models.measures.constraints;
 
 import com.schegolevalex.boilerhouse.unit_library.models.units.Unit;
-import com.schegolevalex.boilerhouse.unit_library.exceptions.IllegalMeasureException;
+import com.schegolevalex.boilerhouse.unit_library.models.measures.exceptions.IllegalMeasureException;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 

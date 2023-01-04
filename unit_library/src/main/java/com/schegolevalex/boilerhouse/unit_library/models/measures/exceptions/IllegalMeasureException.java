@@ -1,4 +1,4 @@
-package com.schegolevalex.boilerhouse.unit_library.exceptions;
+package com.schegolevalex.boilerhouse.unit_library.models.measures.exceptions;
 
 public class IllegalMeasureException extends IllegalArgumentException {
 

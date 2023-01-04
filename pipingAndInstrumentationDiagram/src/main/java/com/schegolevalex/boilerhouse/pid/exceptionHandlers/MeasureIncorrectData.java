@@ -1,4 +1,4 @@
-package com.schegolevalex.boilerhouse.unit_library.exceptions;
+package com.schegolevalex.boilerhouse.pid.exceptionHandlers;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
