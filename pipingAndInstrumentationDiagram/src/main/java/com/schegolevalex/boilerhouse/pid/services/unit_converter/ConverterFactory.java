@@ -25,7 +25,7 @@ public class ConverterFactory {
                         .stream()
                         .filter(c -> c.getConverterType() == UnitType.DEFAULT)
                         .findFirst()
-                        .orElseThrow(() -> new IllegalMeasureException("No converter for this this unit type.")));
+                        .orElseThrow(() -> new IllegalMeasureException("No converter for this unit type is present.")));
     }
 
 }
