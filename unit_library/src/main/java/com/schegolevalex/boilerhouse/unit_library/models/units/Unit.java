@@ -288,14 +288,15 @@ public enum Unit {
                 .filter(u -> u.name().equals(fullName.toUpperCase(Locale.ROOT)))
                 .findFirst()
                 .orElseThrow(() -> new IllegalUnitException("No such unit \"" + fullName + "\". " +
-                        "Follow to \"/converters/units\" to check available units"));
+                        "Follow \"/converters/units\" to check available units"));
     }
 
     public static Unit valueOfSubtypeAndIsPrimaryIsTrue(String subType) {
         return Arrays.stream(values())
                 .filter(u -> u.getIsPrimary() && u.getSubtype().equals(subType.toLowerCase(Locale.ROOT)))
                 .findFirst()
-                .orElseThrow(() -> new IllegalUnitException("No such unit"));
+                .orElseThrow(() -> new IllegalUnitException("No such unit with subtype \"" + subType + "\". " +
+                        "Follow \"/converters/units\" to check available units and subtypes"));
     }
 
     public static List<Unit> valueOfType(UnitType unitType) {

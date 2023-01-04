@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-public class MeasureIncorrectData {
+public class ExceptionMessage {
     private String info;
 }
