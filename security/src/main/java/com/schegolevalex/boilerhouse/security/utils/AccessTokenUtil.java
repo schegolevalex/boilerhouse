@@ -41,6 +41,7 @@ public class AccessTokenUtil {
         secret = Base64.getEncoder().encodeToString(secret.getBytes(StandardCharsets.UTF_8));
     }
 
+    // TODO возможно стоит сразу user передавать, а не его кусочки
     public String generateAccessToken(String username, Collection<? extends GrantedAuthority> grantedAuthorities) {
         List<String> roles = grantedAuthorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
         String token = JWT.create()

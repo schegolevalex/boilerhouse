@@ -67,6 +67,7 @@ public class AuthController {
         String accessToken = accessTokenUtil.generateAccessToken(registeredUser.getUsername(),
                 registeredUser.getRoles());
 
+        // TODO при регистрации я УЖЕ создаю refreshToken, а потом в методе ниже создаю его еще раз...
         setRefreshTokenCookie(response, registeredUser);
 
         return ResponseEntity.ok(new AuthResponseDTO(reqistrationRequestDTO.getUserName(), accessToken));

@@ -16,7 +16,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import java.util.Objects;
 
 @ControllerAdvice
-public class MeasureExceptionHandler extends ResponseEntityExceptionHandler {
+public class AppExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = IllegalUnitException.class)
     protected ResponseEntity<ExceptionMessage> handleIllegalUnitException(IllegalUnitException ex) {

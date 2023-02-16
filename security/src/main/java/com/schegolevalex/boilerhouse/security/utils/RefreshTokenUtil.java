@@ -43,7 +43,8 @@ public class RefreshTokenUtil {
         refreshToken.setStatus(Status.ACTIVE);
 
         user.setRefreshToken(refreshToken);
-        User savedUser = userRepository.save(user);
+        User savedUser = userRepository.save(user); /* TODO во-первых, уточнить, точно ли при методе save в данном случае срабатывает именно update,
+        а во-вторых, тут происходит сохранение и в UserServiceImpl.register() происходит сохранение user */
 
         log.info("Refresh token {} for user {} was successfully created", savedUser.getRefreshToken(), savedUser.getUsername());
 
