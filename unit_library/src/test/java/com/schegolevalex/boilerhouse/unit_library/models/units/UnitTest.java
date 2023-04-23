@@ -35,7 +35,7 @@ class UnitTest {
 
     @Test
     void getUnitType_returnUnitType_whenCall() {
-        assertEquals(Unit.METER.getUnitType(), UnitType.DISTANCE);
+        assertEquals(Unit.METER.getType(), UnitType.DISTANCE);
     }
 
     @Test

@@ -65,6 +65,6 @@ public enum SubtypeRelationInType {
                 .filter(relation -> (relation.getSubtypeFrom().equals(subtypeFrom) && relation.getSubtypeTo().equals(subtypeTo)) ||
                         (relation.getSubtypeFrom().equals(subtypeTo) && relation.getSubtypeTo().equals(subtypeFrom)))
                 .findFirst()
-                .orElseThrow(() -> new IllegalUnitException("Conversion is not possible. Units has same types, but relation between subtypes is not define."));
+                .orElseThrow(() -> new IllegalUnitException("Conversion is not possible. Units has same types, but relation between subtypes is not defined."));
     }
 }

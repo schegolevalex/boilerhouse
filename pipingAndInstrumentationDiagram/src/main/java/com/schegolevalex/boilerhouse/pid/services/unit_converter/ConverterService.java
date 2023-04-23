@@ -4,24 +4,24 @@ import com.schegolevalex.boilerhouse.unit_library.models.measures.Measure;
 import com.schegolevalex.boilerhouse.unit_library.models.measures.MeasureFactory;
 import com.schegolevalex.boilerhouse.unit_library.models.units.Unit;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-@Component
+@Service
 public class ConverterService {
     private final MeasureFactory measureFactory;
-    private final ConverterFactory factory;
+    private final ConverterFactory converterFactory;
 
     @Autowired
-    public ConverterService(MeasureFactory measureFactory, ConverterFactory factory) {
+    public ConverterService(MeasureFactory measureFactory, ConverterFactory converterFactory) {
         this.measureFactory = measureFactory;
-        this.factory = factory;
+        this.converterFactory = converterFactory;
     }
 
     public Measure getConvertedResult(Measure measureFrom, Unit unitTo) {
-        return factory.getConverter(unitTo.getUnitType()).convert(measureFrom, unitTo);
+        return converterFactory.getConverter(unitTo.getType()).convert(measureFrom, unitTo);
     }
 
     public Measure getConvertedResult(BigDecimal valueFrom, Unit unitFrom, Unit unitTo) {
@@ -30,13 +30,13 @@ public class ConverterService {
     }
 
     public Measure getConvertedToPrimaryResult(BigDecimal valueFrom, Unit unitFrom) {
-        MeasureConverter converter = factory.getConverter(unitFrom.getUnitType());
+        MeasureConverter converter = converterFactory.getConverter(unitFrom.getType());
         return converter.convertToPrimary(valueFrom, unitFrom);
     }
 
     public List<Measure> getConvertedResultList(BigDecimal valueFrom, Unit unitFrom) {
         Measure measure = measureFactory.createMeasure(valueFrom, unitFrom);
-        MeasureConverter converter = factory.getConverter(unitFrom.getUnitType());
+        MeasureConverter converter = converterFactory.getConverter(unitFrom.getType());
         return converter.convertAll(measure);
     }
 }

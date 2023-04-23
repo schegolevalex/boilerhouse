@@ -56,7 +56,7 @@ public class ConverterController {
     @GetMapping("/units")
     public List<EntityModel<Unit>> getAllUnits() {
         return Arrays.stream(Unit.values())
-                .sorted(Comparator.comparing(Unit::getUnitType))
+                .sorted(Comparator.comparing(Unit::getType))
                 .map(assembler::toModel)
                 .collect(Collectors.toList());
     }

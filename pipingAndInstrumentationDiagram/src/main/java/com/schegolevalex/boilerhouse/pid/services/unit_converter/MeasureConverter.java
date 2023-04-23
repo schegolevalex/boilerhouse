@@ -8,14 +8,14 @@ import com.schegolevalex.boilerhouse.unit_library.models.units.UnitType;
 import com.schegolevalex.boilerhouse.unit_library.services.SubtypeRelationInTypeService;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Service
 public class MeasureConverter {
     @Getter
     UnitType converterType = UnitType.DEFAULT;
@@ -85,7 +85,7 @@ public class MeasureConverter {
     }
 
     List<Measure> convertAll(Measure measureFrom) {
-        List<Unit> unitsOfType = Unit.valueOfType(measureFrom.getUnit().getUnitType());
+        List<Unit> unitsOfType = Unit.valueOfType(measureFrom.getUnit().getType());
         List<Measure> measureList = new ArrayList<>();
         for (Unit unit : unitsOfType) {
             measureList.add(convert(measureFrom, unit));
@@ -94,7 +94,7 @@ public class MeasureConverter {
     }
 
     void isTheSameType(Unit unitFrom, Unit unitTo) {
-        if (unitFrom.getUnitType() != unitTo.getUnitType())
+        if (unitFrom.getType() != unitTo.getType())
             throw new IllegalUnitException("Conversion is not possible. Units has different types.");
     }
 

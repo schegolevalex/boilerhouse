@@ -206,7 +206,7 @@ public enum Unit {
 
     ;
     String fullName;
-    UnitType unitType;
+    UnitType type;
     String subtype;
     String shortName;
     BigDecimal coefficient;
@@ -215,13 +215,13 @@ public enum Unit {
     BigDecimal coefficientFromPrimary;
     BigDecimal termFromPrimary;
 
-    Unit(UnitType unitType,
+    Unit(UnitType type,
          String subtype,
          String shortName,
          BigDecimal coefficient,
          Boolean isPrimary) {
         this.fullName = name();
-        this.unitType = unitType;
+        this.type = type;
         this.subtype = subtype;
         this.shortName = shortName;
         this.coefficient = coefficient;
@@ -231,19 +231,19 @@ public enum Unit {
         this.termFromPrimary = null;
     }
 
-    Unit(UnitType unitType,
+    Unit(UnitType type,
          String subtype,
          String shortName,
          double coefficient,
          Boolean isPrimary) {
-        this(unitType,
+        this(type,
                 subtype,
                 shortName,
                 BigDecimal.valueOf(coefficient),
                 isPrimary);
     }
 
-    Unit(UnitType unitType,
+    Unit(UnitType type,
          String subtype,
          String shortName,
          BigDecimal coefficient,
@@ -253,7 +253,7 @@ public enum Unit {
          Boolean isPrimary
     ) {
         this.fullName = name();
-        this.unitType = unitType;
+        this.type = type;
         this.subtype = subtype;
         this.shortName = shortName;
         this.coefficient = coefficient;
@@ -263,7 +263,7 @@ public enum Unit {
         this.isPrimary = isPrimary;
     }
 
-    Unit(UnitType unitType,
+    Unit(UnitType type,
          String subtype,
          String shortName,
          double coefficient,
@@ -272,7 +272,7 @@ public enum Unit {
          double termFromPrimary,
          Boolean isPrimary
     ) {
-        this(unitType,
+        this(type,
                 subtype,
                 shortName,
                 BigDecimal.valueOf(coefficient),
@@ -301,13 +301,13 @@ public enum Unit {
 
     public static List<Unit> valueOfType(UnitType unitType) {
         return Arrays.stream(values())
-                .filter(unit -> unit.getUnitType() == unitType)
+                .filter(unit -> unit.getType() == unitType)
                 .collect(Collectors.toList());
     }
 
     @Override
     public String toString() {
-        return "{unitType = " + unitType
+        return "{unitType = " + type
                 + ", fullName = " + fullName
                 + ", shortName = " + shortName + "}";
     }

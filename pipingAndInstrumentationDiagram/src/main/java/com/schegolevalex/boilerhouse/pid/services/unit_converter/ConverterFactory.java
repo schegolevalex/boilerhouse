@@ -1,13 +1,13 @@
 package com.schegolevalex.boilerhouse.pid.services.unit_converter;
 
-import com.schegolevalex.boilerhouse.unit_library.models.units.UnitType;
 import com.schegolevalex.boilerhouse.unit_library.models.measures.exceptions.IllegalMeasureException;
+import com.schegolevalex.boilerhouse.unit_library.models.units.UnitType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Component
+@Service
 public class ConverterFactory {
     private final List<MeasureConverter> converters;
 
