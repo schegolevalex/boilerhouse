@@ -70,7 +70,7 @@ public class CalculationService {
         return measureFactory.createMeasure(flowRateByVolume.getValue()
                         .multiply(BigDecimal.valueOf(1E6))
                         .divide(pipeInnerDiameter.getValue().pow(2), 10, RoundingMode.HALF_UP)
-                        .divide(BigDecimal.valueOf(3600), 10, RoundingMode.HALF_UP)
+                        .divide(BigDecimal.valueOf(3600), 10, RoundingMode.HALF_UP) //todo здесь и везде по классу поменять на MathContext
                         .divide(BigDecimal.valueOf(0.785), 10, RoundingMode.HALF_UP)
                 , Unit.METER_PER_SECOND);
     }

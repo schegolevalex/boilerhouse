@@ -4,6 +4,7 @@ import com.schegolevalex.boilerhouse.pid.controllers.utils.UnitModelAssembler;
 import com.schegolevalex.boilerhouse.pid.services.unit_converter.ConverterService;
 import com.schegolevalex.boilerhouse.unit_library.models.measures.Measure;
 import com.schegolevalex.boilerhouse.unit_library.models.units.Unit;
+import com.schegolevalex.boilerhouse.unit_library.models.units.UnitType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,6 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/converters")
@@ -52,12 +52,17 @@ public class ConverterController {
         Unit unit = Unit.valueOfFullName(fullName);
         return assembler.toModel(unit);
     }
+    @GetMapping("/units/by-type/{type}")
+    public List<EntityModel<Unit>> getUnitByType(@PathVariable UnitType type) {
+        return Unit.valueOfType(type).stream().map(assembler::toModel).toList();
+
+    }
 
     @GetMapping("/units")
     public List<EntityModel<Unit>> getAllUnits() {
         return Arrays.stream(Unit.values())
                 .sorted(Comparator.comparing(Unit::getType))
                 .map(assembler::toModel)
-                .collect(Collectors.toList());
+                .toList();
     }
 }
